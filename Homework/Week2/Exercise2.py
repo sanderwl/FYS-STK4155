@@ -26,3 +26,4 @@ standardize = StandardScaler()
 standardize.fit(X_train)
 standardize.transform(X_train)
 
+print("xD")

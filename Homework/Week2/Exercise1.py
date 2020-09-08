@@ -23,6 +23,7 @@ for i in range(0,poly):
 X_train, X_test, Y_train, Y_test = train_test_split(X,y,train_size=0.75)
 standardize = StandardScaler()
 standardize.fit(X_train)
+standardize.transform(X_train)
 
 # Ordinary least squares
 LeastSquares = np.linalg.inv(X_train.T @ X_train) @ X_train.T @ Y_train

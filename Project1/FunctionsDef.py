@@ -1,11 +1,12 @@
-import numpy as np
+import numpy as np, scipy.stats as st
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import sklearn.linear_model as skl
+import scipy.stats
 
 
 def R2(y_data, y_model):
@@ -37,27 +38,43 @@ def FrankePlot(x, y):
     plt.show()
     return z
 
-def StdPolyOLS(poly,x,y):
-    # Create the design matrix
-    X = np.zeros((len(x), poly))
-    for i in range(0, poly):
-        X[:, i] = x ** i
+def Scale(x):
+    standardize = StandardScaler()
+    standardize.fit(x)
+    d = standardize.transform(x)
+    return d
+
+def StdPolyOLS(X,z):
 
     # Data split and scaling
-    X_train, X_test, Y_train, Y_test = train_test_split(X, y, train_size=0.75)
-    standardize = StandardScaler()
-    standardize.fit(X_train)
-    standardize.transform(X_train)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, z, test_size=0.2)
+    X_train_scale = Scale(X_train)
+    X_test_scale = Scale(X_test)
 
     # Ordinary least squares using matrix inversion
-    LeastSquares = np.linalg.inv(X_train.T @ X_train) @ X_train.T @ Y_train
-    print("Beta coefficients for ordinary least squares: ", LeastSquares)
+    betas = np.linalg.pinv(X_train_scale.T @ X_train_scale) @ X_train_scale.T @ Y_train
+    print("Beta coefficients for ordinary least squares: ", betas)
 
     # Predict the response
-    Y_train_pred = X_train @ LeastSquares
-    Y_test_pred = X_test @ LeastSquares
+    Y_train_pred = X_train @ betas
+    Y_test_pred = X_test @ betas
 
     # Calculate and print the train and test MSE
     print("Training MSE for ordinary least squares: ", MSE(Y_train, Y_train_pred), ".")
     print("Test MSE for ordinary least squares: ", MSE(Y_test, Y_test_pred), ".")
-    return Y_train_pred, Y_test_pred, LeastSquares
+    return Y_train_pred, Y_test_pred, betas
+
+def designMatrix(x,y,poly):
+    p = np.arange(1,poly+1,1)
+    preds = np.c_[x.ravel(), y.ravel()]
+    for p in p:
+        designMatrix = PolynomialFeatures(p).fit_transform(preds)
+
+    return designMatrix
+
+def mean_confidence_interval(data, confidence=0.95):
+    a = 1.0 * np.array(data)
+    n = len(a)
+    m, se = np.mean(a), scipy.stats.sem(a)
+    h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
+    return m, m-h, m+h

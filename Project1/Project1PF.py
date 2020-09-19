@@ -1,36 +1,29 @@
-import numpy as np
+import numpy as np, scipy.stats as st
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import sklearn.linear_model as skl
-from FunctionsDef import FrankePlot, MSE, R2,StdPolyOLS
+from FunctionsDef import FrankePlot, MSE, R2,StdPolyOLS,designMatrix,mean_confidence_interval
+import scipy.stats
 
 # Create data
-n = 10
+n = 100
+poly = 5
 x = np.arange(0, 1, 1/n)
 y = np.arange(0, 1, 1/n)
-xx, yy = np.meshgrid(x,y)
+x, y = np.meshgrid(x,y)
 
-#z = FrankePlot(xx, yy)
+# Setting up the Franke function
+z = FrankePlot(x, y).ravel()
 
-#poly = 5
-#OLSOLS = StdPolyOLS(poly,x,y)
+# Setting up the polynomial design matrix
+designMatrix = designMatrix(x,y,poly)
 
-
-N = len(x)
-l = int((n+1)*(n+2)/2)
-X = np.ones((N,l))
-
-for i in range(1,n+1):
-    q = int((i)*(i+1)/2)
-    print(q)
-        for k in range(i+1):
-            print(k)
-	        X[:,q+k] = (x**(i-k))*(y**k)
-
-    
-
-
+# Performing ordinary least squares
+Y_train_pred, Y_test_pred, betas = StdPolyOLS(designMatrix,z)
+# Confidence interval
+c1,c,c2 = mean_confidence_interval(betas)
+print(c1,c,c2)

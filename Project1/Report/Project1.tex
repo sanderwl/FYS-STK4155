@@ -1,0 +1,118 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{refstyle}
+\usepackage{spverbatim}
+\usepackage{listings}
+\usepackage{csvsimple}
+\usepackage{adjustbox}
+\usepackage{cancel}
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\reallywidehat[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}% 
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+\parskip 1ex
+
+\lstset{numbers=left,
+	title=\lstname,
+	numberstyle=\tiny, 
+	breaklines=true,
+	tabsize=4,
+	language=Python,
+	morekeywords={with,super,as},,
+	frame=single,
+	basicstyle=\footnotesize\tt,
+	commentstyle=\color{comment},
+	keywordstyle=\color{keyword},
+	stringstyle=\color{string},
+	backgroundcolor=\color{background},
+	showstringspaces=false,
+	numbers=left,
+	numbersep=5pt,
+	literate=
+		{æ}{{\ae}}1
+		{å}{{\aa}}1
+		{ø}{{\o}}1
+		{Æ}{{\AE}}1
+		{Å}{{\AA}}1
+		{Ø}{{\O}}1
+	}
+
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage[usenames, dvipsnames]{color}
+
+\begin{document}
+
+\begin{center}
+\LARGE{\textbf{Project 1}}
+\\
+\large{\textbf{Course: FYS-STK4155}}
+\\
+\large{\textbf{Semester: Autumn 2020}}
+\\
+\large{\textbf{Name: Sander Losnedahl}}
+\end{center}
+
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Exercise 1.}}
+\end{center}
+
+\noindent \textbf{a)} The goal for this part of the exercise is trying to fit a linear model (linear in terms of regression coefficients) to the Franke function given as
+
+\begin{equation}\label{eq:Franke}
+\begin{aligned}
+f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}+\frac{3}{4}\exp{\left(-\frac{(9x+1)^2}{49}- \frac{(9y+1)}{10}\right)} \\
+&+\frac{1}{2}\exp{\left(-\frac{(9x-7)^2}{4} - \frac{(9y-3)^2}{4}\right)} -\frac{1}{5}\exp{\left(-(9x-4)^2 - (9y-7)^2\right) }
+\end{aligned}
+\end{equation}
+
+\noindent where polynomial combinations of x and y in the span $x,y \in [0,1]$ will be the explanatory variables. The linear regression equation then takes the form
+
+\begin{equation}\label{eq:LinReg}
+\begin{aligned}
+\reallywidehat{f(x,y)} &= \textbf{X} \boldsymbol{\beta + \epsilon}
+\end{aligned}
+\end{equation}
+
+\noindent where $\reallywidehat{f(x,y)}$ is the least squares estimate of the Franke function, $\textbf{X}$ is the $n\times p$ design matrix consisting of the aforementioned polynomial combinations of x and y, $\boldsymbol{\beta}$ are the $p\times 1$ regression coefficients and $\boldsymbol{\epsilon}$ is just random noise/unobserved random variables. In order to get the best estimate for the Franke function, we want to choose $\boldsymbol{\beta}$-values so that we minimize the residual sum of squares (thereby the name "least squares"). Solving equation \ref{eq:LinReg} with the intent to minimize the residual sum of squares yields the estimates for the $\boldsymbol{\beta}$-values 
+
+\begin{equation}\label{eq:minBeta}
+\begin{aligned}
+\hat{\boldsymbol{\beta}} = (\textbf{X}^T\textbf{X})^{-1}\textbf{X}^Ty
+\end{aligned}
+\end{equation}
+
+\noindent where T marks the transpose of the matrix. We can now get the estimate $\hat{\boldsymbol{\beta}}$ with equation \ref{eq:minBeta} and then compute the estimate of the Franke function as seen in equation \ref{eq:LinReg}. Doing so 
+
+\newpage
+
+\begin{center}
+\Large{\textbf{References}}
+\end{center}
+
+\begin{itemize}
+  \item Reference
+\end{itemize}
+
+\end{document}

@@ -39,19 +39,24 @@ def FrankePlot(x, y, plot):
 
     return z
 
-def Scale(x):
+def Scale(X_train,X_test):
     scaler = StandardScaler()
-    d = scaler.fit_transform(x)
-    return d
+    X_train_scale = scaler.fit_transform(X_train)
+    X_test_scale = scaler.transform(X_test)
+    print("Data is scaled.")
+    return X_train_scale,X_test_scale
 
-def StdPolyOLS(X,z):
+def StdPolyOLS(X,z,scalee):
 
     # Data split
     X_train, X_test, Y_train, Y_test = train_test_split(X, z, test_size=0.2)
 
-    # Scaling the data
-    X_train_scale = Scale(X_train)
-    X_test_scale = Scale(X_test)
+    # Scaling the data if user wants
+    if scalee == True:
+        X_train_scale,X_test_scale = Scale(X_train,X_test)
+    else:
+        X_train_scale = X_train
+        X_test_scale = X_test
 
     # Ordinary least squares using matrix inversion
     betas = np.linalg.pinv(X_train_scale.T @ X_train_scale) @ X_train_scale.T @ Y_train
@@ -68,12 +73,7 @@ def StdPolyOLS(X,z):
     print("Training R2 for ordinary least squares: ", R2(Y_train, Y_train_pred), ".")
     print("Test R2 for ordinary least squares: ", R2(Y_test, Y_test_pred), ".")
 
-    print(Y_train)
-    print(Y_train_pred)
-
-    z_pred = X @ betas
-
-    return z_pred, Y_train_pred, Y_test_pred, betas
+    return Y_train_pred, Y_test_pred, betas
 
 def designMatrix(x,y,poly):
 
@@ -85,7 +85,7 @@ def designMatrix(x,y,poly):
 
     return designMatrix, params
 
-def betaConfidenceInterval(true, predict, n, degreeFreedom, X, betas, plot):
+def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
 
     sigma2 = (1 / (n - (degreeFreedom - 1))) * (sum((true - np.mean(true)) ** 2))
     # Covariance matrix

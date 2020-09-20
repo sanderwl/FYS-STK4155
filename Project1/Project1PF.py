@@ -23,8 +23,8 @@ z = FrankePlot(x, y, plot = False).ravel()
 designMatrix, params = designMatrix(x,y,poly)
 
 # Performing ordinary least squares
-z_pred, Y_train_pred, Y_test_pred, betas = StdPolyOLS(designMatrix,z)
+Y_train_pred, Y_test_pred, betas = StdPolyOLS(designMatrix,z,scalee = True)
 
 # Confidence interval
-beta_confInt = betaConfidenceInterval(z, z_pred, n, 1, designMatrix, betas, plot = False)
+beta_confInt = betaConfidenceInterval(z, n, 1, designMatrix, betas, plot = True)
 

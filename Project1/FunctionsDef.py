@@ -10,7 +10,7 @@ import scipy.stats
 
 
 def R2(y_data, y_model):
-    return 1 - np.sum((y_data - y_model) ** 2) / np.sum((y_data - np.mean(y_data)) ** 2)
+    return 1 - (np.sum((y_data - y_model) ** 2) / np.sum((y_data - np.mean(y_data)) ** 2))
 
 def MSE(y_data, y_pred):
     n = np.size(y_data)
@@ -40,16 +40,18 @@ def FrankePlot(x, y, plot):
     return z
 
 def Scale(x):
-    standardize = StandardScaler()
-    standardize.fit(x)
-    d = standardize.transform(x)
+    scaler = StandardScaler()
+    d = scaler.fit_transform(x)
     return d
 
-def StdPolyOLS(X_scale,z):
+def StdPolyOLS(X,z):
 
     # Data split
-    X_train_scale, X_test_scale, Y_train, Y_test = train_test_split(X_scale, z, test_size=0.2)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, z, test_size=0.2)
 
+    # Scaling the data
+    X_train_scale = Scale(X_train)
+    X_test_scale = Scale(X_test)
 
     # Ordinary least squares using matrix inversion
     betas = np.linalg.pinv(X_train_scale.T @ X_train_scale) @ X_train_scale.T @ Y_train
@@ -62,27 +64,50 @@ def StdPolyOLS(X_scale,z):
     print("Training MSE for ordinary least squares: ", MSE(Y_train, Y_train_pred), ".")
     print("Test MSE for ordinary least squares: ", MSE(Y_test, Y_test_pred), ".")
 
-    z_pred = X_scale @ betas
+    # Calculate and print train and test R2
+    print("Training R2 for ordinary least squares: ", R2(Y_train, Y_train_pred), ".")
+    print("Test R2 for ordinary least squares: ", R2(Y_test, Y_test_pred), ".")
+
+    print(Y_train)
+    print(Y_train_pred)
+
+    z_pred = X @ betas
 
     return z_pred, Y_train_pred, Y_test_pred, betas
 
 def designMatrix(x,y,poly):
+
     p = np.arange(1,poly+1,1)
     preds = np.c_[x.ravel(), y.ravel()]
     for p in p:
         designMatrix = PolynomialFeatures(p).fit_transform(preds)
+        params = PolynomialFeatures(p).get_params(deep=True)
 
-    return designMatrix
+    return designMatrix, params
 
-def betaConfidenceInterval(true, predict, n, degreeFreedom, X, betas):
+def betaConfidenceInterval(true, predict, n, degreeFreedom, X, betas, plot):
 
     sigma2 = (1 / (n - (degreeFreedom - 1))) * (sum((true - np.mean(true)) ** 2))
-    # Betas varians:
+    # Covariance matrix
     varBeta = np.linalg.pinv((X.T @ X)) * sigma2
 
-    # estimert standardavvik pr beta.
-    # Må forklares i rapport hvorfor man velger å gjøre det slik og ikke på andre måter.
+    # std = sqrt(var) which is the diagonal in the cov-matrix
     betaCoeff = (np.sqrt(np.diag(varBeta)))
     # Intervall betacoefisienter:
     beta_confInt = np.c_[betas - betaCoeff, betas + betaCoeff]
+
+    if plot == True:
+        xlab = [r'$\beta_0$',r'$\beta_1$',r'$\beta_2$',r'$\beta_3$',r'$\beta_4$',r'$\beta_5$',r'$\beta_6$',r'$\beta_7$',
+                r'$\beta_8$',r'$\beta_9$',r'$\beta_{10}$',r'$\beta_{11}$',r'$\beta_{12}$',r'$\beta_{13}$',r'$\beta_{14}$',
+                r'$\beta_{15}$',r'$\beta_{16}$',r'$\beta_{17}$',r'$\beta_{18}$',r'$\beta_{19}$',r'$\beta_{20}$']
+        fig, ax = plt.subplots()
+        plt.scatter(xlab,betas)
+        plt.errorbar(xlab, betas, yerr=beta_confInt[:, 0],fmt='none')
+        plt.suptitle(r'$\beta$ -values with corresponding confidence interval', fontsize = 25)
+        plt.ylabel(r'$\beta$ -value', fontsize = 20)
+        plt.xlabel('Coefficients', fontsize = 20)
+        plt.grid()
+        plt.show()
+
+
     return beta_confInt

@@ -20,19 +20,11 @@ x, y = np.meshgrid(x,y)
 z = FrankePlot(x, y, plot = False).ravel()
 
 # Setting up the polynomial design matrix
-designMatrix = designMatrix(x,y,poly)
-
-# Scaling design matrix by subtracting mean and dividing my variance
-designMatrix_scale = Scale(designMatrix)
+designMatrix, params = designMatrix(x,y,poly)
 
 # Performing ordinary least squares
-z_pred, Y_train_pred, Y_test_pred, betas = StdPolyOLS(designMatrix_scale,z)
-#print(betas)
+z_pred, Y_train_pred, Y_test_pred, betas = StdPolyOLS(designMatrix,z)
 
 # Confidence interval
-beta_confInt = betaConfidenceInterval(z, z_pred, n, 1, designMatrix_scale, betas)
-
-fig = plt.figure()
-plt.errorbar(np.arange(0,len(betas),1),betas,yerr=beta_confInt[:,0])
-plt.show()
+beta_confInt = betaConfidenceInterval(z, z_pred, n, 1, designMatrix, betas, plot = False)
 

@@ -64,25 +64,22 @@ def StdPolyOLS(X,z,scalee):
     # Predict the response
     Y_train_pred = X_train_scale @ betas
     Y_test_pred = X_test_scale @ betas
+    z_pred = X  @ betas
 
-    # Calculate and print the train and test MSE
-    print("Training MSE for ordinary least squares: ", MSE(Y_train, Y_train_pred), ".")
-    print("Test MSE for ordinary least squares: ", MSE(Y_test, Y_test_pred), ".")
+    return Y_train_pred, Y_test_pred, Y_train, Y_test, betas, z_pred
 
-    # Calculate and print train and test R2
-    print("Training R2 for ordinary least squares: ", R2(Y_train, Y_train_pred), ".")
-    print("Test R2 for ordinary least squares: ", R2(Y_test, Y_test_pred), ".")
-
-    return Y_train_pred, Y_test_pred, betas
-
-def designMatrix(x,y,poly):
-
-    p = np.arange(1,poly+1,1)
-    preds = np.c_[x.ravel(), y.ravel()]
-    for p in p:
+def designMatrixFunc(x, y, poly):
+    if poly >= 2:
+        p = np.arange(1,poly+1)
+        preds = np.c_[x.ravel(), y.ravel()]
+        for p in p:
+            designMatrix = PolynomialFeatures(p).fit_transform(preds)
+            params = PolynomialFeatures(p).get_params(deep=True)
+    else:
+        p = poly
+        preds = np.c_[x.ravel(), y.ravel()]
         designMatrix = PolynomialFeatures(p).fit_transform(preds)
         params = PolynomialFeatures(p).get_params(deep=True)
-
     return designMatrix, params
 
 def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
@@ -97,15 +94,14 @@ def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
     beta_confInt = np.c_[betas - betaCoeff, betas + betaCoeff]
 
     if plot == True:
-        xlab = [r'$\beta_0$',r'$\beta_1$',r'$\beta_2$',r'$\beta_3$',r'$\beta_4$',r'$\beta_5$',r'$\beta_6$',r'$\beta_7$',
-                r'$\beta_8$',r'$\beta_9$',r'$\beta_{10}$',r'$\beta_{11}$',r'$\beta_{12}$',r'$\beta_{13}$',r'$\beta_{14}$',
-                r'$\beta_{15}$',r'$\beta_{16}$',r'$\beta_{17}$',r'$\beta_{18}$',r'$\beta_{19}$',r'$\beta_{20}$']
-        fig, ax = plt.subplots()
-        plt.scatter(xlab,betas)
-        plt.errorbar(xlab, betas, yerr=beta_confInt[:, 0],fmt='none')
+        lengthX = np.arange(0, len(X[0]), 1)
+
+        plt.xticks(lengthX)
+        plt.scatter(lengthX,betas)
+        plt.errorbar(lengthX,betas, yerr=beta_confInt[:, 0],fmt='none')
         plt.suptitle(r'$\beta$ -values with corresponding confidence interval', fontsize = 25)
-        plt.ylabel(r'$\beta$ -value', fontsize = 20)
-        plt.xlabel('Coefficients', fontsize = 20)
+        plt.ylabel(r'$\beta$ - value', fontsize = 20)
+        plt.xlabel(r'$\beta$ - coefficients', fontsize = 20)
         plt.grid()
         plt.show()
 

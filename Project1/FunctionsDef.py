@@ -7,6 +7,29 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import sklearn.linear_model as skl
 import scipy.stats
+from numpy import array
+
+def inputsss():
+    observations = input("Enter number of observations n (integer): ")
+    print("n = ",observations)
+    degree = input("Enter the polynomial degree p (integer): ")
+    print("p = ", degree)
+    scalePrint = input("Scale the data? (yes/no)")
+    if scalePrint == "yes":
+        print("Data will be scaled")
+        scaleInp = True
+    else:
+        print("Data will NOT be scaled")
+        scaleInp = False
+    figurePrint = input("Plot figures? (yes/no)")
+    if figurePrint == "yes":
+        print("Figures will be plotted")
+        figureInp = True
+    else:
+        print("Figures will NOT be plotted")
+        figureInp = False
+    part = input("Which sub-exericse will you run(a,b,c,d,e,f/all)?")
+    return observations, degree, scaleInp, figureInp, part
 
 
 def R2(y_data, y_model):
@@ -39,34 +62,27 @@ def FrankePlot(x, y, plot):
 
     return z
 
-def Scale(X_train,X_test):
-    scaler = StandardScaler()
-    X_train_scale = scaler.fit_transform(X_train)
-    X_test_scale = scaler.transform(X_test)
-    print("Data is scaled.")
-    return X_train_scale,X_test_scale
-
-def StdPolyOLS(X,z,scalee):
-
-    # Data split
-    X_train, X_test, Y_train, Y_test = train_test_split(X, z, test_size=0.2)
-
-    # Scaling the data if user wants
+def Scale(X_train,X_test, scalee):
     if scalee == True:
-        X_train_scale,X_test_scale = Scale(X_train,X_test)
+        scaler = StandardScaler()
+        X_train_scale = scaler.fit_transform(X_train)
+        X_test_scale = scaler.transform(X_test)
+        print("Data is scaled.")
     else:
         X_train_scale = X_train
         X_test_scale = X_test
+    return X_train_scale,X_test_scale
+
+def StdPolyOLS(X_train, X_test, Y_train, Y_test):
 
     # Ordinary least squares using matrix inversion
-    betas = np.linalg.pinv(X_train_scale.T @ X_train_scale) @ X_train_scale.T @ Y_train
+    betas = np.linalg.pinv(X_train.T @ X_train) @ X_train.T @ Y_train
 
     # Predict the response
-    Y_train_pred = X_train_scale @ betas
-    Y_test_pred = X_test_scale @ betas
-    z_pred = X  @ betas
+    Y_train_pred = X_train @ betas
+    Y_test_pred = X_test @ betas
 
-    return Y_train_pred, Y_test_pred, Y_train, Y_test, betas, z_pred
+    return Y_train_pred, Y_test_pred, betas
 
 def designMatrixFunc(x, y, poly):
     if poly >= 2:
@@ -82,6 +98,10 @@ def designMatrixFunc(x, y, poly):
         params = PolynomialFeatures(p).get_params(deep=True)
     return designMatrix, params
 
+def sciKitSplit(designMatrix,z,testsize):
+    X_train, X_test, Y_train, Y_test = train_test_split(designMatrix, z, test_size=testsize)
+    return X_train, X_test, Y_train, Y_test
+
 def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
 
     sigma2 = (1 / (n - (degreeFreedom - 1))) * (sum((true - np.mean(true)) ** 2))
@@ -90,7 +110,8 @@ def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
 
     # std = sqrt(var) which is the diagonal in the cov-matrix
     betaCoeff = (np.sqrt(np.diag(varBeta)))
-    # Intervall betacoefisienter:
+
+    # Interval betas
     beta_confInt = np.c_[betas - betaCoeff, betas + betaCoeff]
 
     if plot == True:
@@ -104,6 +125,32 @@ def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
         plt.xlabel(r'$\beta$ - coefficients', fontsize = 20)
         plt.grid()
         plt.show()
-
-
     return beta_confInt
+
+def CV(XX,z,n,k):
+    fold = n-(n-k)
+    X = np.array(XX)
+    X_rep = X
+    z_rep = z
+    while(len(X_rep)>0):
+        randRow = np.random.randint(n, size=fold)
+        print(X_rep.shape)
+        Xtest = X_rep[randRow,:]
+        Ytest = z_rep[randRow]
+
+        X_rep = np.delete(X_rep,int(randRow),0)
+        z_rep = np.delete(z_rep, int(randRow))
+        if (randRow == 0):
+            Xtrain = X[(int(randRow)+1):,:]
+            Ytrain = z[(int(randRow)+1):]
+        elif (randRow == n):
+            Xtrain = X[:int(randRow),:]
+            Ytrain = z[:int(randRow)]
+        else:
+
+            Xtrain = np.concatenate((X[:int(randRow), :], X[(int(randRow)+1):, :]))
+            Ytrain = np.concatenate((z[:int(randRow)], z[(int(randRow) + 1):]))
+
+        n = n-1
+
+    return Xtrain, Xtest, Ytrain, Ytest

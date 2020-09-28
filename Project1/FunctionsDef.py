@@ -21,6 +21,13 @@ def inputsss():
     else:
         print("Data will NOT be scaled")
         scaleInp = False
+    noiseAR = input("Add random noise? (yes/no)")
+    if noiseAR == "yes":
+        print("Noise will be added")
+        noiseInp = True
+    else:
+        print("Noise will NOT be added")
+        noiseInp = False
     figurePrint = input("Plot figures? (yes/no)")
     if figurePrint == "yes":
         print("Figures will be plotted")
@@ -29,11 +36,11 @@ def inputsss():
         print("Figures will NOT be plotted")
         figureInp = False
     part = input("Which sub-exericse will you run(a,b,c,d,e,f/all)?")
-    return observations, degree, scaleInp, figureInp, part
+    return observations, degree, scaleInp, figureInp, part, noiseInp
 
 
-def R2(y_data, y_model):
-    return 1 - (np.sum((y_data - y_model) ** 2) / np.sum((y_data - np.mean(y_data)) ** 2))
+def R2(f, y):
+    return 1 - (np.sum((y - f) ** 2) / np.sum((f - np.mean(f)) ** 2))
 
 def MSE(y_data, y_pred):
     n = np.size(y_data)
@@ -62,7 +69,7 @@ def FrankePlot(x, y, plot):
 
     return z
 
-def Scale(X_train,X_test, scalee):
+def Scale(X_train, X_test, scalee):
     if scalee == True:
         scaler = StandardScaler()
         X_train_scale = scaler.fit_transform(X_train)
@@ -71,7 +78,7 @@ def Scale(X_train,X_test, scalee):
     else:
         X_train_scale = X_train
         X_test_scale = X_test
-    return X_train_scale,X_test_scale
+    return X_train_scale, X_test_scale
 
 def StdPolyOLS(X_train, X_test, Y_train, Y_test):
 
@@ -98,8 +105,16 @@ def designMatrixFunc(x, y, poly):
         params = PolynomialFeatures(p).get_params(deep=True)
     return designMatrix, params
 
-def sciKitSplit(designMatrix,z,testsize):
-    X_train, X_test, Y_train, Y_test = train_test_split(designMatrix, z, test_size=testsize)
+def designMatrixFunc2(x, y, poly):
+
+    preds = np.c_[x.ravel(), y.ravel()]
+    designMatrix = PolynomialFeatures(poly).fit_transform(preds)
+
+    return designMatrix
+
+def sciKitSplit(designMatrix,z,testsize,shufflezzz):
+
+    X_train, X_test, Y_train, Y_test = train_test_split(designMatrix, z, test_size=testsize, random_state=13 , shuffle=shufflezzz)
     return X_train, X_test, Y_train, Y_test
 
 def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):

@@ -113,7 +113,7 @@ def StdPolyOLS(X_train, X_test, Y_train, Y_test):
     Y_train_pred = X_train @ betas
     Y_test_pred = X_test @ betas
 
-    print(R2(Y_test,Y_test_pred))
+    #print(R2(Y_test,Y_test_pred))
 
     return Y_train_pred, Y_test_pred, betas
 
@@ -152,11 +152,11 @@ def realSplit(designMatrix,z,testsize,i,rn, shufflezzz):
     z2 = np.array(z)
     Xtest = np.zeros((int(testsize*n), len(designMatrix2[0])))
     Ytest = np.zeros(int(testsize*n))
-
     if i == 0:
         randomNumber = np.random.choice(n, size = round(testsize*n), replace = False)
     else:
         randomNumber = rn
+
     for i in range(len(randomNumber)):
         Xtest[i] = designMatrix2[randomNumber[i], :]
         Ytest[i] = z2[randomNumber[i]]
@@ -205,36 +205,60 @@ def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
         plt.show()
     return beta_confInt
 
-def CV(XX,z,n,k):
-    fold = n-(n-k)
-    X = np.array(XX)
-    X_rep = X
-    z_rep = z
-    while(len(X_rep)>0):
-        randRow = np.random.randint(n, size=fold)
-        print(X_rep.shape)
-        Xtest = X_rep[randRow,:]
+def bootStrap(designMatrix,z,n,scaleInp,testSize,poly,k,rn):
+
+    Bootstrap = np.zeros((len(designMatrix),len(designMatrix[0])))
+    for i in range(n):
+        Bootstrap[i,:] = np.random.choice(designMatrix.ravel(), size = len(designMatrix[0]), replace = True)
+    #Bootstrap = designMatrix
+    designMatrix_poly = Scale2(Bootstrap, scalee=scaleInp)
+    X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly, randomNumber = realSplit(designMatrix_poly, z,testSize, k, rn, True)
+    rn = randomNumber
+    Y_train_pred_poly, Y_test_pred_poly, betas_poly = StdPolyOLS(X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly)
+    bias = calc_bias(Y_test_poly, Y_test_pred_poly, n)
+    variance = calc_Variance(Y_test_poly, Y_test_pred_poly, n)
+    MSE_train_poly = MSE(Y_train_poly, Y_train_pred_poly)
+    MSE_test_poly = MSE(Y_test_poly, Y_test_pred_poly)
+
+    return bias, variance, MSE_train_poly, MSE_test_poly, rn
+
+def CV(XX,z,n,k,scaleInp):
+    fold = k
+    z_rep = np.array(z)
+    z_rep2 = np.array(z)
+    bias = np.zeros(int(len(XX)/fold))
+    variance = np.zeros(int(len(XX)/fold))
+    MSE_train = np.zeros(int(len(XX)/fold))
+    MSE_test = np.zeros(int(len(XX)/fold))
+    designMatrix = Scale2(XX, scalee=scaleInp)
+    designMatrix_rep = designMatrix
+    designMatrix_rep2 = designMatrix
+
+    for i in range(int(len(designMatrix)/fold)):
+
+        randRow = np.random.choice(len(designMatrix_rep), size=fold, replace=False)
+        Xtest = designMatrix_rep[randRow,:]
         Ytest = z_rep[randRow]
+        Xtrain = np.delete(designMatrix,randRow,0)
+        Ytrain = np.delete(z,randRow)
 
-        X_rep = np.delete(X_rep,int(randRow),0)
-        z_rep = np.delete(z_rep, int(randRow))
-        if (randRow == 0):
-            Xtrain = X[(int(randRow)+1):,:]
-            Ytrain = z[(int(randRow)+1):]
-        elif (randRow == n):
-            Xtrain = X[:int(randRow),:]
-            Ytrain = z[:int(randRow)]
-        else:
+        z = z_rep2
+        designMatrix = designMatrix_rep2
 
-            Xtrain = np.concatenate((X[:int(randRow), :], X[(int(randRow)+1):, :]))
-            Ytrain = np.concatenate((z[:int(randRow)], z[(int(randRow) + 1):]))
+        np.delete(designMatrix_rep,randRow,0)
+        np.delete(z_rep, randRow)
 
-        n = n-1
+        Ytrain_pred, Ytest_pred, betas = StdPolyOLS(Xtrain, Xtest, Ytrain, Ytest)
+        bias[i] = calc_bias(Ytest, Ytest_pred, n)
+        variance[i] = calc_Variance(Ytest, Ytest_pred, n)
+        MSE_train[i] = MSE(Ytrain, Ytrain_pred)
+        MSE_test[i] = MSE(Ytest, Ytest_pred)
 
-    return Xtrain, Xtest, Ytrain, Ytest
+
+    return bias, variance, MSE_train, MSE_test
 
 def MSEplot(MSE_train_poly,MSE_test_poly,poly):
-    xxx = np.arange(0, poly, 1)
+    xxx = np.arange(1, poly+1, 1)
     plt.plot(xxx, MSE_train_poly, label="Train MSE", linewidth=2)
     plt.plot(xxx, MSE_test_poly, label="Test MSE", linewidth=2)
     plt.xticks(xxx)
@@ -244,11 +268,26 @@ def MSEplot(MSE_train_poly,MSE_test_poly,poly):
                  fontweight="bold")
     plt.ylabel('MSE', fontsize=20)
     plt.xlabel('Polynomial degree (complexity)', fontsize=20)
-    plt.legend(loc="upper right", prop={'size': 20})
+    plt.legend(loc="upper left", prop={'size': 20})
+    plt.show()
+
+def MSEplotCV(regCV,CV,MSE_train_poly,MSE_test_poly,CVN):
+    xxx = CVN
+    plt.plot(xxx, MSE_train_poly, label="Train MSE", linewidth=2)
+    plt.plot(xxx, MSE_test_poly, label="Test MSE", linewidth=2)
+    plt.plot(CV, regCV, label="Test MSE (Scikit)", linewidth=2)
+    plt.xticks(xxx)
+    #MSE_min_test = MSE_test_poly.argmin()
+    #plt.plot(xxx[MSE_min_test], MSE_test_poly[MSE_min_test], 'o', markersize=10, label="Lowest test MSE")
+    plt.suptitle('Training and test MSE as a function of fold size', fontsize=25,
+                 fontweight="bold")
+    plt.ylabel('MSE', fontsize=20)
+    plt.xlabel('Fold size', fontsize=20)
+    plt.legend(loc="lower right", prop={'size': 20})
     plt.show()
 
 def BVPlot(bias,variance,mse,poly):
-    xxx = np.arange(0, poly, 1)
+    xxx = np.arange(1, poly+1, 1)
     plt.plot(xxx, bias, label="Bias", linewidth=2)
     plt.plot(xxx, variance, label="Variance", linewidth=2)
     plt.xticks(xxx)
@@ -260,7 +299,7 @@ def BVPlot(bias,variance,mse,poly):
     plt.xlabel('Polynomial degree (complexity)', fontsize=20)
     plt.legend(loc="upper right", prop={'size': 20})
     plt.show()
-
+    '''''''''
     plt.plot(xxx,bias**2 + variance, label="Bias squared + variance", linewidth=2)
     plt.plot(xxx,mse, label="MSE", linewidth=2)
     plt.plot(xxx,bias**2 + variance - mse, label="Difference", linewidth=2)
@@ -271,3 +310,4 @@ def BVPlot(bias,variance,mse,poly):
     plt.xlabel('Polynomial degree (complexity)', fontsize=20)
     plt.legend(loc="upper right", prop={'size': 20})
     plt.show()
+    '''

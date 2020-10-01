@@ -75,6 +75,22 @@
 \newpage
 
 \begin{center}
+\Large{\textbf{Preliminaries}}
+\end{center}
+
+\noindent This report will cover a few important, but necessary steps in the regression scheme before presenting the results form the sub-exercises. Each of these steps are implemented in all the exercises and will ultimately yield a more reliable result.
+\\
+\textbf{Scaling the data} is necessary in order to make sense of the output values. If the data is unscaled, the resulting numbers will not make much sense as we have no reference to what are low and high numbers. When we scale the data we subtract the sample mean and divide by the sample standard deviation of the data, we essentially make the data centred around zero with standard deviation one. This way, we always have a reference to the outcome as it is always relative to zero. Additionally, most regression algorithms rely on the data having lower distance between the data points, making scaling an important pre-processing step.
+\\
+\textbf{The number of observations n} has large impact on the regression algorithm and the results from it. Typically, having more data (larger n) results in a better estimation of the response. In fact, some algorithms like ordinary least squares rely on the number of observations to be greater than the polynomial degree p of the design matrix. Moreover, algorithms like ordinary least squares work best when $n >> p$. In this project, we will initially experiment with different sizes of n, but later exercises will use $n = 100$.
+\\
+\textbf{Noise level} is a recurrent theme throughout this report. Noise is added to the design matrix itself (sub exercise a-e) in order to prepare for the real data. The noise that is added has a standard normal distribution with standard deviation $1$ and maximum value of $1$ at its mean of zero. This noise is then multiplied with a constant of $0.001$ in order to adjust the noise level. 
+\\
+\textbf{The train/test split} will be $75/25$ in this project. When performing regression, we need to both train the algorithm using the training set, and later validate the trained algorithm using the independent test set. There is no set ratio which is considered the best, but the training set should include the majority of the observations n. 
+
+\newpage
+
+\begin{center}
 \Large{\textbf{Exercise 1.}}
 \end{center}
 
@@ -103,15 +119,147 @@ f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}
 \end{aligned}
 \end{equation}
 
-\noindent where T marks the transpose of the matrix. We can now get the estimate $\hat{\boldsymbol{\beta}}$ with equation \ref{eq:minBeta} and then compute the estimate of the Franke function as seen in equation \ref{eq:LinReg}. There is always uncertainty when estimating $\hat{\boldsymbol{\beta}}$. These uncertainties can be quantified by finding the confidence interval ($95\%$ confidence intervals in this case) around each coefficient. The interval will then be given by $\pm$ the standard deviation of the respective coefficients. In other words, we can be $95\%$ sure that the true coefficient will lie in the span of $[\beta_i - \sigma,\beta_i, \beta_i + \sigma]$. We can investigate this further by plotting each coefficient calculated from the ordinary least squares (equation \ref{eq:minBeta}) with their respective confidence intervals as seen in figure \ref{fig:polydegree}
+\noindent where T marks the transpose of the matrix. We can now get the estimate $\hat{\boldsymbol{\beta}}$ with equation \ref{eq:minBeta} and then compute the estimate of the Franke function as seen in equation \ref{eq:LinReg}.
+\\
+We now turn to implementing the regression algorithm (see github) where we start by selecting a low number of observations of $n = 10$, a polynomial degree of $p = 5$ and a noise level of $0.001$. We start by creating the design matrix using polynomials of x and y (and their combinations) of degrees up to 5, scale it, split it into training and test set with ratio $75/25$ and lastly estimate the regression coefficients and calculate the estimated Franke function. The regression coefficients are then found, but it is not always certain which values of beta coefficients minimize the residual sum of squares, so some uncertainty is always present. Therefore, we need to find which coefficients are uncertain, and which are certain. We quantify the uncertainty by using confidence intervals around the coefficients such that our uncertainty is within one standard deviation of the coefficient. We find said standard deviation by taking the square root of the diagonal elements of the covariance matrix 
+
+\begin{equation}\label{eq:diagCOV}
+\begin{aligned}
+\sigma = \sqrt{diag((\textbf{X}^T\textbf{X})^{-1}S^2)}
+\end{aligned}
+\end{equation}
+
+\noindent where X is the design matrix and S is the sample variance of the response. By then taking $\beta_i \pm \sigma_i$ we can find the confidence interval of the regression coefficients which is plotted in figure \ref{fig:betaIntALL1}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\textwidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/1a2.PNG}
-\caption{\label{fig:polydegree} $\hat{\boldsymbol{\beta}}$-coefficients from performing ordinary least squares regression Dots indicate the actual $\hat{\boldsymbol{\beta}}$-coefficients value while bars around indicate the $95\%$ confidence interval ($\pm \sigma$).}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInterval_ALL_n10_p5_noise0001_ts025.PNG}
+\caption{\label{fig:betaIntALL1} $\hat{\boldsymbol{\beta}}$-coefficients from performing ordinary least squares regression. Dots indicate the actual $\hat{\boldsymbol{\beta}}$-coefficients value while bars around indicate the confidence interval ($\pm \sigma$).}
 \end{figure}
 
-From figure \ref{fig:polydegree}, it can be observed that some coefficients have relatively narrow confidence intervals, while others have relatively large. The larger the interval, the less certain we are of the actual estimate. 
+\noindent Since the response is the Franke function (a matrix), we get p times n regression coefficients instead of p, as seen in figure \ref{fig:betaIntALL1}. However, one can still observe from figure \ref{fig:betaIntALL1} that some regression coefficients are more certain than others. We can also plot one slice of the p times n regression coefficient matrix to get a better view as seen in figure \ref{fig:betaIntROW1}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInterval_1row_n10_p5_noise0001_ts025.PNG}
+\caption{\label{fig:betaIntROW1} A slice of the $\hat{\boldsymbol{\beta}}$-coefficients from performing ordinary least squares regression. Dots indicate the actual $\hat{\boldsymbol{\beta}}$-coefficients value while bars around indicate the $95\%$ confidence interval ($\pm \sigma$).}
+\end{figure}
+
+\noindent Now that we have calculated and gained some faith in our regression coefficient estimates, we can utilize equation \ref{eq:LinReg} to find $\hat{y}$ which is plotted together with the real Franke function in figures \ref{fig:FrankeReal1} and \ref{fig:FrankeEst1}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal_n10_p5_noise0001_ts025.PNG}
+\caption{\label{fig:FrankeReal1} The real Franke function when we have $10$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_n10_p5_noise0001_ts025.PNG}
+\caption{\label{fig:FrankeEst1} The estimated Franke function when we have $10$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
+\end{figure}
+
+\noindent It can be observed from figures \ref{fig:FrankeReal1} and \ref{fig:FrankeEst1} that our estimate is pretty good, any we can plot the difference between the two to strengthen faith in the model
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff_n10_p5_noise0001_ts025.PNG}
+\caption{\label{fig:FrankeDIFF1} The difference between the real and estimated Franke functions when we have $10$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
+\end{figure}
+
+\noindent As expected, the difference shown in figure \ref{fig:FrankeDIFF1} is very small. However, we have yet to quantify how small. This can be done using the mean square error (MSE) and $R^2$ which is calculated from equations \ref{eq:MSE} and \ref{eq:R2}
+
+\begin{equation}\label{eq:MSE}
+\begin{aligned}
+MSE = \frac{1}{n} \sum_{i=0}^{n-1}(y_i-\hat{y}_i)^2
+\end{aligned}
+\end{equation}
+
+\begin{equation}\label{eq:R2}
+\begin{aligned}
+R^2 = 1- \frac{\sum_{i=0}^{n-1}(y_i-\hat{y}_i)^2}{\sum_{i=0}^{n-1}(y_i-\bar{y}_i)^2}
+\end{aligned}
+\end{equation}
+
+\noindent where $\bar{y}_i$ is the mean value of the Franke function. The MSE gives us a value of how far our estimate falls from the real Franke function, while the $R^2$ gives us how strong the relationship is between the real Franke function and our estimate. When utilizing equations \ref{eq:MSE} and\ref{eq:R2} on the data shown in figures \ref{fig:FrankeReal1} and \ref{fig:FrankeEst1} we get the values in table \ref{tab:ESTREAL1}
+
+\begin{table}[h]
+\caption{\label{tab:ESTREAL1} MSE and $R^2$ between the real and estimated Franke function when we have $10$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
+\centering
+\begin{tabular}{c|c|c}
+ & MSE & $R^2$\\
+\hline
+Training & $2.4978127439196968 \times 10^{-24}$ & $1.0$\\
+\hline
+Test & $0.003919934844588911$ & $0.9425989967371673$\\	  
+\end{tabular}
+\end{table}
+
+\noindent It should be obvious that the training set performs better than the test, as it is the training data that is used to fit the model, particularly when n is small. So what happens when we increase the number of observations to say $n = 100$? Figures QQQ, QQQ and QQQ show again the real, estimated and differential Franke functions with the same exact parameters, except for n, which is now equal to $100$
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal_n100_p5_noise0001_ts025.PNG}
+\caption{\label{fig:FrankeReal2} The real Franke function when we have $100$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_n100_p5_noise0001_ts025.PNG}
+\caption{\label{fig:FrankeEst2} The estimated Franke function when we have $100$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff_n100_p5_noise0001_ts025.PNG}
+\caption{\label{fig:FrankeDIFF2} The difference between the real and estimated Franke functions when we have $100$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
+\end{figure}
+
+\noindent We first observe that the figure is much smoother than the previous ones, as the function is discretized by n. We can again get a better understanding of these plots by finding the MSE and $R^2$ as shown in table \ref{tab:ESTREAL2}
+
+\begin{table}[h]
+\caption{\label{tab:ESTREAL2} MSE and $R^2$ between the real and estimated Franke function when we have $100$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
+\centering
+\begin{tabular}{c|c|c}
+ & MSE & $R^2$\\
+\hline
+Training & $0.000565152580116653$ & $0.9935076041084075$\\
+\hline
+Test & $0.0008407777639833455$ & $0.9865450620944748$\\	  
+\end{tabular}
+\end{table}
+
+\noindent At first glance, one may panic as the training MSE and $R^2$ is lower than for $n= 10$. However, this value is not interesting as it is the test MSE that dictates how well the model performs. This is because we are only interested in how well our model is in predicting new data, which it has not trained on, and as we can see from table \ref{tab:ESTREAL2}, both the test MSE and test $R^2$ is much higher with $n = 100$ than with $n = 10$. Therefore it is safe to say that increasing the number of observations drastically increases the predictive ability of the model. 
+\\
+Furthermore, we can compare figure \ref{fig:betaIntALL2} and figure \ref{fig:betaIntALL1} to see that the confidence of our regression coefficients increase as we increase n. This is actually the reason why the model improves.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInterval_ALL_n100_p5_noise0001_ts025.PNG}
+\caption{\label{fig:betaIntALL2} $\hat{\boldsymbol{\beta}}$-coefficients from performing ordinary least squares regression. Dots indicate the actual $\hat{\boldsymbol{\beta}}$-coefficients value while bars around indicate the confidence interval ($\pm \sigma$).}
+\end{figure}
+
+\noindent We can also see what happen if we were to increase the noise-level from $0.001$ to $0.1$ using $n = 100$ observations in figures \ref{fig:FrankeEst3}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_n100_p5_noise01_ts025.PNG}
+\caption{\label{fig:FrankeEst3} The estimated Franke function when we have $100$ observations and polynomials of degree $5$ using a noise-level of $0.1$ and a $75/25$ train/test split.}
+\end{figure}
+
+\noindent As expected, the noise makes the model worse at predicting $\hat{y}$. However, the overall traits of the Franke function can still be observed, but the errors shown in table \ref{tab:ESTREAL3} indicates that the performance is worse with more noise
+
+\begin{table}[h]
+\caption{\label{tab:ESTREAL3} MSE and $R^2$ between the real and estimated Franke function when we have $100$ observations and polynomials of degree $5$ using a noise-level of $0.1$ and a $75/25$ train/test split.}
+\centering
+\begin{tabular}{c|c|c}
+ & MSE & $R^2$\\
+\hline
+Training & $0.0075270297407231375$ & $0.9044112376567826$\\
+\hline
+Test & $0.009241122769969749$ & $0.9012627398304937$\\	  
+\end{tabular}
+\end{table}
 
 \newpage
 
@@ -143,11 +291,6 @@ where the constant $E[\hat{y}] - E[\hat{y}]$ equals zero, making the whole term 
 \\
 We recognize the term $E[(\hat{y} - E[\hat{y}])^2]$ as the variance of estimator $\hat{y}$ and the term $(E[\hat{y}]-y)^2$ as the difference between the bias, but squared. The bias quantifies how well the model fits the data points and variance is how well the model would translate to other data the model is not trained on. Increasing one tends to decrease the other, but not linearly since the bias is squared. Therefore, one can decrease the bias to a certain extent, but at some point, the loss of bias is not worth the gain in variance. This is called the bias variance trade-off. We can analyse the bias variance trade-off by plotting the MSE for different polynomial degrees (complexity of model) versus their respective MSE-values. In addition, the number of observations n seem to have an impact on the test MSE as seen on figures x-y
 
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\textwidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/polyVSMSEn1000p30.PNG}
-\caption{\label{fig:bvto} MSE (variance + $\textrm{bias}^2$ as a function of polynomial degree (complexity of model).}
-\end{figure}
 
 \newpage
 

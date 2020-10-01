@@ -50,12 +50,12 @@ def MSE(y_data, y_pred):
     n = np.size(y_pred)
     return (np.sum((y_data-y_pred)**2))/n
 
-def calc_Variance(y_real, y_pred,n):
+def calc_Variance(y_pred):
     var = np.var(y_pred)
     return var
 
 def calc_bias(y_real, y_pred,n):
-    bias = np.mean((np.mean(y_pred) - y_real)** 2) - calc_Variance(y_real,y_pred,n)
+    bias = np.mean((np.mean(y_pred) - y_real)** 2) - calc_Variance(y_pred)
     return bias
 
 def FrankeFunc(x, y):
@@ -67,18 +67,27 @@ def FrankeFunc(x, y):
     z = term1 + term2 + term3 + term4
     return z
 
-def FrankPlot(x,y,plot):
-    # Terms of the Franke function
-    term1 = 0.75 * np.exp(-(0.25 * (9 * x - 2) ** 2) - 0.25 * ((9 * y - 2) ** 2))
-    term2 = 0.75 * np.exp(-((9 * x + 1) ** 2) / 49.0 - 0.1 * (9 * y + 1))
-    term3 = 0.5 * np.exp(-(9 * x - 7) ** 2 / 4.0 - 0.25 * ((9 * y - 3) ** 2))
-    term4 = -0.2 * np.exp(-(9 * x - 4) ** 2 - (9 * y - 7) ** 2)
-    z = term1 + term2 + term3 + term4
+def FrankPlot(x,y,z,plot):
     if plot == True:
         # Plot the Franke function
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         surf = ax.plot_surface(x, y, z, cmap=cm.coolwarm, linewidth=0, antialiased=False)
+        # Labels
+        ax.set_zlim(-0.10, 1.40)
+        ax.zaxis.set_major_locator(LinearLocator(10))
+        ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+        # Color map grid
+        fig.colorbar(surf, shrink=0.5, aspect=5)
+        plt.show()
+
+def FrankPlotDiff(x,y,z,z2,plot):
+    if plot == True:
+        # Plot the Franke function
+        zz = z-z2
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        surf = ax.plot_surface(x, y, zz, cmap=cm.coolwarm, linewidth=0, antialiased=False)
         # Labels
         ax.set_zlim(-0.10, 1.40)
         ax.zaxis.set_major_locator(LinearLocator(10))
@@ -117,6 +126,18 @@ def StdPolyOLS(X_train, X_test, Y_train, Y_test):
 
     return Y_train_pred, Y_test_pred, betas
 
+def StdPolyRidge(X_train, X_test, Y_train, _Ytest, lamb):
+
+    # Ridge using matrix inversion
+    betas = np.linalg.pinv(X_train.T @ X_train + lamb @ np.identity(len(X_train))) @ X_train.T @ Y_train
+    # Predict the response
+    Y_train_pred = X_train @ betas
+    Y_test_pred = X_test @ betas
+
+    #print(R2(Y_test,Y_test_pred))
+
+    return Y_train_pred, Y_test_pred, betas
+
 def designMatrixFunc(x, y, poly):
     if poly >= 2:
         p = np.arange(1,poly+1)
@@ -135,7 +156,7 @@ def designMatrixFunc2(x, y, poly, noiseLVL):
 
     preds = np.c_[x.ravel(), y.ravel()]
     designMatrix = PolynomialFeatures(degree=poly, include_bias=False).fit_transform(preds)
-    data = np.column_stack((np.ones((len(designMatrix),1)), designMatrix + float(noiseLVL)*np.random.randn(len(x),len(designMatrix[0]))))
+    data = np.column_stack((np.ones((len(designMatrix),1)), designMatrix + float(noiseLVL)*np.random.randn(len(designMatrix),len(designMatrix[0]))))
 
     return data
 
@@ -177,12 +198,38 @@ def realSplit(designMatrix,z,testsize,i,rn, shufflezzz):
 '''''
     return Xtrain, Xtest, Ytrain, Ytest, randomNumber
 
+def realSplit2(designMatrix,z,testsize,i,rn, shufflezzz):
 
+    n = len(designMatrix)
+    designMatrix2 = np.array(designMatrix)
+    z2 = np.array(z)
+    Xtest = np.zeros((int(testsize*n), len(designMatrix2[0])))
+    Ytest = np.zeros((int(testsize*n), len(z2[0])))
+    if i == 0:
+        randomNumber = np.random.choice(n, size = round(testsize*n), replace = False)
+    else:
+        randomNumber = rn
+
+    for i in range(len(randomNumber)):
+        Xtest[i] = designMatrix2[randomNumber[i], :]
+        Ytest[i] = z2[randomNumber[i],:]
+
+    Xtrain = np.delete(designMatrix2, randomNumber, 0)
+    Ytrain = np.delete(z2, randomNumber, 0)
+
+    if i == 0:
+        data = np.column_stack((Xtrain, Ytrain))
+        np.random.shuffle(data)
+        randomNumber2 = np.random.randint(len(data[0]),size=1)
+        Ytrain = data[:,int(randomNumber2)]
+        Xtrain = np.delete(data,int(randomNumber2),1)
+
+    return Xtrain, Xtest, Ytrain, Ytest, randomNumber
 
 
 def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
 
-    sigma2 = (1 / (n - (degreeFreedom - 1))) * (sum((true - np.mean(true)) ** 2))
+    sigma2 = calc_Variance(true)
     # Covariance matrix
     varBeta = np.linalg.pinv((X.T @ X)) * sigma2
 
@@ -190,39 +237,56 @@ def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
     betaCoeff = (np.sqrt(np.diag(varBeta)))
 
     # Interval betas
-    beta_confInt = np.c_[betas - betaCoeff, betas + betaCoeff]
+    for i in range(len(betas[0])):
+        betasR = betas[:,i]
+
+        if plot == True:
+            xxx = np.arange(0, len(betasR), 1)
+            plt.xticks(xxx)
+            plt.scatter(xxx,betasR)
+            plt.errorbar(xxx,betasR, yerr=betaCoeff,fmt='none')
+            plt.suptitle(r'$\beta$ -values with corresponding confidence interval', fontsize = 25)
+            plt.ylabel(r'$\beta$ - value', fontsize = 20)
+            plt.xlabel(r'$\beta$ - coefficients', fontsize = 20)
+    plt.grid()
+    plt.show()
 
     if plot == True:
-        lengthX = np.arange(0, len(X[0]), 1)
-
-        plt.xticks(lengthX)
-        plt.scatter(lengthX,betas)
-        plt.errorbar(lengthX,betas, yerr=beta_confInt[:, 0],fmt='none')
-        plt.suptitle(r'$\beta$ -values with corresponding confidence interval', fontsize = 25)
-        plt.ylabel(r'$\beta$ - value', fontsize = 20)
-        plt.xlabel(r'$\beta$ - coefficients', fontsize = 20)
+        xxx = np.arange(0, len(betas[:,0]), 1)
+        plt.xticks(xxx)
+        plt.scatter(xxx, betas[:,0])
+        plt.errorbar(xxx, betas[:,0], yerr=betaCoeff, fmt='none')
+        plt.suptitle(r'$\beta$ -values with corresponding confidence interval', fontsize=25)
+        plt.ylabel(r'$\beta$ - value', fontsize=20)
+        plt.xlabel(r'$\beta$ - coefficients', fontsize=20)
         plt.grid()
         plt.show()
-    return beta_confInt
 
-def bootStrap(designMatrix,z,n,scaleInp,testSize,poly,k,rn):
+def bootStrap(designMatrix,z,n,scaleInp,testSize,poly,k,rn,tp,lamb, figureInp):
 
     Bootstrap = np.zeros((len(designMatrix),len(designMatrix[0])))
     for i in range(n):
         Bootstrap[i,:] = np.random.choice(designMatrix.ravel(), size = len(designMatrix[0]), replace = True)
     #Bootstrap = designMatrix
     designMatrix_poly = Scale2(Bootstrap, scalee=scaleInp)
-    X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly, randomNumber = realSplit(designMatrix_poly, z,testSize, k, rn, True)
+    X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly, randomNumber = realSplit2(designMatrix_poly, z, testSize, 0, rn, True)
     rn = randomNumber
-    Y_train_pred_poly, Y_test_pred_poly, betas_poly = StdPolyOLS(X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly)
+    if tp == 'OLS':
+        Y_train_pred_poly, Y_test_pred_poly, betas_poly = StdPolyOLS(X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly)
+    elif tp == 'Ridge':
+        Y_train_pred_poly, Y_test_pred_poly, betas_poly = StdPolyRidge(X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly, lamb)
     bias = calc_bias(Y_test_poly, Y_test_pred_poly, n)
-    variance = calc_Variance(Y_test_poly, Y_test_pred_poly, n)
+    variance = calc_Variance(Y_test_pred_poly)
     MSE_train_poly = MSE(Y_train_poly, Y_train_pred_poly)
     MSE_test_poly = MSE(Y_test_poly, Y_test_pred_poly)
 
+    x = np.arange(0, 1, 1 / n)
+    y = np.arange(0, 1, 1 / n)
+    FrankPlot(x, y, designMatrix_poly @ betas_poly, figureInp)
+
     return bias, variance, MSE_train_poly, MSE_test_poly, rn
 
-def CV(XX,z,n,k,scaleInp):
+def CV(XX,z,n,k,scaleInp,tp,lamb):
     fold = k
     z_rep = np.array(z)
     z_rep2 = np.array(z)
@@ -248,7 +312,11 @@ def CV(XX,z,n,k,scaleInp):
         np.delete(designMatrix_rep,randRow,0)
         np.delete(z_rep, randRow)
 
-        Ytrain_pred, Ytest_pred, betas = StdPolyOLS(Xtrain, Xtest, Ytrain, Ytest)
+        if tp == 'OLS':
+            Ytrain_pred, Ytest_pred, betas = StdPolyOLS(Xtrain, Xtest, Ytrain, Ytest)
+        elif tp == 'Ridge':
+            Ytrain_pred, Ytest_pred, betas = StdPolyRidge(Xtrain, Xtest, Ytrain, Ytest,lamb)
+
         bias[i] = calc_bias(Ytest, Ytest_pred, n)
         variance[i] = calc_Variance(Ytest, Ytest_pred, n)
         MSE_train[i] = MSE(Ytrain, Ytrain_pred)

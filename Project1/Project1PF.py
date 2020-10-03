@@ -9,7 +9,8 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import sklearn.linear_model as skl
 from FunctionsDef import inputsss, FrankeFunc, MSE, R2,StdPolyOLS,designMatrixFunc, designMatrixFunc2,\
-    betaConfidenceInterval,Scale, sciKitSplit, MSEplot, calc_Variance, calc_bias, BVPlot, Scale2, realSplit,FrankPlot, bootStrap, CV, MSEplotCV, realSplit2, FrankPlotDiff
+    betaConfidenceInterval,Scale, sciKitSplit, MSEplot, calc_Variance, calc_bias, BVPlot, Scale2, realSplit,FrankPlot,\
+    bootStrap, CV, MSEplotCV, realSplit2, FrankPlotDiff,cost
 import scipy.stats
 from mlxtend.evaluate import bias_variance_decomp
 from sklearn import datasets, linear_model
@@ -17,11 +18,13 @@ from sklearn.model_selection import cross_validate, cross_val_score
 from sklearn.metrics import make_scorer
 from sklearn.metrics import confusion_matrix
 from sklearn.svm import LinearSVC
+from mlxtend.evaluate import bias_variance_decomp
 
 # Input function
 observations, degree, scaleInp, figureInp, part, noiseInp, noiseLVL,testsizesss = inputsss()
 
-# Exercise 1a)
+# Test size throughout script
+testSize = float(testsizesss)
 
 # Create data
 n = int(observations)
@@ -30,14 +33,15 @@ x = np.arange(0, 1, 1 / n)
 y = np.arange(0, 1, 1 / n)
 xx, yy = np.meshgrid(x, y)
 
-# Test size throughout script
-testSize = float(testsizesss)
+xt = np.arange(0, 1, 1 / (n*testSize))
+xxtt, yytt = np.meshgrid(y,xt)
 
 # Setting up the Franke function with/without noise
 z = FrankeFunc(xx, yy) #+ float(noiseLVL) * np.random.randn(n)
 
 if (str(part) == "a" or str(part) == "all"):
 
+    # Exercise 1a)
     # Setting up the polynomial design matrix with/without noise
     designMatrix = designMatrixFunc2(x, y, poly, noiseLVL)
 
@@ -72,37 +76,97 @@ if (str(part) == "a" or str(part) == "all"):
     #Plotting difference between real and predicted Franke function
     FrankPlotDiff(xx,yy,z,estimated, plot = figureInp)
 
+    #FrankPlot(xxtt,yytt,Y_test_pred,plot=figureInp)
+
 
 elif (str(part) == "b" or str(part) == "all"):
     # Exercise 1b)
     B = input("This exercise utilizes a bootstrap resampling method that generates B sets of data of size n. How many sets should be generated? (integer)")
-    bias = np.zeros(int(B))
-    variance = np.zeros(int(B))
-    MSE_train_poly = np.zeros(int(B))
-    MSE_test_poly = np.zeros(int(B))
-    biasBoot = np.zeros(poly)
-    varianceBoot = np.zeros(poly)
-    MSE_train_boot = np.zeros(poly)
-    MSE_test_boot = np.zeros(poly)
-    rn = 0
-    for i in range(poly):
-        designMatrix_p = designMatrixFunc2(x, y, i+1, noiseLVL)
-        for j in range(int(B)):
-            biasO, varianceO, MSE_train_polyO, MSE_test_polyO, randomNumber = bootStrap(designMatrix_p,z,n,scaleInp,testSize,poly,i,rn,'OLS',0, figureInp)
-            bias[j] = biasO
-            variance[j] = varianceO
-            MSE_train_poly[j] = MSE_train_polyO
-            MSE_test_poly[j] = MSE_test_polyO
+    if (int(B) > 0):
+        MSE_train = np.zeros(int(B))
+        MSE_test = np.zeros(int(B))
+        bias = np.zeros(int(B))
+        variance = np.zeros(int(B))
+        MSE_train_boot = np.zeros(poly)
+        MSE_test_boot = np.zeros(poly)
+        bias_boot = np.zeros(poly)
+        variance_boot = np.zeros(poly)
+        rn = 0
+
+        for k in range(poly):
+            print("p = ", k)
+            # Setting up the polynomial design matrix with/without noise
+            designMatrix = designMatrixFunc2(x, y, k+1, noiseLVL)
+
+            # Scaling the data by subtracting mean and divide by standard deviation
+            designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
+
+            designMatrixBoot = np.zeros((len(designMatrix), len(designMatrix[0])))
+            estimated = np.zeros((n, n, int(B)))
+
+            for i in range(int(B)):
+                for j in range(n):
+                    designMatrixBoot[j, :] = np.random.choice(designMatrix_scale.ravel(), size=len(designMatrix[0]), replace=True)
+
+                # Splitting the data into training and test sets
+                X_train, X_test, Y_train, Y_test, randomNumber = realSplit2(designMatrixBoot, z, testSize, 0, rn, True)
+                rn = randomNumber
+                # Performing ordinary least squares (OLS)
+                Y_train_pred, Y_test_pred, betas = StdPolyOLS(X_train, X_test, Y_train, Y_test)
+
+                z_pred = designMatrix_scale @ betas
+
+                estimated[:, :, i] = designMatrixBoot @ betas
+                MSE_train[i] = MSE(Y_train, Y_train_pred)
+                MSE_test[i] = MSE(Y_test, Y_test_pred)
+                bias[i] = calc_bias(Y_train, Y_train_pred,n)
+                variance[i] = calc_Variance(Y_test_pred,z_pred,n)
+
+            MSE_train_boot[k] = np.mean(MSE_train)
+            MSE_test_boot[k] = np.mean(MSE_test)
+            bias_boot[k] = np.mean(bias)
+            variance_boot[k] = np.mean(variance)
+
+            # Plotting the estimated Franke function
+            #estimatedBoot = np.mean(estimated, 2)
+            #FrankPlot(xx, yy, estimatedBoot, plot=figureInp)
+
+        if figureInp == True:
+            MSEplot(MSE_train_boot,MSE_test_boot,poly)
+            BVPlot(bias_boot,variance_boot,poly)
+
+    else:
+        MSE_train = np.zeros(poly)
+        MSE_test = np.zeros(poly)
+
+        bias = np.zeros(poly)
+        variance = np.zeros(poly)
+        rn = 0
+
+        for i in range(poly):
+            print("p = ", i)
+            # Setting up the polynomial design matrix with/without noise
+            designMatrix = designMatrixFunc2(x, y, i+1, noiseLVL)
+
+            # Scaling the data by subtracting mean and divide by standard deviation
+            designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
+
+            # Splitting the data into training and test sets
+            X_train, X_test, Y_train, Y_test, randomNumber = realSplit2(designMatrix_scale, z, testSize, i, rn, True)
             rn = randomNumber
-        biasBoot[i] = np.mean(bias)
-        varianceBoot[i] = np.mean(variance)
-        MSE_train_boot[i] = np.mean(MSE_train_poly)
-        MSE_test_boot[i] = np.mean(MSE_test_poly)
+            # Performing ordinary least squares (OLS)
+            Y_train_pred, Y_test_pred, betas = StdPolyOLS(X_train, X_test, Y_train, Y_test)
 
-    if figureInp == True:
-        MSEplot(MSE_train_boot, MSE_test_boot, poly)
-        BVPlot(biasBoot, varianceBoot, MSE_test_boot, poly)
+            z_pred = designMatrix_scale @ betas
 
+            MSE_train[i] = MSE(Y_train, Y_train_pred)
+            MSE_test[i] = MSE(Y_test, Y_test_pred)
+            bias[i] = calc_bias(z,z_pred,n)
+            variance[i] = calc_Variance(Y_test_pred,z_pred,n)
+
+        if figureInp == True:
+            BVPlot(bias, variance, poly)
+            MSEplot(MSE_train, MSE_test, poly)
 
 elif (str(part) == "c" or str(part) == "all"):
 
@@ -208,19 +272,35 @@ elif (str(part) == "e" or str(part) == "all"):
 
 elif (str(part) == "test" or str(part) == "all"):
 
-    # Setting up the polynomial design matrix with/without noise
-    designMatrix = designMatrixFunc2(x, y, poly, noiseLVL)
+    MSE_train = np.zeros(poly)
+    MSE_test = np.zeros(poly)
 
-    # Scaling the data by subtracting mean and divide by standard deviation
-    designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
-
-    # Splitting the data into training and test sets
+    bias = np.zeros(poly)
+    variance = np.zeros(poly)
     rn = 0
-    X_train, X_test, Y_train, Y_test, randomNumber = realSplit2(designMatrix_scale, zz, testSize, 0, rn, True)
 
-    # Performing ordinary least squares (OLS)
-    Y_train_pred, Y_test_pred, betas = StdPolyOLS(X_train, X_test, Y_train, Y_test)
 
-    ulti = designMatrix_scale @ betas
-    FrankPlot(xx, yy, ulti, plot=figureInp)
+    for i in range(poly):
+        print("p = ", i)
+        # Setting up the polynomial design matrix with/without noise
+        designMatrix = designMatrixFunc2(x, y, i+1, noiseLVL)
 
+        # Scaling the data by subtracting mean and divide by standard deviation
+        designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
+
+        # Splitting the data into training and test sets
+        X_train, X_test, Y_train, Y_test, randomNumber = realSplit2(designMatrix_scale, z, testSize, i, rn, True)
+        rn = randomNumber
+        # Performing ordinary least squares (OLS)
+        Y_train_pred, Y_test_pred, betas = StdPolyOLS(X_train, X_test, Y_train, Y_test)
+
+        z_pred = designMatrix_scale @ betas
+
+        MSE_train[i] = MSE(Y_train, Y_train_pred)
+        MSE_test[i] = MSE(Y_test, Y_test_pred)
+        bias[i] = calc_bias(z,z_pred,n)
+        variance[i] = calc_Variance(Y_test_pred,z_pred,n)
+
+    if figureInp == True:
+        BVPlot(bias, variance, poly)
+        MSEplot(MSE_train, MSE_test, poly)

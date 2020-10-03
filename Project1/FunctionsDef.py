@@ -50,12 +50,17 @@ def MSE(y_data, y_pred):
     n = np.size(y_pred)
     return (np.sum((y_data-y_pred)**2))/n
 
-def calc_Variance(y_pred):
-    var = np.var(y_pred)
+def cost(y_data,y_pred,z_pred,z):
+    n = np.size(z)
+    costly = (np.sum((z - np.mean(z_pred)) ** 2))/n + (np.sum((z_pred - np.mean(z_pred)) ** 2))/n
+    return costly
+
+def calc_Variance(Y_test_pred,z_pred,n):
+    var = (np.sum((Y_test_pred - np.mean(z_pred))**2))/np.size(Y_test_pred)
     return var
 
-def calc_bias(y_real, y_pred,n):
-    bias = np.mean((np.mean(y_pred) - y_real)** 2) - calc_Variance(y_pred)
+def calc_bias(z,z_pred,n):
+    bias = (np.sum((z-z_pred)**2))/np.size(z)
     return bias
 
 def FrankeFunc(x, y):
@@ -155,8 +160,10 @@ def designMatrixFunc(x, y, poly):
 def designMatrixFunc2(x, y, poly, noiseLVL):
 
     preds = np.c_[x.ravel(), y.ravel()]
-    designMatrix = PolynomialFeatures(degree=poly, include_bias=False).fit_transform(preds)
-    data = np.column_stack((np.ones((len(designMatrix),1)), designMatrix + float(noiseLVL)*np.random.randn(len(designMatrix),len(designMatrix[0]))))
+    dx = PolynomialFeatures(degree=poly, include_bias=False).fit_transform(preds)
+    noise = float(noiseLVL)*np.random.randn(len(dx),len(dx[0]))
+    designMatrix = dx + noise
+    data = np.column_stack((np.ones((len(designMatrix),1)), designMatrix))
 
     return data
 
@@ -229,7 +236,7 @@ def realSplit2(designMatrix,z,testsize,i,rn, shufflezzz):
 
 def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
 
-    sigma2 = calc_Variance(true)
+    sigma2 = np.var(true)
     # Covariance matrix
     varBeta = np.linalg.pinv((X.T @ X)) * sigma2
 
@@ -254,6 +261,8 @@ def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
     if plot == True:
         xxx = np.arange(0, len(betas[:,0]), 1)
         plt.xticks(xxx)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
         plt.scatter(xxx, betas[:,0])
         plt.errorbar(xxx, betas[:,0], yerr=betaCoeff, fmt='none')
         plt.suptitle(r'$\beta$ -values with corresponding confidence interval', fontsize=25)
@@ -262,29 +271,42 @@ def betaConfidenceInterval(true, n, degreeFreedom, X, betas, plot):
         plt.grid()
         plt.show()
 
-def bootStrap(designMatrix,z,n,scaleInp,testSize,poly,k,rn,tp,lamb, figureInp):
+def bootStrap(designMatrix_poly,n,tp,lamb, figureInp, testSize,z):
 
-    Bootstrap = np.zeros((len(designMatrix),len(designMatrix[0])))
-    for i in range(n):
-        Bootstrap[i,:] = np.random.choice(designMatrix.ravel(), size = len(designMatrix[0]), replace = True)
-    #Bootstrap = designMatrix
-    designMatrix_poly = Scale2(Bootstrap, scalee=scaleInp)
-    X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly, randomNumber = realSplit2(designMatrix_poly, z, testSize, 0, rn, True)
-    rn = randomNumber
+    X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly, randomNumber = realSplit2(designMatrix_poly, z, testSize, 0, 0, True)
+
+    Y_test_pred_poly = np.zeros((len(Y_test_poly),len(Y_test_poly[0])))
+    Y_train_pred_poly = np.zeros((len(Y_train_poly),len(Y_train_poly[0])))
+    BootstrapXTrain = np.zeros((len(X_train_scale_poly),len(X_train_scale_poly[0])))
+    BootstrapXTest = np.zeros((len(X_test_scale_poly),len(X_test_scale_poly[0])))
+    BootstrapYTrain = np.zeros((len(Y_train_poly),len(Y_train_poly[0])))
+    BootstrapYTest = np.zeros((len(Y_test_poly),len(Y_test_poly[0])))
+
+    for i in range(len(X_train_scale_poly)):
+        BootstrapXTrain[i,:] = np.random.choice(X_train_scale_poly.ravel(), size = len(X_train_scale_poly[0]), replace = True)
+        BootstrapYTrain[i,:] = np.random.choice(Y_train_poly.ravel(), size = len(Y_train_poly[0]), replace = True)
+    print(len(X_train_scale_poly))
+    for i in range(len(X_test_scale_poly)):
+        BootstrapXTest[i, :] = np.random.choice(X_test_scale_poly.ravel(), size=len(X_test_scale_poly[0]), replace=True)
+        BootstrapYTest[i,:] = np.random.choice(Y_test_poly.ravel(), size = len(Y_test_poly[0]), replace = True)
+
     if tp == 'OLS':
-        Y_train_pred_poly, Y_test_pred_poly, betas_poly = StdPolyOLS(X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly)
+        Y_train_pred_poly, Y_test_pred_poly, betas_poly = StdPolyOLS(BootstrapXTrain, BootstrapXTest, BootstrapYTrain, BootstrapYTest)
     elif tp == 'Ridge':
-        Y_train_pred_poly, Y_test_pred_poly, betas_poly = StdPolyRidge(X_train_scale_poly, X_test_scale_poly, Y_train_poly, Y_test_poly, lamb)
-    bias = calc_bias(Y_test_poly, Y_test_pred_poly, n)
+        Y_train_pred_poly, Y_test_pred_poly, betas_poly = StdPolyRidge(BootstrapXTrain, BootstrapXTest, BootstrapYTrain, BootstrapYTest, lamb)
+    elif tp == 'Lasso':
+        print("Coming")
+
+    bias = calc_bias(BootstrapYTest, Y_test_pred_poly, n)
     variance = calc_Variance(Y_test_pred_poly)
-    MSE_train_poly = MSE(Y_train_poly, Y_train_pred_poly)
-    MSE_test_poly = MSE(Y_test_poly, Y_test_pred_poly)
+    MSE_train_poly = MSE(BootstrapYTrain, Y_train_pred_poly)
+    MSE_test_poly = MSE(BootstrapYTest, Y_test_pred_poly)
 
-    x = np.arange(0, 1, 1 / n)
-    y = np.arange(0, 1, 1 / n)
-    FrankPlot(x, y, designMatrix_poly @ betas_poly, figureInp)
+    #x = np.arange(0, 1, 1 / n)
+    #y = np.arange(0, 1, 1 / n)
+    #FrankPlot(x, y, designMatrix_poly @ betas_poly, figureInp)
 
-    return bias, variance, MSE_train_poly, MSE_test_poly, rn
+    return bias, variance, MSE_train_poly, MSE_test_poly, betas_poly
 
 def CV(XX,z,n,k,scaleInp,tp,lamb):
     fold = k
@@ -327,24 +349,28 @@ def CV(XX,z,n,k,scaleInp,tp,lamb):
 
 def MSEplot(MSE_train_poly,MSE_test_poly,poly):
     xxx = np.arange(1, poly+1, 1)
-    plt.plot(xxx, MSE_train_poly, label="Train MSE", linewidth=2)
-    plt.plot(xxx, MSE_test_poly, label="Test MSE", linewidth=2)
+    plt.plot(xxx, MSE_train_poly, label="Train MSE", linewidth=4)
+    plt.plot(xxx, MSE_test_poly, label="Test MSE", linewidth=4)
     plt.xticks(xxx)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     MSE_min_test = MSE_test_poly.argmin()
     plt.plot(xxx[MSE_min_test], MSE_test_poly[MSE_min_test], 'o', markersize=10, label="Lowest test MSE")
     plt.suptitle('Training and test MSE as a function of polynomial degree (complexity)', fontsize=25,
                  fontweight="bold")
     plt.ylabel('MSE', fontsize=20)
     plt.xlabel('Polynomial degree (complexity)', fontsize=20)
-    plt.legend(loc="upper left", prop={'size': 20})
+    plt.legend(loc="lower left", prop={'size': 20})
     plt.show()
 
 def MSEplotCV(regCV,CV,MSE_train_poly,MSE_test_poly,CVN):
     xxx = CVN
-    plt.plot(xxx, MSE_train_poly, label="Train MSE", linewidth=2)
-    plt.plot(xxx, MSE_test_poly, label="Test MSE", linewidth=2)
-    plt.plot(CV, regCV, label="Test MSE (Scikit)", linewidth=2)
+    plt.plot(xxx, MSE_train_poly, label="Train MSE", linewidth=4)
+    plt.plot(xxx, MSE_test_poly, label="Test MSE", linewidth=4)
+    plt.plot(CV, regCV, label="Test MSE (Scikit)", linewidth=4)
     plt.xticks(xxx)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     #MSE_min_test = MSE_test_poly.argmin()
     #plt.plot(xxx[MSE_min_test], MSE_test_poly[MSE_min_test], 'o', markersize=10, label="Lowest test MSE")
     plt.suptitle('Training and test MSE as a function of fold size', fontsize=25,
@@ -354,28 +380,19 @@ def MSEplotCV(regCV,CV,MSE_train_poly,MSE_test_poly,CVN):
     plt.legend(loc="lower right", prop={'size': 20})
     plt.show()
 
-def BVPlot(bias,variance,mse,poly):
+def BVPlot(bias,variance,poly):
     xxx = np.arange(1, poly+1, 1)
-    plt.plot(xxx, bias, label="Bias", linewidth=2)
-    plt.plot(xxx, variance, label="Variance", linewidth=2)
+    plt.plot(xxx, bias, label="Bias squared", linewidth=5)
+    plt.plot(xxx, variance, label="Variance", linewidth=5)
+    plt.plot(xxx, bias + variance, label="Bias + variance", linewidth=2)
     plt.xticks(xxx)
-    #bias_min = bias.argmin()
-    #plt.plot(xxx[bias_min], bias[bias_min], 'o', markersize=10, label="Lowest test bias")
-    plt.suptitle('Test bias and variance as a function of polynomial degree', fontsize=25,
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    MSE_min_test = (bias + variance).argmin()
+    plt.plot(xxx[MSE_min_test], (bias + variance)[MSE_min_test], 'o', markersize=10, label="Lowest MSE")
+    plt.suptitle('Bias and variance as a function of polynomial degree', fontsize=25,
                  fontweight="bold")
     plt.ylabel('Value', fontsize=20)
     plt.xlabel('Polynomial degree (complexity)', fontsize=20)
     plt.legend(loc="upper right", prop={'size': 20})
     plt.show()
-    '''''''''
-    plt.plot(xxx,bias**2 + variance, label="Bias squared + variance", linewidth=2)
-    plt.plot(xxx,mse, label="MSE", linewidth=2)
-    plt.plot(xxx,bias**2 + variance - mse, label="Difference", linewidth=2)
-    plt.xticks(xxx)
-    plt.suptitle('MSE vs. bias squared + variance as a function of polynomial degree', fontsize=25,
-                 fontweight="bold")
-    plt.ylabel('Value', fontsize=20)
-    plt.xlabel('Polynomial degree (complexity)', fontsize=20)
-    plt.legend(loc="upper right", prop={'size': 20})
-    plt.show()
-    '''

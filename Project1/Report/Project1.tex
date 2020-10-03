@@ -261,9 +261,11 @@ Test & $0.009241122769969749$ & $0.9012627398304937$\\
 \end{tabular}
 \end{table}
 
+\noindent We could easily remove all the noise from the mode, but we intend to keep a noise level of $0.001$ as it will prepare us for the real data later in the project.
+
 \newpage
 
-\noindent \textbf{b)} When we fit a linear mode like in equation \ref{eq:LinReg}, we always want to minimize the mean square error (MSE). The MSE is often a good reference of the performance of our model and where lower MSE indicates a better model, and vice versa. The MSE is simply the expected value of the difference between the actual response and the predicted response using regression, which in math term is written as $E[(y-\hat{y})^2]$ where y is the actual response while $\hat{y}$ is the predicted response (as we already know). By adding and subtracting the term $E[\hat{y}]$ to the innter bracket we can expand the MSE like in equation qqqqqq
+\noindent \textbf{b)} When we fit a linear model like in the last exercise, we always want to minimize the mean square error (MSE) of the test set. We can explain the MSE from equation \ref{eq:MSE} in terms of the expected value of its such that the MSE is simply the expected value of the difference between the actual response and the predicted response using regression. This mean we can write the MSE as $E[(y-\hat{y})^2]$ where y is the actual response while $\hat{y}$ is the predicted response (as we already know). By adding and subtracting the term $E[\hat{y}]$ to the inner bracket we can expand the MSE like in equation \ref{eq:mseDerive}
 
 \begin{equation}\label{eq:mseDerive}
 \begin{aligned}
@@ -275,7 +277,7 @@ E[(\hat{y} - E[\hat{y}])^2] + E[2(\hat{y} - E[\hat{y}])(E[\hat{y}]-y)] + E[(E[\h
 \end{aligned}
 \end{equation}
 
-\noindent Since the expected value of $\hat{y}$ equals y, we can write $E[\hat{y}] - y =$ constant and thus
+\noindent Since the expected value of $\hat{y}$ equals y when n is large, we can write $E[\hat{y}] - y =$ constant and thus
 
 \begin{equation}\label{eq:mseDerive2}
 \begin{aligned}
@@ -289,8 +291,31 @@ E[(\hat{y} - E[\hat{y}])^2] + (E[\hat{y}]-y)^2
 
 where the constant $E[\hat{y}] - E[\hat{y}]$ equals zero, making the whole term equal zero. 
 \\
-We recognize the term $E[(\hat{y} - E[\hat{y}])^2]$ as the variance of estimator $\hat{y}$ and the term $(E[\hat{y}]-y)^2$ as the difference between the bias, but squared. The bias quantifies how well the model fits the data points and variance is how well the model would translate to other data the model is not trained on. Increasing one tends to decrease the other, but not linearly since the bias is squared. Therefore, one can decrease the bias to a certain extent, but at some point, the loss of bias is not worth the gain in variance. This is called the bias variance trade-off. We can analyse the bias variance trade-off by plotting the MSE for different polynomial degrees (complexity of model) versus their respective MSE-values. In addition, the number of observations n seem to have an impact on the test MSE as seen on figures x-y
+We recognize the term $E[(\hat{y} - E[\hat{y}])^2]$ as the variance of estimator $\hat{y}$ and the term $(E[\hat{y}]-y)^2$ as the bias of the model, but squared. The bias quantifies how well the model fits the data points and variance is how well the model would translate to other data the model is not trained on. Increasing one tends to decrease the other, but not linearly since the bias is squared. Therefore, one can decrease the bias to a certain extent, but at some point, the loss of bias is not worth the gain in variance. This is called the bias variance trade-off. We can analyse the bias variance trade-off by plotting the MSE for different polynomial degrees (complexity of model) versus their respective MSE-values as seen in figure \ref{fig:MSE1}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSE_n1000_p20_noise1_ts02.PNG}
+\caption{\label{fig:MSE1} Train (blue) and test (orange) MSE when we have 1000 observations and polynomial of degree 20 using a noise-level of $1$ and a $75/25$ train/test split.}
+\end{figure}
+
+\noindent One can observe from figure \ref{fig:MSE1} that both the training and test MSE decrease drastically for lower polynomial degrees. However, the test MSE starts to increase at $p = 8$ while the training MSE continues to fall towards zero. This is because of the bias-variance trade-off. As we increase the complexity of the model, the training data becomes better and better fit to the response $\hat{y}$. In fact, we could theoretically make a model that would fit the training data perfectly. However, such a model would be terrible at predicting new data (test data) and this is often called over-fitting. The opposite would be under-fitting where the model is not complex enough so that the model would not be able to predict new data sets. We instead aim to find the model that has as low bias as possible, without the variance going out of control. We can plot the bias and variance and try to find where we would generally find such an intermediate point like shown in figure \ref{fig:BVplot1}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplot_n1000_p5_noise1_ts02.PNG}
+\caption{\label{fig:BVplot1} Intermediate point of minimum test MSE as a function of the polynomial degree.}
+\end{figure}
+
+\noindent We would now like to discuss how the lowest point of MSE changes with the complexity of the model and also of the number of observations. However, we often have limited data (observations) in reality. One work-around for this problem is to create data out of thin air with the bootstrap resampling method. The bootstrap method aims to take the original data of size n and create B new data sets each of size n. This is done by randomly assigning observations from the original data set to the B new data sets (with replacement). Then, a statistic is calculated for each of the B new data sets and the mean of all these statistics should represent the statistic of the original data set. The new statistic is often called the bootstrap statistic and will in this report be the MSE. Figure \ref{fig:Bootsketch} shows a rough sketch of the process
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/bootstrapSketch.PNG}
+\caption{\label{fig:Bootsketch} Illustration of the bootstrap process. The statistic in question here is the MSE.}
+\end{figure}
+
+\noindent The hope of the bootstrap method is that the bootstrap statistic represents the statistic of the underlying distribution of the original data set, regardless of the original datasets distribution. Be aware, the bootstrap method does not create new information, but simply exaggerate the already existing information, letting us perform operations like linear regression more easily.
 
 \newpage
 

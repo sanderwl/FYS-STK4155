@@ -291,23 +291,9 @@ E[(\hat{y} - E[\hat{y}])^2] + (E[\hat{y}]-y)^2
 
 where the constant $E[\hat{y}] - E[\hat{y}]$ equals zero, making the whole term equal zero. 
 \\
-We recognize the term $E[(\hat{y} - E[\hat{y}])^2]$ as the variance of estimator $\hat{y}$ and the term $(E[\hat{y}]-y)^2$ as the bias of the model, but squared. The bias quantifies how well the model fits the data points and variance is how well the model would translate to other data the model is not trained on. Increasing one tends to decrease the other, but not linearly since the bias is squared. Therefore, one can decrease the bias to a certain extent, but at some point, the loss of bias is not worth the gain in variance. This is called the bias variance trade-off. We can analyse the bias variance trade-off by plotting the MSE for different polynomial degrees (complexity of model) versus their respective MSE-values as seen in figure \ref{fig:MSE1}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSE_n1000_p20_noise1_ts02.PNG}
-\caption{\label{fig:MSE1} Train (blue) and test (orange) MSE when we have 1000 observations and polynomial of degree 20 using a noise-level of $1$ and a $75/25$ train/test split.}
-\end{figure}
-
-\noindent One can observe from figure \ref{fig:MSE1} that both the training and test MSE decrease drastically for lower polynomial degrees. However, the test MSE starts to increase at $p = 8$ while the training MSE continues to fall towards zero. This is because of the bias-variance trade-off. As we increase the complexity of the model, the training data becomes better and better fit to the response $\hat{y}$. In fact, we could theoretically make a model that would fit the training data perfectly. However, such a model would be terrible at predicting new data (test data) and this is often called over-fitting. The opposite would be under-fitting where the model is not complex enough so that the model would not be able to predict new data sets. We instead aim to find the model that has as low bias as possible, without the variance going out of control. We can plot the bias and variance and try to find where we would generally find such an intermediate point like shown in figure \ref{fig:BVplot1}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplot_n1000_p5_noise1_ts02.PNG}
-\caption{\label{fig:BVplot1} Intermediate point of minimum test MSE as a function of the polynomial degree.}
-\end{figure}
-
-\noindent We would now like to discuss how the lowest point of MSE changes with the complexity of the model and also of the number of observations. However, we often have limited data (observations) in reality. One work-around for this problem is to create data out of thin air with the bootstrap resampling method. The bootstrap method aims to take the original data of size n and create B new data sets each of size n. This is done by randomly assigning observations from the original data set to the B new data sets (with replacement). Then, a statistic is calculated for each of the B new data sets and the mean of all these statistics should represent the statistic of the original data set. The new statistic is often called the bootstrap statistic and will in this report be the MSE. Figure \ref{fig:Bootsketch} shows a rough sketch of the process
+We recognize the term $E[(\hat{y} - E[\hat{y}])^2]$ as the variance of estimator $\hat{y}$ and the term $(E[\hat{y}]-y)^2$ as the bias of the model, but squared. The bias quantifies how well the model fits the data points and variance is how well the model would translate to other data the model is not trained on. Increasing one tends to decrease the other, but not linearly since the bias is squared. Therefore, one can decrease the bias to a certain extent, but at some point, the loss of bias is not worth the gain in variance. This is called the bias variance trade-off. 
+\\
+Before investigating the bias-variance trade-off any further, we need to solve a problem related to the lack of data that is often the case with real data. When we generate data synthetically, the lack of data is never a problem, but in the real world, data is always limited and we now want to simulate that experience. Imagine now that we only have 100 observations and that these 100 observations are enough to represent the underlying distribution of the data, but not enough for our machine learning algorithm to function properly. We can then utilize the bootstrap resampling method to create data out of thin air. The bootstrap resampling method aims to take the original data of size n and create B new data sets each of size n. This is done by randomly assigning observations from the original data set to the B new data sets (with replacement). Then, a statistic is calculated for each of the B new data sets and the mean of all these statistics should represent the statistic of the original data set. The new statistic is often called the bootstrap statistic and will in this report be the MSE. Figure \ref{fig:Bootsketch} shows a rough sketch of the process
 
 \begin{figure}[H]
 \centering
@@ -316,6 +302,41 @@ We recognize the term $E[(\hat{y} - E[\hat{y}])^2]$ as the variance of estimator
 \end{figure}
 
 \noindent The hope of the bootstrap method is that the bootstrap statistic represents the statistic of the underlying distribution of the original data set, regardless of the original datasets distribution. Be aware, the bootstrap method does not create new information, but simply exaggerate the already existing information, letting us perform operations like linear regression more easily.
+\\
+Now that we have a method of creating more data, we can study the bias-variance trade-off more thoroughly. More spesifically, we want to study how the bias, variance and MSE changes as a function of polynomial degree. Now imagine we just have 100 observations. We can then utilize the bootstrap resampling method to create $B \times n$ more data. Let us generate $B = 100$ data sets each of size n and see how the our parameters of interest change with polynomial degree as seen in figures \ref{fig:MSEBOOT1} and \ref{fig:BVBOOT1}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBOOT_n1000_p10_noise0001_ts025_B100_shuffles.PNG}
+\caption{\label{fig:MSEBOOT1} MSE as a function of polynomial degree using the bootstrap resampling method. Here we have 100 observations while we generate 100 bootstrap samples with a noise level of $0.001$ and a $75/25$ train test split.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotBOOT_n1000_p10_noise0001_ts025_B100_shuffles.PNG}
+\caption{\label{fig:BVBOOT1} Bias and variance decomposition of figure \ref{fig:MSEBOOT1}. The bias and variance change as a function of polynomial degree using the bootstrap resampling method. Here we have 100 observations while we generate 100 bootstrap samples with a noise level of $0.001$ and a $75/25$ train test split.}
+\end{figure}
+
+\noindent We can observe that the bias starts high, but tends towards zero when we increase the complexity of our model. This is because a low order polynomial would be unable to fit the complex structure of the Franke function, thus making the difference between our predicted Franke function and the actual Franke function large. With an large increase in polynomial degree, we can fit the model arbitrarily close to the actual Franke function. 
+\\
+The variance behaves almost the opposite of the bias as it starts very low, but increases exponentially as we increase the complexity. This is because a low order polynomial would manage to somewhat predict the test data, even if the prediction is horrible. When we increase the complexity, the model is unable to accurately predict the test data because the model is over fitting the model to the data of the training set. 
+\\
+We can also see that the minimum MSE in figure \ref{fig:MSEBOOT1} corresponds to the same polynomial as that of figure \ref{fig:BVBOOT1}, strengthening our trust in the models predictive capabilities, but what would happen if we were to decrease the number of bootstrap samples? Let us now generate a new model where all the parameters are the same as of the previous one, but where we only generate 10 bootstrap samples. Then we get something akin to figure \ref{fig:MSEBOOT2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBOOT_n1000_p10_noise0001_ts025_B10_shuffles.PNG}
+\caption{\label{fig:MSEBOOT2} MSE as a function of polynomial degree using the bootstrap resampling method. Here we have 100 observations while we generate 10 bootstrap samples with a noise level of $0.001$ and a $75/25$ train test split.}
+\end{figure}
+
+\noindent We can observe from figure \ref{fig:MSEBOOT2} that the point of lowest MSE is now at $p = 3$ which is lower than the one observed in figure \ref{fig:MSEBOOT1}. This is because more data means that the model can be trained more without overfitting the model. Thus, when we decrease the number of observations (or bootstrap samples in this case), we lower the threshold for when the model becomes overfit. This again means that a lower degree of polynomial is the ideal complexity for the model. 
+\\
+What is also observed from the code when using a low amount of bootstrap samples is that the model becomes increasingly unstable. This is because the bootstrap MSE relies on the mean of the B generated statistics. If we only generate a few bootstrap samples, the mean is more prone to randomness, which in turn means the algorithm is unstable. For this reason and the one described above (more data is good), we want to stick with 100 bootstrap samples from here on out.
+
+\newpage
+
+\noindent \textbf{c)} qqq 
+
 
 \newpage
 

@@ -50,11 +50,6 @@ def MSE(y_data, y_pred):
     n = np.size(y_pred)
     return (np.sum((y_data-y_pred)**2))/n
 
-def cost(y_data,y_pred,z_pred,z):
-    n = np.size(z)
-    costly = (np.sum((z - np.mean(z_pred)) ** 2))/n + (np.sum((z_pred - np.mean(z_pred)) ** 2))/n
-    return costly
-
 def calc_Variance(Y_test_pred,z_pred,n):
     var = (np.sum((Y_test_pred - np.mean(z_pred))**2))/np.size(Y_test_pred)
     return var
@@ -101,16 +96,6 @@ def FrankPlotDiff(x,y,z,z2,plot):
         fig.colorbar(surf, shrink=0.5, aspect=5)
         plt.show()
 
-def Scale(X_train, X_test, scalee):
-    if scalee == True:
-        scaler = StandardScaler()
-        X_train_scale = scaler.fit_transform(X_train)
-        X_test_scale = scaler.transform(X_test)
-    else:
-        X_train_scale = X_train
-        X_test_scale = X_test
-    return X_train_scale, X_test_scale
-
 def Scale2(designMatrix, scalee):
     if scalee == True:
         designMatrix_scale = (designMatrix-np.mean(designMatrix))/ np.std(designMatrix)
@@ -139,23 +124,7 @@ def StdPolyRidge(X_train, X_test, Y_train, _Ytest, lamb):
     Y_train_pred = X_train @ betas
     Y_test_pred = X_test @ betas
 
-    #print(R2(Y_test,Y_test_pred))
-
     return Y_train_pred, Y_test_pred, betas
-
-def designMatrixFunc(x, y, poly):
-    if poly >= 2:
-        p = np.arange(1,poly+1)
-        preds = np.c_[x.ravel(), y.ravel()]
-        for p in p:
-            designMatrix = PolynomialFeatures(p).fit_transform(preds)
-            params = PolynomialFeatures(p).get_params(deep=True)
-    else:
-        p = poly
-        preds = np.c_[x.ravel(), y.ravel()]
-        designMatrix = PolynomialFeatures(p).fit_transform(preds)
-        params = PolynomialFeatures(p).get_params(deep=True)
-    return designMatrix, params
 
 def designMatrixFunc2(x, y, poly, noiseLVL):
 
@@ -163,47 +132,8 @@ def designMatrixFunc2(x, y, poly, noiseLVL):
     dx = PolynomialFeatures(degree=poly, include_bias=False).fit_transform(preds)
     noise = float(noiseLVL)*np.random.randn(len(dx),len(dx[0]))
     designMatrix = dx + noise
-    data = np.column_stack((np.ones((len(designMatrix),1)), designMatrix))
 
-    return data
-
-def sciKitSplit(designMatrix,z,testsize,shufflezzz):
-
-    X_train, X_test, Y_train, Y_test = train_test_split(designMatrix, z, test_size=testsize, random_state=13, shuffle=shufflezzz)
-    return X_train, X_test, Y_train, Y_test
-
-def realSplit(designMatrix,z,testsize,i,rn, shufflezzz):
-
-    n = len(designMatrix)
-
-    designMatrix2 = np.array(designMatrix)
-    z2 = np.array(z)
-    Xtest = np.zeros((int(testsize*n), len(designMatrix2[0])))
-    Ytest = np.zeros(int(testsize*n))
-    if i == 0:
-        randomNumber = np.random.choice(n, size = round(testsize*n), replace = False)
-    else:
-        randomNumber = rn
-
-    for i in range(len(randomNumber)):
-        Xtest[i] = designMatrix2[randomNumber[i], :]
-        Ytest[i] = z2[randomNumber[i]]
-
-    Xtrain = np.delete(designMatrix2, randomNumber, 0)
-    Ytrain = np.delete(z2, randomNumber)
-
-    if i == 0:
-        data = np.column_stack((Xtrain, Ytrain))
-        np.random.shuffle(data)
-        randomNumber2 = np.random.randint(len(data[0]),size=1)
-        Ytrain = data[:,int(randomNumber2)]
-        Xtrain = np.delete(data,int(randomNumber2),1)
-        '''''''''''
-    else:
-        np.random.shuffle(Xtrain)
-        np.random.shuffle(Ytrain)
-'''''
-    return Xtrain, Xtest, Ytrain, Ytest, randomNumber
+    return designMatrix
 
 def realSplit2(designMatrix,z,testsize,i,rn, shufflezzz):
 
@@ -308,44 +238,58 @@ def bootStrap(designMatrix_poly,n,tp,lamb, figureInp, testSize,z):
 
     return bias, variance, MSE_train_poly, MSE_test_poly, betas_poly
 
-def CV(XX,z,n,k,scaleInp,tp,lamb):
-    fold = k
+def CV(XX,z,n,k,scaleInp,tp,lamb,rn,p):
+    # Declaring variables
+    fold = int(n/k)
     z_rep = np.array(z)
     z_rep2 = np.array(z)
-    bias = np.zeros(int(len(XX)/fold))
-    variance = np.zeros(int(len(XX)/fold))
-    MSE_train = np.zeros(int(len(XX)/fold))
-    MSE_test = np.zeros(int(len(XX)/fold))
-    designMatrix = Scale2(XX, scalee=scaleInp)
-    designMatrix_rep = designMatrix
-    designMatrix_rep2 = designMatrix
+    bias = np.zeros(int(fold))
+    variance = np.zeros(int(fold))
+    MSE_train = np.zeros(int(fold))
+    MSE_test = np.zeros(int(fold))
+    designMatrix_rep = XX
+    designMatrix_rep2 = XX
+    placesss = np.zeros(k)
 
-    for i in range(int(len(designMatrix)/fold)):
+    # Make sure to only shuffle the first iteration, so the test set chosen for each polynomial is the same
+    for i in range(int(fold)):
+        if p == 0:
+            randRow = np.random.choice(len(designMatrix_rep), size=k, replace=False)
+        else:
+            randRow = rn
 
-        randRow = np.random.choice(len(designMatrix_rep), size=fold, replace=False)
+        # Choose random observations to be the test set
         Xtest = designMatrix_rep[randRow,:]
-        Ytest = z_rep[randRow]
-        Xtrain = np.delete(designMatrix,randRow,0)
-        Ytrain = np.delete(z,randRow)
+        Ytest = z_rep[randRow,:]
 
-        z = z_rep2
-        designMatrix = designMatrix_rep2
+        # The data that is not the test set is then the training set
+        for j in range(len(Xtest)):
+            place = np.where((designMatrix_rep2 == Xtest[j,:]))
+            placesss[j] = np.mean(place[0]).astype(int)
 
-        np.delete(designMatrix_rep,randRow,0)
-        np.delete(z_rep, randRow)
+        Xtrain = np.delete(designMatrix_rep2, placesss.astype(int), axis=0)
+        Ytrain = np.delete(z_rep2, placesss.astype(int), axis=0)
 
+        # Deleting observations such that no observations is used as test set more than once
+        z_rep2 = z
+        designMatrix_rep2 = XX
+        designMatrix_rep = np.delete(designMatrix_rep,randRow,axis=0)
+        z_rep = np.delete(z_rep, randRow,axis=0)
+
+        # Type of linear regression to use
         if tp == 'OLS':
             Ytrain_pred, Ytest_pred, betas = StdPolyOLS(Xtrain, Xtest, Ytrain, Ytest)
         elif tp == 'Ridge':
             Ytrain_pred, Ytest_pred, betas = StdPolyRidge(Xtrain, Xtest, Ytrain, Ytest,lamb)
 
-        bias[i] = calc_bias(Ytest, Ytest_pred, n)
+        # Calculate statistics
+        z_pred = XX @ betas
+        bias[i] = calc_bias(Ytrain, Ytrain_pred, n)
         variance[i] = calc_Variance(Ytest, Ytest_pred, n)
         MSE_train[i] = MSE(Ytrain, Ytrain_pred)
         MSE_test[i] = MSE(Ytest, Ytest_pred)
 
-
-    return bias, variance, MSE_train, MSE_test
+    return bias, variance, MSE_train, MSE_test, randRow
 
 def MSEplot(MSE_train_poly,MSE_test_poly,poly):
     xxx = np.arange(1, poly+1, 1)
@@ -360,24 +304,7 @@ def MSEplot(MSE_train_poly,MSE_test_poly,poly):
                  fontweight="bold")
     plt.ylabel('MSE', fontsize=20)
     plt.xlabel('Polynomial degree (complexity)', fontsize=20)
-    plt.legend(loc="lower left", prop={'size': 20})
-    plt.show()
-
-def MSEplotCV(regCV,CV,MSE_train_poly,MSE_test_poly,CVN):
-    xxx = CVN
-    plt.plot(xxx, MSE_train_poly, label="Train MSE", linewidth=4)
-    plt.plot(xxx, MSE_test_poly, label="Test MSE", linewidth=4)
-    plt.plot(CV, regCV, label="Test MSE (Scikit)", linewidth=4)
-    plt.xticks(xxx)
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
-    #MSE_min_test = MSE_test_poly.argmin()
-    #plt.plot(xxx[MSE_min_test], MSE_test_poly[MSE_min_test], 'o', markersize=10, label="Lowest test MSE")
-    plt.suptitle('Training and test MSE as a function of fold size', fontsize=25,
-                 fontweight="bold")
-    plt.ylabel('MSE', fontsize=20)
-    plt.xlabel('Fold size', fontsize=20)
-    plt.legend(loc="lower right", prop={'size': 20})
+    plt.legend(loc="upper left", prop={'size': 20})
     plt.show()
 
 def BVPlot(bias,variance,poly):
@@ -394,5 +321,5 @@ def BVPlot(bias,variance,poly):
                  fontweight="bold")
     plt.ylabel('Value', fontsize=20)
     plt.xlabel('Polynomial degree (complexity)', fontsize=20)
-    plt.legend(loc="upper right", prop={'size': 20})
+    plt.legend(loc="upper left", prop={'size': 20})
     plt.show()

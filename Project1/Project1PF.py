@@ -10,7 +10,7 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import sklearn.linear_model as skl
 from FunctionsDef import inputsss, FrankeFunc, MSE, R2,StdPolyOLS, designMatrixFunc2,\
     betaConfidenceInterval, MSEplot, calc_Variance, calc_bias, BVPlot, Scale2,FrankPlot,\
-    bootStrap, CV, realSplit2, FrankPlotDiff
+    bootStrap, CV, realSplit2, FrankPlotDiff, StdPolyRidge, MSEplotSame, BVPlotSame, BetasPlot, BetasPlot2d
 import scipy.stats
 from mlxtend.evaluate import bias_variance_decomp
 from sklearn import datasets, linear_model
@@ -173,7 +173,70 @@ elif (str(part) == "c" or str(part) == "all"):
 
 elif (str(part) == "d" or str(part) == "all"):
 
-    print("Coming")
+    # Exercise 1d)
+    B = input("This exercise utilizes a bootstrap resampling method that generates B sets of data of size n. How many sets should be generated? (integer)")
+    lamb = [0.00001,0.0001,0.001,0.01,0.1,1]
+    MSE_train = np.zeros(int(B))
+    MSE_test = np.zeros(int(B))
+    bias = np.zeros(int(B))
+    variance = np.zeros(int(B))
+    MSE_train_boot = np.zeros(poly)
+    MSE_test_boot = np.zeros(poly)
+    MSE_train_lamb = np.zeros((len(lamb),poly))
+    MSE_test_lamb = np.zeros((len(lamb),poly))
+    bias_boot = np.zeros(poly)
+    variance_boot = np.zeros(poly)
+    bias_lamb = np.zeros((len(lamb),poly))
+    variance_lamb = np.zeros((len(lamb),poly))
+
+    rn = 0
+    dexxer = 0
+
+    for f in lamb:
+        print(dexxer)
+        for k in range(poly):
+            # Setting up the polynomial design matrix with/without noise
+            designMatrix = designMatrixFunc2(x, y, k + 1, noiseLVL)
+
+            # Scaling the data by subtracting mean and divide by standard deviation
+            designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
+
+            designMatrixBoot = np.zeros((len(designMatrix), len(designMatrix[0])))
+            estimated = np.zeros((n, n, int(B)))
+
+            for i in range(int(B)):
+                for j in range(len(designMatrix_scale[0])):
+                    designMatrixBoot[:, j] = np.random.choice(designMatrix_scale[:, j], size=len(designMatrix), replace=True)
+
+
+                # Splitting the data into training and test sets
+                X_train, X_test, Y_train, Y_test, randomNumber = realSplit2(designMatrixBoot, z, testSize, 0, rn, True)
+                rn = randomNumber
+                # Performing ordinary least squares (OLS)
+                Y_train_pred, Y_test_pred, betas = StdPolyRidge(X_train, X_test, Y_train, Y_test,f)
+
+                z_pred = designMatrix_scale @ betas
+                estimated[:, :, i] = designMatrixBoot @ betas
+                MSE_train[i] = MSE(Y_train, Y_train_pred)
+                MSE_test[i] = MSE(Y_test, Y_test_pred)
+                bias[i] = calc_bias(Y_train, Y_train_pred, n)
+                variance[i] = calc_Variance(Y_test_pred, z_pred, n)
+
+            MSE_train_boot[k] = np.mean(MSE_train)
+            MSE_test_boot[k] = np.mean(MSE_test)
+            bias_boot[k] = np.mean(bias)
+            variance_boot[k] = np.mean(variance)
+
+        MSE_train_lamb[dexxer,:] = MSE_train_boot
+        MSE_test_lamb[dexxer,:] = MSE_test_boot
+        bias_lamb[dexxer,:] = bias_boot
+        variance_lamb[dexxer,:] = variance_boot
+
+        dexxer += 1
+
+    if figureInp == True:
+        MSEplotSame(MSE_train_lamb,MSE_test_lamb,poly,lamb)
+        BVPlotSame(bias_lamb,variance_lamb,poly,lamb)
 
 elif (str(part) == "e" or str(part) == "all"):
 
@@ -181,35 +244,44 @@ elif (str(part) == "e" or str(part) == "all"):
 
 elif (str(part) == "test" or str(part) == "all"):
 
-    # I want to check the MSE for LOOCV, 5-fold, 10-fold and 25-fold CV
-    CVN = int(input("Here we aim to use the cross-validation resampling method. What is the fold size? (integer between 1 and n/2)"))
+    # Exercise 1d)
+    B = input("This exercise utilizes a bootstrap resampling method that generates B sets of data of size n. How many sets should be generated? (integer)")
+    lamb = [0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000]
 
-    # Declaring variables
-    biasCV = np.zeros(poly)
-    varianceCV = np.zeros(poly)
-    MSE_train_CV = np.zeros(poly)
-    MSE_test_CV = np.zeros(poly)
     rn = 0
+    dexxer = 0
+    designMatrixxx = designMatrixFunc2(x, y, poly, noiseLVL)
+    betas_boot = np.zeros((len(designMatrixxx[0]),n,int(B)))
+    betas_lamb = np.zeros((len(designMatrixxx[0]),n,len(lamb)))
 
-    # Using CV to create test and train data and then calculate and plot the MSE
-    for i in range(poly):
-        # Setting up the design matrix
-        designMatrix = designMatrixFunc2(x, y, i+1, noiseLVL)
+    for f in lamb:
+        print(dexxer)
+        # Setting up the polynomial design matrix with/without noise
+        designMatrix = designMatrixFunc2(x, y, poly, noiseLVL)
 
         # Scaling the data by subtracting mean and divide by standard deviation
         designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
 
-        # Performing CV with OLS
-        bias, variance, MSE_train, MSE_test, randRow = CV(designMatrix_scale,z,n,CVN,scaleInp, 'OLS', 0,rn,i)
-        rn = randRow
-        # Calculate average means for each fold
-        biasCV[i] = np.mean(bias)
-        varianceCV[i] = np.mean(variance)
-        MSE_train_CV[i] = np.mean(MSE_train)
-        MSE_test_CV[i] = np.mean(MSE_test)
+        designMatrixBoot = np.zeros((len(designMatrix), len(designMatrix[0])))
 
+        for i in range(int(B)):
+            for j in range(len(designMatrix_scale[0])):
+                designMatrixBoot[:, j] = np.random.choice(designMatrix_scale[:, j], size=len(designMatrix),replace=True)
 
-    # Plot the MSE for each fold
+            # Splitting the data into training and test sets
+            X_train, X_test, Y_train, Y_test, randomNumber = realSplit2(designMatrixBoot, z, testSize, 0, rn, True)
+            rn = randomNumber
+            # Performing ordinary least squares (OLS)
+            Y_train_pred, Y_test_pred, betas = StdPolyRidge(X_train, X_test, Y_train, Y_test, f)
+
+            betas_boot[:,:,i] = betas
+
+        betas_lamb[:,:,dexxer] = np.mean(betas_boot,axis=2)
+        dexxer += 1
+    betascool = np.zeros((len(betas_lamb[0]), len(lamb)))
+    for q in range(len(betas_lamb[0])):
+        betascool[q, :] = betas_lamb[q,q,:]
+    #betascool = betas_lamb[7,:,:]
     if figureInp == True:
-        MSEplot(MSE_train_CV, MSE_test_CV, poly)
-        BVPlot(biasCV,varianceCV,poly)
+        #BetasPlot(betas_lamb,lamb)
+        BetasPlot2d(betascool,lamb)

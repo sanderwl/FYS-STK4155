@@ -119,7 +119,7 @@ def StdPolyOLS(X_train, X_test, Y_train, Y_test):
 def StdPolyRidge(X_train, X_test, Y_train, _Ytest, lamb):
 
     # Ridge using matrix inversion
-    betas = np.linalg.pinv(X_train.T @ X_train + lamb @ np.identity(len(X_train))) @ X_train.T @ Y_train
+    betas = np.linalg.pinv(X_train.T @ X_train + (lamb * np.identity(len(X_train[0])))) @ X_train.T @ Y_train
     # Predict the response
     Y_train_pred = X_train @ betas
     Y_test_pred = X_test @ betas
@@ -285,7 +285,7 @@ def CV(XX,z,n,k,scaleInp,tp,lamb,rn,p):
         # Calculate statistics
         z_pred = XX @ betas
         bias[i] = calc_bias(Ytrain, Ytrain_pred, n)
-        variance[i] = calc_Variance(Ytest, Ytest_pred, n)
+        variance[i] = calc_Variance(Ytest_pred, z_pred, n)
         MSE_train[i] = MSE(Ytrain, Ytrain_pred)
         MSE_test[i] = MSE(Ytest, Ytest_pred)
 
@@ -307,6 +307,25 @@ def MSEplot(MSE_train_poly,MSE_test_poly,poly):
     plt.legend(loc="upper left", prop={'size': 20})
     plt.show()
 
+def MSEplotSame(MSE_train_poly,MSE_test_poly,poly,lamb):
+    xxx = np.arange(1, poly+1, 1)
+    for i in range(len(lamb)):
+        numsTrain = "Train MSE for lambda = " + str(lamb[i])
+        numsTest = "Test MSE for lambda = " + str(lamb[i])
+        plt.plot(xxx, MSE_train_poly[i,:], label=numsTrain, linewidth=4)
+        plt.plot(xxx, MSE_test_poly[i,:], '--', label=numsTest, linewidth=4)
+    plt.xticks(xxx)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    #MSE_min_test = MSE_test_poly.argmin()
+    #plt.plot(xxx[MSE_min_test], MSE_test_poly[MSE_min_test], 'o', markersize=10, label="Lowest test MSE")
+    plt.suptitle('Training and test MSE as a function of model complexity and lambda', fontsize=25,
+                 fontweight="bold")
+    plt.ylabel('MSE', fontsize=20)
+    plt.xlabel('Polynomial degree (complexity)', fontsize=20)
+    plt.legend(loc="upper left", prop={'size': 15})
+    plt.show()
+
 def BVPlot(bias,variance,poly):
     xxx = np.arange(1, poly+1, 1)
     plt.plot(xxx, bias, label="Bias squared", linewidth=5)
@@ -322,4 +341,60 @@ def BVPlot(bias,variance,poly):
     plt.ylabel('Value', fontsize=20)
     plt.xlabel('Polynomial degree (complexity)', fontsize=20)
     plt.legend(loc="upper left", prop={'size': 20})
+    plt.show()
+
+def BVPlotSame(bias,variance,poly,lamb):
+    xxx = np.arange(1, poly+1, 1)
+    for i in range(len(lamb)):
+        numsTrain = "Bias squared for lambda = " + str(lamb[i])
+        numsTest = "Variance for lambda = " + str(lamb[i])
+        plt.plot(xxx, bias[i,:], label=numsTrain, linewidth=4)
+        plt.plot(xxx, variance[i,:], '--', label=numsTest, linewidth=4)
+
+    #plt.plot(xxx, bias + variance, label="Bias + variance", linewidth=2)
+    plt.xticks(xxx)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    #MSE_min_test = (bias + variance).argmin()
+    #plt.plot(xxx[MSE_min_test], (bias + variance)[MSE_min_test], 'o', markersize=10, label="Lowest MSE")
+    plt.suptitle('Bias and variance as a function of polynomial degree', fontsize=25,
+                 fontweight="bold")
+    plt.ylabel('Value', fontsize=20)
+    plt.xlabel('Polynomial degree (complexity)', fontsize=20)
+    plt.legend(loc="upper left", prop={'size': 15})
+    plt.show()
+
+def BetasPlot(betas_lamb,lamb):
+    xxx = np.log10(lamb)
+    for i in range(len(betas_lamb)):
+        for j in range(len(betas_lamb[0])):
+            plt.plot(xxx, betas_lamb[i,j,:], linewidth=3)
+
+    #plt.plot(xxx, bias + variance, label="Bias + variance", linewidth=2)
+    plt.xticks(xxx)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    #MSE_min_test = (bias + variance).argmin()
+    #plt.plot(xxx[MSE_min_test], (bias + variance)[MSE_min_test], 'o', markersize=10, label="Lowest MSE")
+    plt.suptitle('Beta values for ridge regression as function of lambda', fontsize=25, fontweight="bold")
+    plt.ylabel('Beta value', fontsize=20)
+    plt.xlabel('Logarithmic values of lambda', fontsize=20)
+    #plt.legend(loc="upper left", prop={'size': 15})
+    plt.show()
+
+def BetasPlot2d(betas_lamb,lamb):
+    xxx = np.log10(lamb)
+    for i in range(len(betas_lamb)):
+        plt.plot(xxx, betas_lamb[i,:], linewidth=3)
+
+    #plt.plot(xxx, bias + variance, label="Bias + variance", linewidth=2)
+    plt.xticks(xxx)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    #MSE_min_test = (bias + variance).argmin()
+    #plt.plot(xxx[MSE_min_test], (bias + variance)[MSE_min_test], 'o', markersize=10, label="Lowest MSE")
+    plt.suptitle('Beta values for ridge regression as function of lambda', fontsize=25, fontweight="bold")
+    plt.ylabel('Beta value', fontsize=20)
+    plt.xlabel('Logarithmic values of lambda', fontsize=20)
+    #plt.legend(loc="upper left", prop={'size': 15})
     plt.show()

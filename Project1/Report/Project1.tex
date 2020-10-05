@@ -335,8 +335,85 @@ What is also observed from the code when using a low amount of bootstrap samples
 
 \newpage
 
-\noindent \textbf{c)} qqq 
+\noindent \textbf{c)} We will now introduce another resampling method called cross-validation (CV) and repeat the analysis of the previous exercise. The cross-validation resampling method, like the bootstrap, also aims to create more data out of thin air. However, the process is quite different than that of the bootstrap. The main idea behind the CV is to divide the original data set into k different data sets, or folds as they are called, and then let the kth fold act as the test set while the other k-1 folds acts as the training sets. A model is then fit for each permutation and a statistic is calculated. Then, another fold will act as the test set while the others will act as the training set. This process repeats until every fold has been used as a test set and a statistic for each permutation is calculated. The average of the k different statistic is then calculated and is said to represent the actual statistic of the original data set. 
+\\
+It is typical to have 10, 5 or n different folds and the CV process is then referred to as 10-fold, 5-fold and leave one out (LOOCV) cross-validation methods. The LOOCV is a special case of the CV method where each observations acts as the test set once and this process is sketched in figure \ref{fig:CVsketch}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/CVSketch.PNG}
+\caption{\label{fig:CVsketch} A rough sketch of the LOOCV process. The n observations acts as the test set once (purple squares) while the other $n-1$ observations acts as the training set (white squares). The model is then fit on each distinct permutation and a statistic is calculated (MSE in this project). Finally, an average of the k different statistics is calculated and will represent the statistic of the original data set.}
+\end{figure}
+
+\noindent We now want to repeat the process from the previous exercise where we see look at MSE as a function of polynomial degree for the 5-fold, 10-fold and leave one out cross-validations. Let us start with the 10-fold CV which is plotted in figure \ref{fig:MSECV1}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV10_shuffles.PNG}
+\caption{\label{fig:MSECV1} MSE as a function of polynomial degree up to 10 using the cross-validation resampling method. Here we have 100 observations while we split the data into 10 different folds with a noise level of $0.001$.}
+\end{figure}
+
+\noindent We can observe from figure \ref{fig:MSECV1} that the MSE is at its lowest for $p = 4$, similar to the MSE for the bootstrap resampling method in figure \ref{fig:MSEBOOT1}. We can decompose the MSE into its bias and variance components as done in figure \ref{fig:BVCV1}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV10.PNG}
+\caption{\label{fig:BVCV1} Bias and variance decomposition of figure \ref{fig:MSECV1}. The bias and variance change as a function of polynomial degree using the CV resampling method. Here we have 100 observations while we use 10-fold CV with a noise level of $0.001$.}
+\end{figure}
+
+\noindent It can be confirmed from figure \ref{fig:BVCV1} that the lowest MSE is found at $p = 4$ polynomial degrees. The bias and variance behaves similar to that of bootstrap as seen in figure \ref{fig:BVBOOT1}. 
+\\
+We now want to see what happens when we set the number of folds k equal to 5 and the result is shown in figures \ref{fig:MSECV2} and \ref{fig:BVCV2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV5_shuffles.PNG}
+\caption{\label{fig:MSECV2} MSE as a function of polynomial degree up to 10 using the cross-validation resampling method. Here we have 100 observations while we split the data into 5 different folds with a noise level of $0.001$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV5.PNG}
+\caption{\label{fig:BVCV2} Bias and variance decomposition of figure \ref{fig:MSECV1}. The bias and variance change as a function of polynomial degree using the CV resampling method. Here we have 100 observations while we use 5-fold CV with a noise level of $0.001$.}
+\end{figure}
+
+\noindent What we observe when comparing figure \ref{fig:MSECV1} to figure \ref{fig:MSECV2} and figure \ref{fig:BVCV1} to figure \ref{fig:BVCV2} is that the bias looks the same, but the variance increases at a lower rate when using 5-fold CV rather than 10-fold CV. As a result, the MSE is lower at higher polynomials, thus decreasing the risk of overfitting. We can continue this examination by seeing what happens when we use LOOCV as in figure \ref{fig:MSECV3} and \ref{fig:BVCV3}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV1_shuffles.PNG}
+\caption{\label{fig:MSECV3} MSE as a function of polynomial degree up to 10 using the cross-validation resampling method. Here we have 100 observations while we split the data into n different folds with a noise level of $0.001$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV1.PNG}
+\caption{\label{fig:BVCV3} Bias and variance decomposition of figure \ref{fig:MSECV1}. The bias and variance change as a function of polynomial degree using the CV resampling method. Here we have 100 observations while we use LOOCV with a noise level of $0.001$.}
+\end{figure}
+
+\noindent Like previously discussed, the slope of the variance is less steep than that of the 10 and 5-fold CVs, and the MSE is therefore lower at higher polynomial degrees. The reason for this effect is that decreasing the fold size "creates" more data out of thin air, and having more data means that we could fit higher order polynomials without over-fitting, as previously discussed. This is observed from figures \ref{fig:MSECV3} and \ref{fig:BVCV3} as the lowest MSE is located at $p = 5$ instead of $p = 4$ as seen for higher folds. This effect could possibly also be achieved using bootstrap if we used more than 100 bootstrap samples. The two different methods seems to yield similar result which strengthen our believe in the resampling methods. This allows us to proceed to other linear regression schemes in the coming exercises.
+
+\newpage
+
+\noindent \textbf{d)} We have only utilized the ordinary least squares (OLS) regression scheme so far, but now we want to utilize two different shrinkage methods, namely the Ridge and Lasso regression schemes. We will start by looking at the Ridge regression scheme and then proceed to Lasso in the next exercise. 
+\\
+Shrinkage methods like Ridge aim to find which variables are significant and which variables are not, and then removing the influence of the in-significant variables by either setting them to zero (Lasso) or close to zero (Ridge). This is done by adding the shrinkage factor $\lambda$ to both sides of the OLS equation (equation \ref{eq:LinReg}) such that
+
+\begin{equation}\label{eq:RidgeDerive}
+\begin{aligned}
+\boldsymbol{\hat{y}}_{Ridge} + \lambda |\boldsymbol{\beta}|^2 = \textbf{X}\boldsymbol{\beta} + \lambda  |\boldsymbol{\beta}|^2
+\end{aligned}
+\end{equation}
+
+\noindent Solving equation \ref{eq:RidgeDerive} for the regression coefficients $\boldsymbol{\beta}$ yields
+
+\begin{equation}\label{eq:RidgeDerive2}
+\begin{aligned}
+\boldsymbol{\beta} = (\textbf{X}^T \textbf{X} + \lambda \textbf{I})^{-1} \textbf{X}^T \boldsymbol{\hat{y}}_{Ridge}
+\end{aligned}
+\end{equation}
+
+\noindent Where $\textbf{I}$ is the identity matrix. We can then repeat the analysis of exercises a through c, but this time using equation \ref{eq:RidgeDerive2} to train the data. 
 
 \newpage
 

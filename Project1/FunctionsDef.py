@@ -9,6 +9,7 @@ import sklearn.linear_model as skl
 import scipy.stats
 from numpy import array
 from mlxtend.evaluate import bias_variance_decomp
+import matplotlib.patches as mpatches
 
 def inputsss():
     observations = input("Enter number of observations n (integer): ")
@@ -116,10 +117,11 @@ def StdPolyOLS(X_train, X_test, Y_train, Y_test):
 
     return Y_train_pred, Y_test_pred, betas
 
-def StdPolyRidge(X_train, X_test, Y_train, _Ytest, lamb):
+def StdPolyRidge(X_train, X_test, Y_train, Ytest, lamb):
 
     # Ridge using matrix inversion
-    betas = np.linalg.pinv(X_train.T @ X_train + (lamb * np.identity(len(X_train[0])))) @ X_train.T @ Y_train
+    diag = np.eye(len(X_train.T @ X_train))
+    betas = np.linalg.pinv((X_train.T @ X_train) + (lamb * diag)) @ X_train.T @ Y_train
     # Predict the response
     Y_train_pred = X_train @ betas
     Y_test_pred = X_test @ betas
@@ -250,6 +252,7 @@ def CV(XX,z,n,k,scaleInp,tp,lamb,rn,p):
     designMatrix_rep = XX
     designMatrix_rep2 = XX
     placesss = np.zeros(k)
+    betasCV = np.zeros((len(XX[0]),n,int(fold)))
 
     # Make sure to only shuffle the first iteration, so the test set chosen for each polynomial is the same
     for i in range(int(fold)):
@@ -275,7 +278,6 @@ def CV(XX,z,n,k,scaleInp,tp,lamb,rn,p):
         designMatrix_rep2 = XX
         designMatrix_rep = np.delete(designMatrix_rep,randRow,axis=0)
         z_rep = np.delete(z_rep, randRow,axis=0)
-
         # Type of linear regression to use
         if tp == 'OLS':
             Ytrain_pred, Ytest_pred, betas = StdPolyOLS(Xtrain, Xtest, Ytrain, Ytest)
@@ -288,8 +290,9 @@ def CV(XX,z,n,k,scaleInp,tp,lamb,rn,p):
         variance[i] = calc_Variance(Ytest_pred, z_pred, n)
         MSE_train[i] = MSE(Ytrain, Ytrain_pred)
         MSE_test[i] = MSE(Ytest, Ytest_pred)
+        betasCV[:,:,i] = betas
 
-    return bias, variance, MSE_train, MSE_test, randRow
+    return bias, variance, MSE_train, MSE_test, randRow, betasCV
 
 def MSEplot(MSE_train_poly,MSE_test_poly,poly):
     xxx = np.arange(1, poly+1, 1)
@@ -384,7 +387,8 @@ def BetasPlot(betas_lamb,lamb):
 
 def BetasPlot2d(betas_lamb,lamb):
     xxx = np.log10(lamb)
-    for i in range(len(betas_lamb)):
+    polyd = len(betas_lamb)
+    for i in range(polyd):
         plt.plot(xxx, betas_lamb[i,:], linewidth=3)
 
     #plt.plot(xxx, bias + variance, label="Bias + variance", linewidth=2)
@@ -396,5 +400,37 @@ def BetasPlot2d(betas_lamb,lamb):
     plt.suptitle('Beta values for ridge regression as function of lambda', fontsize=25, fontweight="bold")
     plt.ylabel('Beta value', fontsize=20)
     plt.xlabel('Logarithmic values of lambda', fontsize=20)
-    #plt.legend(loc="upper left", prop={'size': 15})
+    plt.legend(loc="upper right", prop={'size': 15})
+    plt.show()
+
+def BetasPlot2d2(betas_lamb,lamb):
+    xxx = np.log10(lamb)
+    polyd = len(betas_lamb)
+    for i in range(polyd):
+        if (i<=1):
+            cr = "r"
+            count1 = 1
+        elif (2<=i<=4):
+            cr = "g"
+        elif (5<=i<=8):
+            cr = "b"
+        elif (9<=i<=13):
+            cr = "c"
+        elif (14<=i<=19):
+            cr = "m"
+        plt.plot(xxx, betas_lamb[i,:], cr, linewidth=3)
+
+    plt.xticks(xxx)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.suptitle('Beta values for ridge regression as function of lambda', fontsize=25, fontweight="bold")
+    plt.ylabel('Beta value', fontsize=20)
+    plt.xlabel('Logarithmic values of lambda', fontsize=20)
+    red_patch = mpatches.Patch(color='red', label='First degree')
+    green_patch = mpatches.Patch(color='green', label='Second degree')
+    blue_patch = mpatches.Patch(color='blue', label='Third degree')
+    cyan_patch = mpatches.Patch(color='cyan', label='Fourth degree')
+    magenta_patch = mpatches.Patch(color='magenta', label='Fifth degree')
+
+    plt.legend(handles=[red_patch, green_patch, blue_patch, cyan_patch,magenta_patch], loc="upper right", prop={'size': 15})
     plt.show()

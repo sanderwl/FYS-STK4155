@@ -414,6 +414,114 @@ Shrinkage methods like Ridge aim to find which variables are significant and whi
 \end{equation}
 
 \noindent Where $\textbf{I}$ is the identity matrix. We can then repeat the analysis of exercises a through c, but this time using equation \ref{eq:RidgeDerive2} to train the data. 
+\\
+First let us investigate how the MLE of the Ridge regression changes as a function of different polynomial degrees. If we again repeat the exact experiment as in exercise b), that is a original data set consisting of 100 observations, a noise level of $0.001$, a train/test split of $75/25$ and with 100 bootstrap iterations we obtain figure \ref{fig:MSERidgeBoot3}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBOOT_n100_p10_noise0001_B100_RIDGE.PNG}
+\caption{\label{fig:MSERidgeBoot3} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the bootstrap resampling method with 100 iterations. Here we have 100 observations while we split the data into $75/25$ train/test split with a noise level of $0.001$.}
+\end{figure}
+
+\noindent It can be observed from figure \ref{fig:MSERidgeBoot3} that the training MSE goes towards zero regardless of the $\lambda$-value. The test MSE initially decreases to some value of p, but will eventually start to increase. The increase seems to be dependent on the value of $\lambda$, as lower values seem to increase faster than the higher values of $\lambda$. We can observe that the test MSE for $\lambda = 10$ never seems to increase, while the test MSE for $\lambda = 0.001$ seems to increase drastically after $p = 5$. Again, it seems that $p = 5$ is the polynomial degree of minimum MSE. We can decompose figure \ref{fig:MSERidgeBoot3} into its bias and variance components as done in figure \ref{fig:BVRidge1}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotBOOT_n100_p10_noise0001_ts025_B100_RIDGE.PNG}
+\caption{\label{fig:BVRidge1} Bias and variance decomposition of figure \ref{fig:MSERidgeBoot3}. The bias and variance change as a function of polynomial degree and values of $\lambda$ using the bootstrap resampling method. Here we have 100 observations while we use a $75/25$ train/test split with a noise level of $0.001$.}
+\end{figure}
+
+\noindent We can observe from figure \ref{fig:BVRidge1} that the bias always decreases as previously seen in exercise b) (figure \ref{fig:BVBOOT1}). However, the variance seem to depend on both the complexity of our model and the value of $\lambda$. Figure \ref{fig:BVRidge1} confirms what we previously saw in figure \ref{fig:MSERidgeBoot3}, namely that higher values of $\lambda$ yields higher variance as a function of complexity, thus yielding a higher MSE.
+\\
+The next step is to see what happens with the beta coefficients when we apply different values of $\lambda$ to equation \ref{eq:RidgeDerive2}. We can plot the regression coefficient values for a given range of polynomial degrees and see how the value changes. Here we have chosen polynomials up to degree 5 a this is where the point of lowest MSE i located and we have chosen $\lambda$-values as $[0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000]$. The result is plotted in figure \ref{fig:LambdaPlot1}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_ts025_B100_RIDGE.PNG}
+\caption{\label{fig:LambdaPlot1} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the bootstrap method with 100 iterations. The original dataset is of size 100.}
+\end{figure}
+
+\noindent It is difficult to see any trends as we have so many regression coefficients and we therefore categorize the plot into polynomial degree such that first order polynomials ($x,y$) have one color and second order polynomial ($xy,x^2,y^2$) have another color and so on. The resulting plot is shown in figure \ref{fig:LambdaPlot2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_ts025_B100_RIDGESort.PNG}
+\caption{\label{fig:LambdaPlot2} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the bootstrap method with 100 iterations. The original dataset is of size 100. Here we have sorted polynomials of the same degree into the same color}
+\end{figure}
+
+\noindent From figure \ref{fig:LambdaPlot2} we can observe that the Ridge regression treats different polynomial degree unevenly. Much of the point of the ridge regression is to reduce the the variables in the design matrix towards zero, depending on their statistical significance. The higher the $\lambda$-values, the more variables will be reduced towards zero, but not exactly zero. We can observe this by comparing the third and first degree polynomial in figure \ref{fig:LambdaPlot2}. The third degree polynomial is reduced to a value close to zero at around $10^{-2} = 0.1$, while the first degree polynomial does not approach zero before $10^2 = 100$. This means that the ridge regression algorithm deems third degree polynomials as less significant than that of the first order polynomials. We can extend this though process and see that all variables will be reduced closed to zero (regardless of their polynomial degree) if $\lambda$ is large enough.
+\\
+Let us now explore the CV resampling approach. We implement the CV algorithm the same way as in exercise c) and we see investigate how the MSE changes as function of model complexity. We will use the exact same parameters as previously with $n = 100$ observations in the original data set, a noise-level of $0.001$ and 10 polynomial degrees. Furthermore, we want to try the 10-fold, 5-fold and leave-one-out cross-validations and see what the difference between the outcomes are. The MSE versus polynomial degree is plotted for each CV-type in figure \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV10_RIDGE.PNG}
+\caption{\label{fig:MSERidgeCV1} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the 10-fold CV resampling method. Here we have 100 observations while we consider every possible permutation of a 10-fold cross-validation with a noise level of $0.001$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV5_RIDGE.PNG}
+\caption{\label{fig:MSERidgeCV2} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the 5-fold CV resampling method. Here we have 100 observations while we consider every possible permutation of a 5-fold cross-validation with a noise level of $0.001$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV1_RIDGE.PNG}
+\caption{\label{fig:MSERidgeCV3} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the leave-one-out CV resampling method. Here we have 100 observations while we consider every possible permutation of a leave-one-out cross-validation with a noise level of $0.001$.}
+\end{figure}
+
+\noindent One can observe from figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} that the MSEs rapidly decrease from 1 to 2 polynomial degrees. After $p = 2$ however, some models increase in MSE while others decrease. The overall trend regardless of fold-size is that models with a high value of $\lambda$ tend to have a steeper increase in MSE. On the contrary, we see models with low values of $\lambda$ actually further decrease in MSE after $p = 2$, namely models with $\lambda$-value lower than $0.1$. However, these models also eventually increase in MSE after $p = 5$, which still seem to be the optimal complexity for most models. 
+\\
+What is also observed from figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} is that the training MSE for some models, namely those of higher values of $\lambda$, do not approach zero imminently. This is due to the Ridge regression reducing some of the variables to zero (least significant ones) which actually lowers the MSE of even the training data. This was not a problem when we used OLS or bootstrap resampling, meaning the CV resampling method is more sensitive to which variables are considered in the regression. 
+\\
+Another interesting observations is that decreasing the fold size tend to decrease the MSE. When we compare figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} we see that the LOOCV has the lowest overall MSE while the 10-fold CV has the highest overall CV. This is not surprising as using smaller folds sizes inherently "creates" more data, allowing for larger polynomial degrees to yield lower MSEs. In fact, we can see that for the LOOCV case (figure \ref{fig:MSERidgeCV3}), some of the models never really increase their test MSE for polynomials up to 10th order. This means that creating $n^2$ amount of data allows us to create models with much higher order of polynomials. This means that we can more accurately predict responses by using higher order polynomials in our model.
+\\
+We can decompose the test MSEs from figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} into their bias and variance components as done in figures \ref{fig:BVRidgeCV1}, \ref{fig:BVRidgeCV2} and \ref{fig:BVRidgeCV3}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV10_RIDGE.PNG}
+\caption{\label{fig:BVRidgeCV1} Bias and variance decomposition of figure \ref{fig:MSERidgeCV1}. The bias and variance change as a function of polynomial degree and values of $\lambda$ using the 10-fold CV resampling method. Here we have 100 observations with a noise level of $0.001$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV5_RIDGE.PNG}
+\caption{\label{fig:BVRidgeCV2} Bias and variance decomposition of figure \ref{fig:MSERidgeCV2}. The bias and variance change as a function of polynomial degree and values of $\lambda$ using the 5-fold CV resampling method. Here we have 100 observations with a noise level of $0.001$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV1_RIDGE.PNG}
+\caption{\label{fig:BVRidgeCV3} Bias and variance decomposition of figure \ref{fig:MSERidgeCV3}. The bias and variance change as a function of polynomial degree and values of $\lambda$ using the LOOCV resampling method. Here we have 100 observations with a noise level of $0.001$.}
+\end{figure}
+
+\noindent Figures \ref{fig:BVRidgeCV1}, \ref{fig:BVRidgeCV2} and \ref{fig:BVRidgeCV3} explains why the test MSEs decreased with smaller folds. The bias of stays the same regardless of fold-size, while the variance decreases for all values of $\lambda$. 
+\\
+Let us now investigate the effects of the Ridge regression on the regression coefficients. We can again plot the regression coefficient values against values of $\lambda$ for all three fold sizes as done in figure \ref{fig:LambdaPlotCV1}, \ref{fig:LambdaPlotCV2} and \ref{fig:LambdaPlotCV3}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV10_RIDGE.PNG}
+\caption{\label{fig:LambdaPlotCV1} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the 10-fold CV method. The original dataset is of size 100. Here we have sorted polynomials of the same degree into the same color.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV5_RIDGE.PNG}
+\caption{\label{fig:LambdaPlotCV2} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the 5-fold CV method. The original dataset is of size 100. Here we have sorted polynomials of the same degree into the same color.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV1_RIDGE.PNG}
+\caption{\label{fig:LambdaPlotCV3} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the LOOCV method. The original dataset is of size 100. Here we have sorted polynomials of the same degree into the same color}
+\end{figure}
+
+\noindent One can observe that the regression coefficients all approach zero at about the same rate for all fold sizes. If we compared figures \ref{fig:LambdaPlotCV1}, \ref{fig:LambdaPlotCV2} and \ref{fig:LambdaPlotCV3} to figures \ref{fig:LambdaPlot2}, we observe that the regression coefficient values are higher for the CV resampling method. However, this is meaningless as it is when the coefficients approach zero that matters. With that, we again compare the figures and see that the Ridge regression reduces variables towards zero quicker when we use the CV resampling method, rather than the bootstrap method.
+\\
+With the information we have gathered so far, we can safely say that the Ridge regression impact the CV resampling method more than the bootstrap resampling method. However, the CV resampling method is more sensitive to different values of $\lambda$ than the bootstrap. 
 
 \newpage
 

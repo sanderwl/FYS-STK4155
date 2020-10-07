@@ -10,6 +10,8 @@ import scipy.stats
 from numpy import array
 from mlxtend.evaluate import bias_variance_decomp
 import matplotlib.patches as mpatches
+from sklearn.linear_model import Lasso
+from imageio import imread
 
 def inputsss():
     observations = input("Enter number of observations n (integer): ")
@@ -96,6 +98,20 @@ def FrankPlotDiff(x,y,z,z2,plot):
         # Color map grid
         fig.colorbar(surf, shrink=0.5, aspect=5)
         plt.show()
+
+def terrainLoad(figureInp):
+    imgloc = 'C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/tifdata/SRTM_data_Norway_1.tif'
+    terrain1 = imread(imgloc)
+    # Show the terrain
+    if figureInp == True:
+        plt.figure()
+        plt.suptitle('Terrain data from Norway', fontsize=25, fontweight="bold")
+        plt.imshow(terrain1, cmap='gray')
+        plt.xlabel('x', fontsize=20)
+        plt.ylabel('y', fontsize=20)
+        plt.show()
+
+    return terrain1
 
 def Scale2(designMatrix, scalee):
     if scalee == True:
@@ -283,6 +299,14 @@ def CV(XX,z,n,k,scaleInp,tp,lamb,rn,p):
             Ytrain_pred, Ytest_pred, betas = StdPolyOLS(Xtrain, Xtest, Ytrain, Ytest)
         elif tp == 'Ridge':
             Ytrain_pred, Ytest_pred, betas = StdPolyRidge(Xtrain, Xtest, Ytrain, Ytest,lamb)
+        elif tp == 'Lasso':
+            # Performing Lasso regression
+            reg = Lasso(alpha=lamb, random_state=0, fit_intercept=False)
+            reg.fit(Xtrain, Ytrain)
+            betas = reg.coef_.T
+
+            Ytrain_pred = reg.predict(Xtrain)
+            Ytest_pred = reg.predict(Xtest)
 
         # Calculate statistics
         z_pred = XX @ betas

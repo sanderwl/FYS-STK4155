@@ -525,6 +525,102 @@ With the information we have gathered so far, we can safely say that the Ridge r
 
 \newpage
 
+\noindent \textbf{e)} We now investigate the second shrinkage method, namely the Lasso regression. Like the Ridge regression, the Lasso shrinks the least significant variables, but the variables are set to exactly zero and not just close to zero. We can write the Lasso regression equation to be the same as the OLS equation (equation \ref{eq:LinReg}), but with an added penalty term to both sides 
+
+\begin{equation}\label{eq:LassoDerive}
+\begin{aligned}
+\boldsymbol{\hat{y}}_{Lasso} + \lambda |\boldsymbol{\beta}|_1 = \textbf{X}\boldsymbol{\beta} + \lambda  |\boldsymbol{\beta}|_1
+\end{aligned}
+\end{equation}
+
+\noindent where $|\boldsymbol{\beta}|_1$ is the L1 regularization. Solving equation \ref{eq:LassoDerive} for the regression coefficients in order to minimize the residual sum of squared yields
+
+\begin{equation}\label{eq:LassoDerive2}
+\begin{aligned}
+some eq
+\end{aligned}
+\end{equation}
+
+\noindent We can then perform the exact same investigation as done in exercise d, where we first plot the MSE as function of model complexity and the regression coefficients as function of $\lambda$ for the bootstrap resampling method as well as for 10-fold, 5-fold and leave-one-out cross-validations. The MSE plots are shown in figures \ref{fig:MSELasso1}, \ref{fig:MSELasso2}, \ref{fig:MSELasso3} and \ref{fig:MSELasso4}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBOOT_n100_p10_noise0001_ts025_B100_Lasso.PNG}
+\caption{\label{fig:MSELasso1} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the bootstrap resampling method and a Lasso regression scheme. Here we have $100 \times 100$ observations randomly drawn from the original data with a noise level of $0.001$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV10_Lasso.PNG}
+\caption{\label{fig:MSELasso2} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the 10-fold CV resampling method and a Lasso regression scheme. Here we have 100 observations while we consider every possible permutation of a 10-fold cross-validation with a noise level of $0.001$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV5_Lasso.PNG}
+\caption{\label{fig:MSELasso3} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the 5-fold CV resampling method and a Lasso regression scheme. Here we have 100 observations while we consider every possible permutation of a 5-fold cross-validation with a noise level of $0.001$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV1_Lasso.PNG}
+\caption{\label{fig:MSELasso4} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the LOOCV resampling method and a Lasso regression scheme. Here we have 100 observations while we consider every possible permutation of a LOOCV with a noise level of $0.001$.}
+\end{figure}
+
+\noindent Let us first discuss the difference between the bootstrap resampling method seen in figure \ref{fig:MSELasso1} and the CV resampling method seen in figures \ref{fig:MSELasso2}, \ref{fig:MSELasso3} and \ref{fig:MSELasso4}. The models creating using bootstrap seem much smoother than the models using CV. More importantly, we observe that the bootstrap models tend to increase their MSE exponentially, while the CV models tend to increase their MSE linearly. This may be important if one wishes to create a model of a high degree without letting the MSE get out of hand. 
+\\
+As for the dependence on different $\lambda$-values, we can observe the same effect as in exercise d in figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3}, namely that increasing the value of $\lambda$ increases the overall MSE. There seem to be one exception however as the model using $\lambda = 0$ had relatively low MSE. This is because this particular model is equivalent to the OLS model and will therefore perform better than some incremental value just under zero. 
+\\
+Another observations is that some models using low values of $\lambda$ never really increase in MSE. This is particularly the case for the bootstrap and LOOCV models where polynomials of degree 10 have less $0.1$ in MSE. Such a feet is possible due to the variable shrinkage done by the Lasso regression scheme. Removing variables makes the model less prone to over-fitting, thus reducing the MSE at higher complexity. This means that using models with a high number of bootstrap iterations or low number of folds while using low values of $\lambda$ allows us to create a model for higher order polynomials, which in turn may increase the models predictive capabilities.
+\\
+Let us now study how the regression coefficients change as a function of $\lambda$ as we already suspect that some of them have been set to zero by the Lasso regression scheme. Figure \ref{fig:LambdaLasso1}, \ref{fig:LambdaLasso2}, \ref{fig:LambdaLasso3} and \ref{fig:LambdaLasso4} show how regression coefficients behave as function of $\lambda$
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_ts025_B100_LassoSort.PNG}
+\caption{\label{fig:LambdaLasso1} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the bootstrap resampling method. The original dataset is of size 100 with a noise-level of $0.001$. Here we have sorted polynomials of the same degree into the same color.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV10_LassoSort.PNG}
+\caption{\label{fig:LambdaLasso2} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the 10-fold CV resampling method. The original dataset is of size 100 with a noise-level of $0.001$. Here we have sorted polynomials of the same degree into the same color.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV5_LassoSort.PNG}
+\caption{\label{fig:LambdaLasso3} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the 5-fold CV resampling method. The original dataset is of size 100 with a noise-level of $0.001$. Here we have sorted polynomials of the same degree into the same color.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV1_LassoSort.PNG}
+\caption{\label{fig:LambdaLasso4} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the LOOCV resampling method. The original dataset is of size 100 with a noise-level of $0.001$. Here we have sorted polynomials of the same degree into the same color.}
+\end{figure}
+
+\noindent Comparing the above plots really shows the difference in how the bootstrap and CV resampling methods behave with respect to their models regression coefficients. We can observe that both methods shrink the variables to zero, but at different values of $\lambda$. The CV methods (which all seem to be equivalent) reduce some MOREMOREMOREMORE
+\\
+We also notice that the Lasso regression reduces the variables at lower values of $\lambda$ than the Ridge regression (figures \ref{fig:LambdaPlot2}, \ref{fig:LambdaPlotCV1}, \ref{fig:LambdaPlotCV2} and \ref{fig:LambdaPlotCV3}). This is typical as the $L_1$ norm used in the Lasso regression is more sensitive to the shrinkage parameter $\lambda$ than the $\L_2$ norm. 
+
+\newpage
+
+\noindent \textbf{f)} In this exercise we prepare the terrain data set called "SRTM\textunderscore data\textunderscore Norway\textunderscore 1" which is data collected from Norway. This data was chosen as we had trouble registering an account on the webpage \href{{https://earthexplorer.usgs.gov/}}{\nolinkurl{https://earthexplorer.usgs.gov/}}, so we settled for the given data set on the FYS-STK4155 github page. The terrain data is loaded into python and the following image is obtained
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainData2.PNG}
+\caption{\label{fig:terrainData1} Terrain data over Norway.}
+\end{figure}
+
+\noindent This data will from now act as the response $\hat{y}$ just like the Franke function have been used so far. Since we now have already developed the tools to model the image in figure \ref{fig:terrainData1}, we can proceed to exercise g.
+
+\newpage
+
+\noindent \textbf{g)} a
+
+\newpage
+
 \begin{center}
 \Large{\textbf{References}}
 \end{center}

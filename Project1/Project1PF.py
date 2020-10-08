@@ -11,7 +11,7 @@ import sklearn.linear_model as skl
 from FunctionsDef import inputsss, FrankeFunc, MSE, R2,StdPolyOLS, designMatrixFunc2,\
     betaConfidenceInterval, MSEplot, calc_Variance, calc_bias, BVPlot, Scale2,FrankPlot,\
     bootStrap, CV, realSplit2, FrankPlotDiff, StdPolyRidge, MSEplotSame, BVPlotSame, BetasPlot, \
-    BetasPlot2d, BetasPlot2d2, terrainLoad
+    BetasPlot2d, BetasPlot2d2, terrainLoad, terrainPlot, designMatrixFunc3
 import scipy.stats
 from mlxtend.evaluate import bias_variance_decomp
 from sklearn import datasets, linear_model
@@ -569,5 +569,106 @@ elif (str(part) == "e" or str(part) == "all"):
 
 elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
 
-    z = terrainLoad(figureInp)
+    zz = terrainLoad()
+    z = zz[1800:,:]
+    #terrainPlot(figureInp,z)
+    lenx = len(z)
+
+    x = np.linspace(0, 1, lenx)
+    y = np.linspace(0, 1, lenx)
+
+    skip = int(10)
+    z = z[::skip,::skip]
+    x = x[::skip]
+    y = y[::skip]
+
+    n = len(z)
+    xx, yy = np.meshgrid(x, y)
+
+    tp = input('What regression scheme should be employed? (OLS/Ridge/Lasso)')
+    ye = input("Investigate as function of complexity or as function of lambda? (c or l)")
+    # I want to check the MSE for LOOCV, 5-fold, 10-fold and 25-fold CV
+    CVN = int(input("Here we aim to use the cross-validation resampling method. What is the fold size? (integer between 1 and n/2)"))
+
+    if ye == 'c':
+
+        # Declaring variables
+        biasCV = np.zeros(poly)
+        varianceCV = np.zeros(poly)
+        MSE_train_CV = np.zeros(poly)
+        MSE_test_CV = np.zeros(poly)
+        lamb = [0.000000001,0.00000001,0.0000001, 0.000001,0.00001]
+        MSE_train_fin = np.zeros((len(lamb), poly))
+        MSE_test_fin = np.zeros((len(lamb), poly))
+        bias_fin = np.zeros((len(lamb), poly))
+        variance_fin = np.zeros((len(lamb), poly))
+        val = np.zeros(len(lamb))
+        idx = np.zeros(len(lamb))
+        rn = 0
+        dexxer = 0
+        for f in lamb:
+            print(dexxer)
+            for i in range(poly):
+                # Setting up the design matrix
+                designMatrix = designMatrixFunc2(x, y, i + 1, noiseLVL)
+
+                # Scaling the data by subtracting mean and divide by standard deviation
+                designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
+
+                # Performing CV with OLS
+                bias, variance, MSE_train, MSE_test, randRow, betas = CV(designMatrix_scale, z, n, CVN, scaleInp,tp, f, rn, dexxer)
+                rn = randRow
+                # Calculate average means for each fold
+                biasCV[i] = np.mean(bias)
+                varianceCV[i] = np.mean(variance)
+                MSE_train_CV[i] = np.mean(MSE_train)
+                MSE_test_CV[i] = np.mean(MSE_test)
+
+            MSE_train_fin[dexxer, :] = MSE_train_CV
+            MSE_test_fin[dexxer, :] = MSE_test_CV
+            bias_fin[dexxer, :] = biasCV
+            variance_fin[dexxer, :] = varianceCV
+            val[dexxer], idx[dexxer] = min((val, idx) for (idx, val) in enumerate(MSE_test_fin[dexxer, :]))
+            dexxer += 1
+        print(val)
+        print(idx)
+
+        if figureInp == True:
+            MSEplotSame(MSE_train_fin, MSE_test_fin, poly, lamb)
+            BVPlotSame(bias_fin, variance_fin, poly, lamb)
+
+
+    elif ye == 'l':
+        # Declaring variables
+        #lamb = [0.0000001, 0.000001,0.00001, 0.0001, 0.001, 0.01]
+        lamb = [0.000000001,0.00000001,0.0000001, 0.000001,0.00001]
+        designMatrixxxx = designMatrixFunc2(x, y, poly, noiseLVL)
+        betasCV = np.zeros((len(designMatrixxxx[0]), n, len(lamb)))
+        betas_fin = np.zeros((len(designMatrixxxx[0]), n, len(lamb)))
+        rn = 0
+        dexxer = 0
+
+        for f in lamb:
+            print(dexxer)
+            # Setting up the design matrix
+            designMatrix = designMatrixFunc2(x, y, poly, noiseLVL)
+
+            # Scaling the data by subtracting mean and divide by standard deviation
+            designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
+
+            # Performing CV with Ridge
+            bias, variance, MSE_train, MSE_test, randRow, betas = CV(designMatrix_scale, z, n, CVN, scaleInp, tp,f, rn, dexxer)
+            rn = randRow
+            # Calculate mean betas
+            betasCV[:, :, dexxer] = np.mean(betas, axis=2)
+
+            dexxer += 1
+
+
+        if figureInp == True:
+            zz = betasCV[:,:,0]
+            zz_pred = designMatrix_scale @ zz
+            terrainPlot(figureInp,zz_pred)
+            terrainPlot(figureInp,z)
+
 

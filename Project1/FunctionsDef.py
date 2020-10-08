@@ -99,19 +99,21 @@ def FrankPlotDiff(x,y,z,z2,plot):
         fig.colorbar(surf, shrink=0.5, aspect=5)
         plt.show()
 
-def terrainLoad(figureInp):
+def terrainLoad():
     imgloc = 'C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/tifdata/SRTM_data_Norway_1.tif'
     terrain1 = imread(imgloc)
-    # Show the terrain
+    return terrain1
+
+def terrainPlot(figureInp,terrain1):
     if figureInp == True:
         plt.figure()
         plt.suptitle('Terrain data from Norway', fontsize=25, fontweight="bold")
         plt.imshow(terrain1, cmap='gray')
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
         plt.xlabel('x', fontsize=20)
         plt.ylabel('y', fontsize=20)
         plt.show()
-
-    return terrain1
 
 def Scale2(designMatrix, scalee):
     if scalee == True:
@@ -148,7 +150,15 @@ def designMatrixFunc2(x, y, poly, noiseLVL):
 
     preds = np.c_[x.ravel(), y.ravel()]
     dx = PolynomialFeatures(degree=poly, include_bias=False).fit_transform(preds)
-    noise = float(noiseLVL)*np.random.randn(len(dx),len(dx[0]))
+    noise = float(noiseLVL)*np.random.randn(len(dx), len(dx[0]))
+    designMatrix = dx + noise
+
+    return designMatrix
+
+def designMatrixFunc3(x, poly, noiseLVL):
+
+    dx = PolynomialFeatures(degree=poly, include_bias=False).fit_transform(x)
+    noise = float(noiseLVL)*np.random.randn(len(dx), len(dx[0]))
     designMatrix = dx + noise
 
     return designMatrix

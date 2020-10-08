@@ -617,7 +617,27 @@ We also notice that the Lasso regression reduces the variables at lower values o
 
 \newpage
 
-\noindent \textbf{g)} a
+\noindent \textbf{g)} In this exercise I want to demonstrate how to properly go forth when creating a decent model using linear regression, or in other words, I want to find the optimal parameters of a linear regression model. Three models will be made, one OLS, one Ridge using 10-fold CV and one Lasso using 10-fold CV. 10-fold CV was chosen as it gave reasonable results in the previous exercises and it shortens the run-time in the python code compared to a LOOCV. We again use a noise-level of $0.001$ and the number of observations is this time determined by the data set (figure \ref{fig:terrainData1}). For computational effective reasons, only every tenth value of the original data set will be used. We can now list a table where we keep our variables updated as we go
+
+\begin{table}[h]
+\caption{\label{tab:update1} An overview of the three models which will be updated as we go. Undiscovered parameters/values are denoted by "-".}
+\centering
+\begin{tabular}{c|c|c|c}
+ & OLS & Ridge & Lasso\\
+\hline
+n & $\frac{1800}{10} = 180$ & $\frac{1800}{10} = 180$ & $\frac{1800}{10} = 180$\\
+\hline
+noise-level & $0.001$ & $0.001$ & $0.001$\\
+\hline
+Optimal $\lambda$ & None & - & -\\
+\hline
+Optimal complexity & - & - & -\\
+\hline
+Lowest MSE & - & - & -\\
+\end{tabular}
+\end{table}
+
+\noindent We will continuously update table \ref{tab:update1} as we find the optimal parameters of the three models. This will allow us to better compare the models at the very end to see which one is preferable over the others. Let us first find the optimal values of the shrinkage parameter $\lambda$ for both the Ridge and Lasso regression schemes (OLS does use a shrinkage parameter). 
 
 \newpage
 

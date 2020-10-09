@@ -91,10 +91,14 @@
 \newpage
 
 \begin{center}
-\Large{\textbf{Exercise 1.}}
+\Large{\textbf{Exercise 1a): Linear regression with changes in parameters.}}
 \end{center}
 
-\noindent \textbf{a)} The goal for this part of the exercise is trying to fit a linear model (linear in terms of regression coefficients) to the Franke function given as
+\begin{center}
+\large{\textbf{Linear regression and its coefficients}}
+\end{center}
+
+\noindent The goal for this part of the exercise is trying to fit a linear model (linear in terms of regression coefficients) to the Franke function given as
 
 \begin{equation}\label{eq:Franke}
 \begin{aligned}
@@ -103,7 +107,7 @@ f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}
 \end{aligned}
 \end{equation}
 
-\noindent where polynomial combinations of x and y in the span $x,y \in [0,1]$ will be the explanatory variables. The linear regression equation then takes the form
+\noindent where polynomial combinations of x and y in the span $x,y \in [0,1]$ will be the explanatory variables. We can express a linear model using the least squares equation \ref{eq:LinReg}
 
 \begin{equation}\label{eq:LinReg}
 \begin{aligned}
@@ -115,13 +119,13 @@ f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}
 
 \begin{equation}\label{eq:minBeta}
 \begin{aligned}
-\hat{\boldsymbol{\beta}} = (\textbf{X}^T\textbf{X})^{-1}\textbf{X}^T f(x,y)
+\hat{\boldsymbol{\beta}} = (\textbf{X}^T\textbf{X})^{-1}\textbf{X}^T \hat{y}
 \end{aligned}
 \end{equation}
 
-\noindent where T marks the transpose of the matrix. We can now get the estimate $\hat{\boldsymbol{\beta}}$ with equation \ref{eq:minBeta} and then compute the estimate of the Franke function as seen in equation \ref{eq:LinReg}.
+\noindent where T marks the transpose of the matrix. We can now get the estimate $\hat{\boldsymbol{\beta}}$ with equation \ref{eq:minBeta} and then compute the estimate of the Franke function using equation \ref{eq:LinReg}.
 \\
-We now turn to implementing the regression algorithm (see github) where we start by selecting a low number of observations of $n = 10$, a polynomial degree of $p = 5$ and a noise level of $0.001$. We start by creating the design matrix using polynomials of x and y (and their combinations) of degrees up to 5, scale it, split it into training and test set with ratio $75/25$ and lastly estimate the regression coefficients and calculate the estimated Franke function. The regression coefficients are then found, but it is not always certain which values of beta coefficients minimize the residual sum of squares, so some uncertainty is always present. Therefore, we need to find which coefficients are uncertain, and which are certain. We quantify the uncertainty by using confidence intervals around the coefficients such that our uncertainty is within one standard deviation of the coefficient. We find said standard deviation by taking the square root of the diagonal elements of the covariance matrix 
+We now turn to implementing the regression algorithm where we start by selecting a low number of observations of $n = 10$, a polynomial degree of $p = 5$ and a noise level of $0.001$. We start by creating the design matrix using polynomials of x and y (and their combinations) of degrees up to 5, scale the data, split the data and the design matrix into training and test sets with ratio $75/25$ and lastly estimate the regression coefficients using equation \ref{eq:minBeta} and calculate the estimated Franke function using equation \ref{eq:LinReg}. It is not always certain which values of beta coefficients minimize the residual sum of squares, so some uncertainty is always present. Therefore, we need to find which coefficients are uncertain, and which are certain. We quantify the uncertainty by using confidence intervals around the coefficients such that our uncertainty is within one standard deviation of the coefficient. We find said standard deviation by taking the square root of the diagonal elements of the covariance matrix 
 
 \begin{equation}\label{eq:diagCOV}
 \begin{aligned}
@@ -133,17 +137,23 @@ We now turn to implementing the regression algorithm (see github) where we start
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInterval_ALL_n10_p5_noise0001_ts025.PNG}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInterval_ALL_n10_p5_noise0001_ts025XD.PNG}
 \caption{\label{fig:betaIntALL1} $\hat{\boldsymbol{\beta}}$-coefficients from performing ordinary least squares regression. Dots indicate the actual $\hat{\boldsymbol{\beta}}$-coefficients value while bars around indicate the confidence interval ($\pm \sigma$).}
 \end{figure}
 
-\noindent Since the response is the Franke function (a matrix), we get p times n regression coefficients instead of p, as seen in figure \ref{fig:betaIntALL1}. However, one can still observe from figure \ref{fig:betaIntALL1} that some regression coefficients are more certain than others. We can also plot one slice of the p times n regression coefficient matrix to get a better view as seen in figure \ref{fig:betaIntROW1}
+\noindent Since the response is the Franke function (a matrix), we get p times n regression coefficients as seen in figure \ref{fig:betaIntALL1}. However, one can still observe from figure \ref{fig:betaIntALL1} that some regression coefficients are more certain than others. We can also plot one slice of the p times n regression coefficient matrix to get a better view as seen in figure \ref{fig:betaIntROW1}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInterval_1row_n10_p5_noise0001_ts025.PNG}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInterval_1row_n10_p5_noise0001_ts025XD.PNG}
 \caption{\label{fig:betaIntROW1} A slice of the $\hat{\boldsymbol{\beta}}$-coefficients from performing ordinary least squares regression. Dots indicate the actual $\hat{\boldsymbol{\beta}}$-coefficients value while bars around indicate the $95\%$ confidence interval ($\pm \sigma$).}
 \end{figure}
+
+\noindent As previously mentioned, some regression coefficients have relatively small confidence interval while others have larger. This means that some coefficients are more trustworthy than other. Even though the confidence interval may be large, it does not mean that particular coefficient is not responsible for explaining the response $\hat{y}$.
+
+\begin{center}
+\large{\textbf{Ordinary least squares regression on the Franke data using different parameters}}
+\end{center}
 
 \noindent Now that we have calculated and gained some faith in our regression coefficient estimates, we can utilize equation \ref{eq:LinReg} to find $\hat{y}$ which is plotted together with the real Franke function in figures \ref{fig:FrankeReal1} and \ref{fig:FrankeEst1}
 
@@ -159,7 +169,7 @@ We now turn to implementing the regression algorithm (see github) where we start
 \caption{\label{fig:FrankeEst1} The estimated Franke function when we have $10$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
 \end{figure}
 
-\noindent It can be observed from figures \ref{fig:FrankeReal1} and \ref{fig:FrankeEst1} that our estimate is pretty good, any we can plot the difference between the two to strengthen faith in the model
+\noindent It can be observed from figures \ref{fig:FrankeReal1} and \ref{fig:FrankeEst1} that our estimate is pretty good, any we can plot the difference between the two to strengthen our faith in the model
 
 \begin{figure}[H]
 \centering
@@ -167,7 +177,7 @@ We now turn to implementing the regression algorithm (see github) where we start
 \caption{\label{fig:FrankeDIFF1} The difference between the real and estimated Franke functions when we have $10$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
 \end{figure}
 
-\noindent As expected, the difference shown in figure \ref{fig:FrankeDIFF1} is very small. However, we have yet to quantify how small. This can be done using the mean square error (MSE) and $R^2$ which is calculated from equations \ref{eq:MSE} and \ref{eq:R2}
+\noindent As expected, the difference shown in figure \ref{fig:FrankeDIFF1} is very small. However, we have yet to quantified how small. This can be done using the mean square error (MSE) and $R^2$ which is calculated from equations \ref{eq:MSE} and \ref{eq:R2}
 
 \begin{equation}\label{eq:MSE}
 \begin{aligned}
@@ -181,7 +191,7 @@ R^2 = 1- \frac{\sum_{i=0}^{n-1}(y_i-\hat{y}_i)^2}{\sum_{i=0}^{n-1}(y_i-\bar{y}_i
 \end{aligned}
 \end{equation}
 
-\noindent where $\bar{y}_i$ is the mean value of the Franke function. The MSE gives us a value of how far our estimate falls from the real Franke function, while the $R^2$ gives us how strong the relationship is between the real Franke function and our estimate. When utilizing equations \ref{eq:MSE} and\ref{eq:R2} on the data shown in figures \ref{fig:FrankeReal1} and \ref{fig:FrankeEst1} we get the values in table \ref{tab:ESTREAL1}
+\noindent where $\bar{y}_i$ is the mean value of the Franke function. The MSE gives us a value of how far our estimate falls from the real Franke function, while the $R^2$ gives us how strong the relationship is between the real Franke function and our estimate. When utilizing equations \ref{eq:MSE} and \ref{eq:R2} on the data shown in figures \ref{fig:FrankeReal1} and \ref{fig:FrankeEst1} we get the values in table \ref{tab:ESTREAL1}
 
 \begin{table}[h]
 \caption{\label{tab:ESTREAL1} MSE and $R^2$ between the real and estimated Franke function when we have $10$ observations and polynomials of degree $5$ using a noise-level of $0.001$ and a $75/25$ train/test split.}
@@ -189,13 +199,13 @@ R^2 = 1- \frac{\sum_{i=0}^{n-1}(y_i-\hat{y}_i)^2}{\sum_{i=0}^{n-1}(y_i-\bar{y}_i
 \begin{tabular}{c|c|c}
  & MSE & $R^2$\\
 \hline
-Training & $2.4978127439196968 \times 10^{-24}$ & $1.0$\\
+Training & $5.977257880702667 \times 10^{-24}$ & $1.0$\\
 \hline
-Test & $0.003919934844588911$ & $0.9425989967371673$\\	  
+Test & $0.048290833950696326$ & $0.5437287443341614$\\	  
 \end{tabular}
 \end{table}
 
-\noindent It should be obvious that the training set performs better than the test, as it is the training data that is used to fit the model, particularly when n is small. So what happens when we increase the number of observations to say $n = 100$? Figures QQQ, QQQ and QQQ show again the real, estimated and differential Franke functions with the same exact parameters, except for n, which is now equal to $100$
+\noindent It should be obvious that the training set performs better than the test, as it is the training data that is used to fit the model, particularly when n is small. So what happens when we increase the number of observations to say $n = 100$? Figures \ref{fig:FrankeReal2} , \ref{fig:FrankeEst2} and \ref{fig:FrankeDIFF2} show again the real, estimated and differential Franke functions with the same exact parameters, except for n, which is now equal to $100$
 
 \begin{figure}[H]
 \centering
@@ -223,25 +233,25 @@ Test & $0.003919934844588911$ & $0.9425989967371673$\\
 \begin{tabular}{c|c|c}
  & MSE & $R^2$\\
 \hline
-Training & $0.000565152580116653$ & $0.9935076041084075$\\
+Training & $0.006495$ & $0.920514$\\
 \hline
-Test & $0.0008407777639833455$ & $0.9865450620944748$\\	  
+Test & $0.028460$ & $0.660724$\\	  
 \end{tabular}
 \end{table}
 
-\noindent At first glance, one may panic as the training MSE and $R^2$ is lower than for $n= 10$. However, this value is not interesting as it is the test MSE that dictates how well the model performs. This is because we are only interested in how well our model is in predicting new data, which it has not trained on, and as we can see from table \ref{tab:ESTREAL2}, both the test MSE and test $R^2$ is much higher with $n = 100$ than with $n = 10$. Therefore it is safe to say that increasing the number of observations drastically increases the predictive ability of the model. 
+\noindent One can observe from table \ref{tab:ESTREAL2} that the test MSE and is much lower with $n = 100$ than with $n = 10$ and also the $R^2$ is higher. Therefore it is safe to say that increasing the number of observations drastically increases the predictive ability of the model. The training MSE and $R^2$ is not really of any importance, as we simply want the model to be able to predict future data. 
 \\
 Furthermore, we can compare figure \ref{fig:betaIntALL2} and figure \ref{fig:betaIntALL1} to see that the confidence of our regression coefficients increase as we increase n. This is actually the reason why the model improves.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInterval_ALL_n100_p5_noise0001_ts025.PNG}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/tablllll.PNG}
 \caption{\label{fig:betaIntALL2} $\hat{\boldsymbol{\beta}}$-coefficients from performing ordinary least squares regression. Dots indicate the actual $\hat{\boldsymbol{\beta}}$-coefficients value while bars around indicate the confidence interval ($\pm \sigma$).}
 \end{figure}
 
 \noindent We can also see what happen if we were to increase the noise-level from $0.001$ to $0.1$ using $n = 100$ observations in figures \ref{fig:FrankeEst3}
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_n100_p5_noise01_ts025.PNG}
 \caption{\label{fig:FrankeEst3} The estimated Franke function when we have $100$ observations and polynomials of degree $5$ using a noise-level of $0.1$ and a $75/25$ train/test split.}
@@ -249,23 +259,54 @@ Furthermore, we can compare figure \ref{fig:betaIntALL2} and figure \ref{fig:bet
 
 \noindent As expected, the noise makes the model worse at predicting $\hat{y}$. However, the overall traits of the Franke function can still be observed, but the errors shown in table \ref{tab:ESTREAL3} indicates that the performance is worse with more noise
 
-\begin{table}[h]
+\begin{table}[H]
 \caption{\label{tab:ESTREAL3} MSE and $R^2$ between the real and estimated Franke function when we have $100$ observations and polynomials of degree $5$ using a noise-level of $0.1$ and a $75/25$ train/test split.}
 \centering
 \begin{tabular}{c|c|c}
  & MSE & $R^2$\\
 \hline
-Training & $0.0075270297407231375$ & $0.9044112376567826$\\
+Training & $0.07546367560674669$ & $0.023928247975465555$\\
 \hline
-Test & $0.009241122769969749$ & $0.9012627398304937$\\	  
+Test & $0.15827698280851488$ & $0.01920380609030712$\\	  
 \end{tabular}
 \end{table}
 
-\noindent We could easily remove all the noise from the mode, but we intend to keep a noise level of $0.001$ as it will prepare us for the real data later in the project.
+\noindent We could easily remove all the noise from the model, but we intend to keep a noise level of $0.001$ as it will prepare us for the real data later in the project. Furthermore, we now look at the MSE at different values of complexity p. Table \ref{tab:asp} shows test and train MSE for different values of p
+
+\begin{table}[H]
+\caption{\label{tab:asp} Different values of train/test MSE/$R^2$ using 100 observations, a noise-level of $0.001$, scaled data and a $75/25$ train test split.}
+\centering
+\begin{tabular}{c|c|c|c|c}
+ & Train MSE & Test MSE & Train $R^2$ & Test $R^2$\\
+\hline
+$p = 3$ & $0.024277$ & $0.063425$ & $0.709721$ & $0.193302$\\
+\hline
+$p = 4$ & $0.010872$ & $0.016600$ & $0.875196$ & $0.757525$\\
+\hline
+$p = 5$ & $0.006495$ & $0.028460$ & $0.920514$ & $0.660724$\\
+\hline
+$p = 6$ & $0.007942$ & $0.029148$ & $0.904951$ & $0.629532$\\
+\hline
+$p = 7$ & $0.006291$ & $0.027968$ & $0.924537$ & $0.649141$\\
+\hline
+$p = 30$ & $1.435312e-22$ & $0.041373$ & $1.0$ & $0.504594$\\
+\end{tabular}
+\end{table}
+
+\noindent One can observe that the train MSE keeps decreasing with model complexity, while the test MSE decreases to some point and then starts to increase. The inverse is true for the $R^2$s. How to find the point of minimum MSE will be the topic of the next exercise.
+
 
 \newpage
 
-\noindent \textbf{b)} When we fit a linear model like in the last exercise, we always want to minimize the mean square error (MSE) of the test set. We can explain the MSE from equation \ref{eq:MSE} in terms of the expected value of its such that the MSE is simply the expected value of the difference between the actual response and the predicted response using regression. This mean we can write the MSE as $E[(y-\hat{y})^2]$ where y is the actual response while $\hat{y}$ is the predicted response (as we already know). By adding and subtracting the term $E[\hat{y}]$ to the inner bracket we can expand the MSE like in equation \ref{eq:mseDerive}
+\begin{center}
+\Large{\textbf{Exercise 1b): Mean square error as function of model complexity and bootstrap resampling.}}
+\end{center}
+
+\begin{center}
+\large{\textbf{MSE decomposition}}
+\end{center}
+
+\noindent When we fit a linear model like in the last exercise, we always want to minimize the MSE of the test set. We can explain the MSE from equation \ref{eq:MSE} in terms of the expected value instead of the mean. This assumption only holds when n is large, but let's assume that it is. Then the MSE is simply the expected value of the difference between the actual response and the predicted response using regression. This mean we can write the MSE as $E[(y-\hat{y})^2]$ where y is the actual response while $\hat{y}$ is the predicted response. By adding and subtracting the term $E[\hat{y}]$ to the inner bracket we can expand the MSE like in equation \ref{eq:mseDerive}
 
 \begin{equation}\label{eq:mseDerive}
 \begin{aligned}
@@ -289,11 +330,15 @@ E[(\hat{y} - E[\hat{y}])^2] + (E[\hat{y}]-y)^2
 \end{aligned}
 \end{equation}
 
-where the constant $E[\hat{y}] - E[\hat{y}]$ equals zero, making the whole term equal zero. 
+\noindent where the constant $E[\hat{y}] - E[\hat{y}]$ equals zero, making the whole term equal zero. 
 \\
 We recognize the term $E[(\hat{y} - E[\hat{y}])^2]$ as the variance of estimator $\hat{y}$ and the term $(E[\hat{y}]-y)^2$ as the bias of the model, but squared. The bias quantifies how well the model fits the data points and variance is how well the model would translate to other data the model is not trained on. Increasing one tends to decrease the other, but not linearly since the bias is squared. Therefore, one can decrease the bias to a certain extent, but at some point, the loss of bias is not worth the gain in variance. This is called the bias variance trade-off. 
-\\
-Before investigating the bias-variance trade-off any further, we need to solve a problem related to the lack of data that is often the case with real data. When we generate data synthetically, the lack of data is never a problem, but in the real world, data is always limited and we now want to simulate that experience. Imagine now that we only have 100 observations and that these 100 observations are enough to represent the underlying distribution of the data, but not enough for our machine learning algorithm to function properly. We can then utilize the bootstrap resampling method to create data out of thin air. The bootstrap resampling method aims to take the original data of size n and create B new data sets each of size n. This is done by randomly assigning observations from the original data set to the B new data sets (with replacement). Then, a statistic is calculated for each of the B new data sets and the mean of all these statistics should represent the statistic of the original data set. The new statistic is often called the bootstrap statistic and will in this report be the MSE. Figure \ref{fig:Bootsketch} shows a rough sketch of the process
+
+\begin{center}
+\large{\textbf{Bootstrapping}}
+\end{center}
+
+\noindent Before investigating the bias-variance trade-off any further, we need to solve a problem related to the lack of data that is often the case with real data. When we generate data synthetically, the lack of data is never a problem, but in the real world, data is always limited and we now want to simulate that experience. Imagine now that we only have 100 observations and that these 100 observations are enough to represent the underlying distribution of the data, but not enough for our machine learning algorithm to function properly. We can then utilize the bootstrap resampling method to create data out of thin air. The bootstrap resampling method aims to take the original data of size n and create B new data sets each of size n. This is done by randomly assigning observations from the original data set to the B new data sets (with replacement). Then, a statistic is calculated for each of the B new data sets and the mean of all these statistics should represent the statistic of the original data set. The new statistic is often called the bootstrap statistic and will in this report be the MSE. Figure \ref{fig:Bootsketch} shows a rough sketch of the process
 
 \begin{figure}[H]
 \centering
@@ -302,8 +347,12 @@ Before investigating the bias-variance trade-off any further, we need to solve a
 \end{figure}
 
 \noindent The hope of the bootstrap method is that the bootstrap statistic represents the statistic of the underlying distribution of the original data set, regardless of the original datasets distribution. Be aware, the bootstrap method does not create new information, but simply exaggerate the already existing information, letting us perform operations like linear regression more easily.
-\\
-Now that we have a method of creating more data, we can study the bias-variance trade-off more thoroughly. More spesifically, we want to study how the bias, variance and MSE changes as a function of polynomial degree. Now imagine we just have 100 observations. We can then utilize the bootstrap resampling method to create $B \times n$ more data. Let us generate $B = 100$ data sets each of size n and see how the our parameters of interest change with polynomial degree as seen in figures \ref{fig:MSEBOOT1} and \ref{fig:BVBOOT1}
+
+\begin{center}
+\large{\textbf{MSE as function of model complexity}}
+\end{center}
+
+\noindent Now that we have a method of creating more data, we can study the bias-variance trade-off more thoroughly. More spesifically, we want to study how the bias, variance and MSE changes as a function of polynomial degree. Now imagine we just have 100 observations. We can then utilize the bootstrap resampling method to create $B \times n$ more data. Let us generate $B = 100$ data sets each of size n and see how the our parameters of interest change with polynomial degree as seen in figures \ref{fig:MSEBOOT1} and \ref{fig:BVBOOT1}
 
 \begin{figure}[H]
 \centering
@@ -319,7 +368,7 @@ Now that we have a method of creating more data, we can study the bias-variance 
 
 \noindent We can observe that the bias starts high, but tends towards zero when we increase the complexity of our model. This is because a low order polynomial would be unable to fit the complex structure of the Franke function, thus making the difference between our predicted Franke function and the actual Franke function large. With an large increase in polynomial degree, we can fit the model arbitrarily close to the actual Franke function. 
 \\
-The variance behaves almost the opposite of the bias as it starts very low, but increases exponentially as we increase the complexity. This is because a low order polynomial would manage to somewhat predict the test data, even if the prediction is horrible. When we increase the complexity, the model is unable to accurately predict the test data because the model is over fitting the model to the data of the training set. 
+The variance behaves almost the opposite of the bias as it starts very low, but increases exponentially as we increase the complexity. This is because a low order polynomial would manage to somewhat predict the test data, even if the prediction is horrible. When we increase the complexity, the trained model is unable to accurately predict the test data as the trained model is too complex, leading to over-fitting. 
 \\
 We can also see that the minimum MSE in figure \ref{fig:MSEBOOT1} corresponds to the same polynomial as that of figure \ref{fig:BVBOOT1}, strengthening our trust in the models predictive capabilities, but what would happen if we were to decrease the number of bootstrap samples? Let us now generate a new model where all the parameters are the same as of the previous one, but where we only generate 10 bootstrap samples. Then we get something akin to figure \ref{fig:MSEBOOT2}
 
@@ -329,21 +378,33 @@ We can also see that the minimum MSE in figure \ref{fig:MSEBOOT1} corresponds to
 \caption{\label{fig:MSEBOOT2} MSE as a function of polynomial degree using the bootstrap resampling method. Here we have 100 observations while we generate 10 bootstrap samples with a noise level of $0.001$ and a $75/25$ train test split.}
 \end{figure}
 
-\noindent We can observe from figure \ref{fig:MSEBOOT2} that the point of lowest MSE is now at $p = 3$ which is lower than the one observed in figure \ref{fig:MSEBOOT1}. This is because more data means that the model can be trained more without overfitting the model. Thus, when we decrease the number of observations (or bootstrap samples in this case), we lower the threshold for when the model becomes overfit. This again means that a lower degree of polynomial is the ideal complexity for the model. 
+\noindent We can observe from figure \ref{fig:MSEBOOT2} that the point of lowest MSE is now at $p = 3$ which is lower than the one observed in figure \ref{fig:MSEBOOT1}. This is because more data means that the model can be trained more without overfitting. Thus, when we decrease the number of observations (or bootstrap samples in this case), we lower the threshold for when the model becomes overfit. This again means that a lower degree of polynomial is the ideal complexity for the model. 
 \\
 What is also observed from the code when using a low amount of bootstrap samples is that the model becomes increasingly unstable. This is because the bootstrap MSE relies on the mean of the B generated statistics. If we only generate a few bootstrap samples, the mean is more prone to randomness, which in turn means the algorithm is unstable. For this reason and the one described above (more data is good), we want to stick with 100 bootstrap samples from here on out.
 
 \newpage
 
-\noindent \textbf{c)} We will now introduce another resampling method called cross-validation (CV) and repeat the analysis of the previous exercise. The cross-validation resampling method, like the bootstrap, also aims to create more data out of thin air. However, the process is quite different than that of the bootstrap. The main idea behind the CV is to divide the original data set into k different data sets, or folds as they are called, and then let the kth fold act as the test set while the other k-1 folds acts as the training sets. A model is then fit for each permutation and a statistic is calculated. Then, another fold will act as the test set while the others will act as the training set. This process repeats until every fold has been used as a test set and a statistic for each permutation is calculated. The average of the k different statistic is then calculated and is said to represent the actual statistic of the original data set. 
+\begin{center}
+\large{\textbf{Exercise 1c): Mean square error as function of model complexity and cross-validation resampling.}}
+\end{center}
+
+\begin{center}
+\large{\textbf{Cross-validation}}
+\end{center}
+
+\noindent We will now introduce another resampling method called cross-validation (CV) and repeat the analysis of the previous exercise. The cross-validation resampling method, like the bootstrap, also aims to create more data out of thin air. However, the process is quite different than that of the bootstrap. The main idea behind the CV is to divide the original data set into k different data sets, or folds as they are called, and then let the kth fold act as the test set while the other k-1 folds acts as the training sets. A model is then fit for each permutation and a statistic is calculated. Then, another fold will act as the test set while the others will act as the training set. This process repeats until every fold has been used as a test set once and a statistic for each permutation is calculated. The average of the k different statistic is then calculated and is said to represent the actual statistic of the original data set. 
 \\
-It is typical to have 10, 5 or n different folds and the CV process is then referred to as 10-fold, 5-fold and leave one out (LOOCV) cross-validation methods. The LOOCV is a special case of the CV method where each observations acts as the test set once and this process is sketched in figure \ref{fig:CVsketch}
+It is typical to have 10, 5 or n folds and the CV process is then referred to as 10-fold, 5-fold and leave-one-out (LOOCV) cross-validation. The LOOCV is a special case of the CV method where each observations acts as the test set once and this process is sketched in figure \ref{fig:CVsketch}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/CVSketch.PNG}
 \caption{\label{fig:CVsketch} A rough sketch of the LOOCV process. The n observations acts as the test set once (purple squares) while the other $n-1$ observations acts as the training set (white squares). The model is then fit on each distinct permutation and a statistic is calculated (MSE in this project). Finally, an average of the k different statistics is calculated and will represent the statistic of the original data set.}
 \end{figure}
+
+\begin{center}
+\large{\textbf{MSE as function of model complexity}}
+\end{center}
 
 \noindent We now want to repeat the process from the previous exercise where we see look at MSE as a function of polynomial degree for the 5-fold, 10-fold and leave one out cross-validations. Let us start with the 10-fold CV which is plotted in figure \ref{fig:MSECV1}
 
@@ -353,7 +414,7 @@ It is typical to have 10, 5 or n different folds and the CV process is then refe
 \caption{\label{fig:MSECV1} MSE as a function of polynomial degree up to 10 using the cross-validation resampling method. Here we have 100 observations while we split the data into 10 different folds with a noise level of $0.001$.}
 \end{figure}
 
-\noindent We can observe from figure \ref{fig:MSECV1} that the MSE is at its lowest for $p = 4$, similar to the MSE for the bootstrap resampling method in figure \ref{fig:MSEBOOT1}. We can decompose the MSE into its bias and variance components as done in figure \ref{fig:BVCV1}
+\noindent We can observe from figure \ref{fig:MSECV1} that the MSE is at its lowest for $p = 4$. We can decompose the MSE into its bias and variance components as done in figure \ref{fig:BVCV1}
 
 \begin{figure}[H]
 \centering
@@ -377,7 +438,7 @@ We now want to see what happens when we set the number of folds k equal to 5 and
 \caption{\label{fig:BVCV2} Bias and variance decomposition of figure \ref{fig:MSECV1}. The bias and variance change as a function of polynomial degree using the CV resampling method. Here we have 100 observations while we use 5-fold CV with a noise level of $0.001$.}
 \end{figure}
 
-\noindent What we observe when comparing figure \ref{fig:MSECV1} to figure \ref{fig:MSECV2} and figure \ref{fig:BVCV1} to figure \ref{fig:BVCV2} is that the bias looks the same, but the variance increases at a lower rate when using 5-fold CV rather than 10-fold CV. As a result, the MSE is lower at higher polynomials, thus decreasing the risk of overfitting. We can continue this examination by seeing what happens when we use LOOCV as in figure \ref{fig:MSECV3} and \ref{fig:BVCV3}
+\noindent What we observe when comparing figure \ref{fig:MSECV1} to figure \ref{fig:MSECV2} and figure \ref{fig:BVCV1} to figure \ref{fig:BVCV2} is that the bias looks the same, but the variance increases at a lower rate when using 5-fold CV rather than 10-fold CV. As a result, the MSE is lower at higher polynomials for the 5-fold CV, thus decreasing the risk of overfitting. We can continue this examination by seeing what happens when we use LOOCV as in figure \ref{fig:MSECV3} and \ref{fig:BVCV3}
 
 \begin{figure}[H]
 \centering
@@ -391,13 +452,23 @@ We now want to see what happens when we set the number of folds k equal to 5 and
 \caption{\label{fig:BVCV3} Bias and variance decomposition of figure \ref{fig:MSECV1}. The bias and variance change as a function of polynomial degree using the CV resampling method. Here we have 100 observations while we use LOOCV with a noise level of $0.001$.}
 \end{figure}
 
-\noindent Like previously discussed, the slope of the variance is less steep than that of the 10 and 5-fold CVs, and the MSE is therefore lower at higher polynomial degrees. The reason for this effect is that decreasing the fold size "creates" more data out of thin air, and having more data means that we could fit higher order polynomials without over-fitting, as previously discussed. This is observed from figures \ref{fig:MSECV3} and \ref{fig:BVCV3} as the lowest MSE is located at $p = 5$ instead of $p = 4$ as seen for higher folds. This effect could possibly also be achieved using bootstrap if we used more than 100 bootstrap samples. The two different methods seems to yield similar result which strengthen our believe in the resampling methods. This allows us to proceed to other linear regression schemes in the coming exercises.
+\noindent Like previously discussed, the slope of the variance is less steep than that of the 10 and 5-fold CVs, and the MSE is therefore lower at higher polynomial degrees. The reason for this effect is that decreasing the fold size "creates" more data out of thin air, and having more data means that we could fit higher order polynomials without over-fitting, as previously discussed. This is observed from figures \ref{fig:MSECV3} and \ref{fig:BVCV3} as the lowest MSE is located at $p = 5$ instead of $p = 4$ as seen for higher folds. The complexity of lowest MSE is similar to the MSE for the bootstrap resampling method in figure \ref{fig:MSEBOOT1}, but we can observe that the test MSE increases slower than that of the bootstrap model. This may be caused by how the two different methods work. The CV resampling method utilizes the existing information to its fullest by training the data for each permutation of the fold splits. This is unlike the bootstrap which simply increases the number of observations without taking into account the various permutations of the entire data.
+\\
+The two different methods seems to yield preferable results which strengthen our believe in the resampling methods. This allows us to proceed to other linear regression schemes in the coming exercises.
 
 \newpage
 
-\noindent \textbf{d)} We have only utilized the ordinary least squares (OLS) regression scheme so far, but now we want to utilize two different shrinkage methods, namely the Ridge and Lasso regression schemes. We will start by looking at the Ridge regression scheme and then proceed to Lasso in the next exercise. 
+\begin{center}
+\Large{\textbf{Exercise d): Ridge regression}}
+\end{center}
+
+\begin{center}
+\large{\textbf{Ridge regression MSE as function of model complexity using bootstrap}}
+\end{center}
+
+\noindent We have only utilized the ordinary least squares (OLS) regression scheme so far, but now we want to utilize two different shrinkage methods, namely the Ridge and Lasso regression schemes. We will start by looking at the Ridge regression scheme and then proceed to Lasso in the next exercise. 
 \\
-Shrinkage methods like Ridge aim to find which variables are significant and which variables are not, and then removing the influence of the in-significant variables by either setting them to zero (Lasso) or close to zero (Ridge). This is done by adding the shrinkage factor $\lambda$ to both sides of the OLS equation (equation \ref{eq:LinReg}) such that
+Shrinkage methods like Ridge aim to find which variables are significant and which variables are not, and then removing the influence of the in-significant variables by either setting them to zero (Lasso) or close to zero (Ridge). This is done by adding the shrinkage parameter $\lambda$ to both sides of the OLS equation (equation \ref{eq:LinReg}) such that
 
 \begin{equation}\label{eq:RidgeDerive}
 \begin{aligned}
@@ -405,11 +476,11 @@ Shrinkage methods like Ridge aim to find which variables are significant and whi
 \end{aligned}
 \end{equation}
 
-\noindent Solving equation \ref{eq:RidgeDerive} for the regression coefficients $\boldsymbol{\beta}$ yields
+\noindent Solving equation \ref{eq:RidgeDerive} for the regression coefficients $\boldsymbol{\beta}$ with respects to minimising the residual sum of squares yields
 
 \begin{equation}\label{eq:RidgeDerive2}
 \begin{aligned}
-\boldsymbol{\beta} = (\textbf{X}^T \textbf{X} + \lambda \textbf{I})^{-1} \textbf{X}^T \boldsymbol{\hat{y}}_{Ridge}
+\boldsymbol{\hat{\beta}} = (\textbf{X}^T \textbf{X} + \lambda \textbf{I})^{-1} \textbf{X}^T \boldsymbol{\hat{y}}_{Ridge}
 \end{aligned}
 \end{equation}
 
@@ -432,8 +503,12 @@ First let us investigate how the MLE of the Ridge regression changes as a functi
 \end{figure}
 
 \noindent We can observe from figure \ref{fig:BVRidge1} that the bias always decreases as previously seen in exercise b) (figure \ref{fig:BVBOOT1}). However, the variance seem to depend on both the complexity of our model and the value of $\lambda$. Figure \ref{fig:BVRidge1} confirms what we previously saw in figure \ref{fig:MSERidgeBoot3}, namely that higher values of $\lambda$ yields higher variance as a function of complexity, thus yielding a higher MSE.
-\\
-The next step is to see what happens with the beta coefficients when we apply different values of $\lambda$ to equation \ref{eq:RidgeDerive2}. We can plot the regression coefficient values for a given range of polynomial degrees and see how the value changes. Here we have chosen polynomials up to degree 5 a this is where the point of lowest MSE i located and we have chosen $\lambda$-values as $[0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000]$. The result is plotted in figure \ref{fig:LambdaPlot1}
+
+\begin{center}
+\large{\textbf{Regression coefficients as function of $\lambda$ using bootstrap}}
+\end{center}
+
+\noindent The next step is to see what happens with the beta coefficients when we apply different values of $\lambda$ to equation \ref{eq:RidgeDerive2}. We can plot the regression coefficient values for a given range of shrinkage parameters and see how the value changes. Here we have chosen the $\lambda$-values as $[0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000]$ where we use polynomials up to degree 5. The result is plotted in figure \ref{fig:LambdaPlot1}
 
 \begin{figure}[H]
 \centering
@@ -441,7 +516,7 @@ The next step is to see what happens with the beta coefficients when we apply di
 \caption{\label{fig:LambdaPlot1} Regression coefficient values of up to $p = 5$ as function of logarithmic $\lambda$-value using the bootstrap method with 100 iterations. The original dataset is of size 100.}
 \end{figure}
 
-\noindent It is difficult to see any trends as we have so many regression coefficients and we therefore categorize the plot into polynomial degree such that first order polynomials ($x,y$) have one color and second order polynomial ($xy,x^2,y^2$) have another color and so on. The resulting plot is shown in figure \ref{fig:LambdaPlot2}
+\noindent It is difficult to see any trends as we have so many regression coefficients and we therefore sort figure \ref{fig:LambdaPlot1} into its different polynomial degrees such that first order polynomials ($x,y$) have one color and second order polynomial ($xy,x^2,y^2$) have another color and so on. The resulting plot is shown in figure \ref{fig:LambdaPlot2}
 
 \begin{figure}[H]
 \centering
@@ -450,8 +525,12 @@ The next step is to see what happens with the beta coefficients when we apply di
 \end{figure}
 
 \noindent From figure \ref{fig:LambdaPlot2} we can observe that the Ridge regression treats different polynomial degree unevenly. Much of the point of the ridge regression is to reduce the the variables in the design matrix towards zero, depending on their statistical significance. The higher the $\lambda$-values, the more variables will be reduced towards zero, but not exactly zero. We can observe this by comparing the third and first degree polynomial in figure \ref{fig:LambdaPlot2}. The third degree polynomial is reduced to a value close to zero at around $10^{-2} = 0.1$, while the first degree polynomial does not approach zero before $10^2 = 100$. This means that the ridge regression algorithm deems third degree polynomials as less significant than that of the first order polynomials. We can extend this though process and see that all variables will be reduced closed to zero (regardless of their polynomial degree) if $\lambda$ is large enough.
-\\
-Let us now explore the CV resampling approach. We implement the CV algorithm the same way as in exercise c) and we see investigate how the MSE changes as function of model complexity. We will use the exact same parameters as previously with $n = 100$ observations in the original data set, a noise-level of $0.001$ and 10 polynomial degrees. Furthermore, we want to try the 10-fold, 5-fold and leave-one-out cross-validations and see what the difference between the outcomes are. The MSE versus polynomial degree is plotted for each CV-type in figure \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3}
+
+\begin{center}
+\large{\textbf{MSE as function of model complexity using cross-validation}}
+\end{center}
+
+\noindent Let us now explore the CV resampling approach. We implement the CV algorithm the same way as in exercise c) and we investigate how the MSE changes as function of model complexity. We will use the exact same parameters as previously with $n = 100$ observations in the original data set, a noise-level of $0.001$ and 10 polynomial degrees. Furthermore, we want to try the 10-fold, 5-fold and leave-one-out cross-validations and see what the difference between the outcomes are. The MSE versus polynomial degree is plotted for each CV-type in figure \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3}
 
 \begin{figure}[H]
 \centering
@@ -471,11 +550,11 @@ Let us now explore the CV resampling approach. We implement the CV algorithm the
 \caption{\label{fig:MSERidgeCV3} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the leave-one-out CV resampling method. Here we have 100 observations while we consider every possible permutation of a leave-one-out cross-validation with a noise level of $0.001$.}
 \end{figure}
 
-\noindent One can observe from figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} that the MSEs rapidly decrease from 1 to 2 polynomial degrees. After $p = 2$ however, some models increase in MSE while others decrease. The overall trend regardless of fold-size is that models with a high value of $\lambda$ tend to have a steeper increase in MSE. On the contrary, we see models with low values of $\lambda$ actually further decrease in MSE after $p = 2$, namely models with $\lambda$-value lower than $0.1$. However, these models also eventually increase in MSE after $p = 5$, which still seem to be the optimal complexity for most models. 
+\noindent One can observe from figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} that the MSEs rapidly decrease from 1 to 2 polynomial degrees. After $p = 2$ however, some models increase in MSE while others decrease. We observe that $\lambda$-values larger than 1 are the models that increase their MSE at $p = 2$, while models using $\lambda$-values between 0 and 1 tend to decrease further after $p = 2$. This means means that $\lambda$ should be chosen as somewhere in between 0 and 1, as the test MSE is lowest here.
 \\
 What is also observed from figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} is that the training MSE for some models, namely those of higher values of $\lambda$, do not approach zero imminently. This is due to the Ridge regression reducing some of the variables to zero (least significant ones) which actually lowers the MSE of even the training data. This was not a problem when we used OLS or bootstrap resampling, meaning the CV resampling method is more sensitive to which variables are considered in the regression. 
 \\
-Another interesting observations is that decreasing the fold size tend to decrease the MSE. When we compare figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} we see that the LOOCV has the lowest overall MSE while the 10-fold CV has the highest overall CV. This is not surprising as using smaller folds sizes inherently "creates" more data, allowing for larger polynomial degrees to yield lower MSEs. In fact, we can see that for the LOOCV case (figure \ref{fig:MSERidgeCV3}), some of the models never really increase their test MSE for polynomials up to 10th order. This means that creating $n^2$ amount of data allows us to create models with much higher order of polynomials. This means that we can more accurately predict responses by using higher order polynomials in our model.
+Another interesting observations is that decreasing the fold size tend to decrease the MSE. When we compare figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} we see that the LOOCV has the lowest overall MSE while the 10-fold CV has the highest overall CV. This is not surprising as using smaller folds sizes inherently "creates" more data, allowing for larger polynomial degrees to yield lower MSEs. In fact, we can see that for the LOOCV case (figure \ref{fig:MSERidgeCV3}), some of the models never really increase their test MSE for polynomials up to 10th order. This means that creating $n^2$ amount of data allows us to create models with much higher order of polynomials. This means further that we can more accurately predict responses by using higher order polynomials in our model when utilizing LOOCV.
 \\
 We can decompose the test MSEs from figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3} into their bias and variance components as done in figures \ref{fig:BVRidgeCV1}, \ref{fig:BVRidgeCV2} and \ref{fig:BVRidgeCV3}
 
@@ -497,9 +576,13 @@ We can decompose the test MSEs from figures \ref{fig:MSERidgeCV1}, \ref{fig:MSER
 \caption{\label{fig:BVRidgeCV3} Bias and variance decomposition of figure \ref{fig:MSERidgeCV3}. The bias and variance change as a function of polynomial degree and values of $\lambda$ using the LOOCV resampling method. Here we have 100 observations with a noise level of $0.001$.}
 \end{figure}
 
-\noindent Figures \ref{fig:BVRidgeCV1}, \ref{fig:BVRidgeCV2} and \ref{fig:BVRidgeCV3} explains why the test MSEs decreased with smaller folds. The bias of stays the same regardless of fold-size, while the variance decreases for all values of $\lambda$. 
-\\
-Let us now investigate the effects of the Ridge regression on the regression coefficients. We can again plot the regression coefficient values against values of $\lambda$ for all three fold sizes as done in figure \ref{fig:LambdaPlotCV1}, \ref{fig:LambdaPlotCV2} and \ref{fig:LambdaPlotCV3}
+\noindent Figures \ref{fig:BVRidgeCV1}, \ref{fig:BVRidgeCV2} and \ref{fig:BVRidgeCV3} explains why the test MSEs decreased with smaller folds. The bias of stays the same regardless of fold-size, while the variance increases with increasing fold size. We again observe that the LOOCV models never really increase their variance past a certain point. 
+
+\begin{center}
+\large{\textbf{Regression coefficients as function of $\lambda$ using cross-validation}}
+\end{center}
+
+\noindent Let us now investigate the effects of the Ridge regression on the regression coefficients when we utilize the CV resampling method. We can again plot the regression coefficient values against values of $\lambda$ for all three fold sizes as done in figure \ref{fig:LambdaPlotCV1}, \ref{fig:LambdaPlotCV2} and \ref{fig:LambdaPlotCV3}
 
 \begin{figure}[H]
 \centering
@@ -521,11 +604,19 @@ Let us now investigate the effects of the Ridge regression on the regression coe
 
 \noindent One can observe that the regression coefficients all approach zero at about the same rate for all fold sizes. If we compared figures \ref{fig:LambdaPlotCV1}, \ref{fig:LambdaPlotCV2} and \ref{fig:LambdaPlotCV3} to figures \ref{fig:LambdaPlot2}, we observe that the regression coefficient values are higher for the CV resampling method. However, this is meaningless as it is when the coefficients approach zero that matters. With that, we again compare the figures and see that the Ridge regression reduces variables towards zero quicker when we use the CV resampling method, rather than the bootstrap method.
 \\
-With the information we have gathered so far, we can safely say that the Ridge regression impact the CV resampling method more than the bootstrap resampling method. However, the CV resampling method is more sensitive to different values of $\lambda$ than the bootstrap. 
+With the information we have gathered so far, we can safely say that the Ridge regression has a larger impact when we utilize the CV resampling method more than the bootstrap resampling method.
 
 \newpage
 
-\noindent \textbf{e)} We now investigate the second shrinkage method, namely the Lasso regression. Like the Ridge regression, the Lasso shrinks the least significant variables, but the variables are set to exactly zero and not just close to zero. We can write the Lasso regression equation to be the same as the OLS equation (equation \ref{eq:LinReg}), but with an added penalty term to both sides 
+\begin{center}
+\Large{\textbf{Exercise 1e) Lasso regression}}
+\end{center}
+
+\begin{center}
+\large{\textbf{Lasso regression MSE as function of model complexity using bootstrap}}
+\end{center}
+
+\noindent We now investigate the second shrinkage method, namely the Lasso regression. Like the Ridge regression, the Lasso shrinks the least significant variables, but the variables are set to exactly zero and not just close to zero. We can write the Lasso regression equation to be the same as the OLS equation (equation \ref{eq:LinReg}), but with an added penalty term to both sides 
 
 \begin{equation}\label{eq:LassoDerive}
 \begin{aligned}
@@ -533,15 +624,15 @@ With the information we have gathered so far, we can safely say that the Ridge r
 \end{aligned}
 \end{equation}
 
-\noindent where $|\boldsymbol{\beta}|_1$ is the L1 regularization. Solving equation \ref{eq:LassoDerive} for the regression coefficients in order to minimize the residual sum of squared yields
+\noindent where $|\boldsymbol{\beta}|_1$ is the L1 regularization. To solve equation \ref{eq:LassoDerive} for its regression coefficients we must assume that the covariates are orthonormal ($\textbf{X}^T \textbf{X} = \textbf{I}$). If this is the case then the regression coefficients can be written as
 
 \begin{equation}\label{eq:LassoDerive2}
 \begin{aligned}
-some eq
+\boldsymbol{\hat{\beta}} = \boldsymbol{\hat{\beta}}^{OLS} max(0, 1-\frac{N\lambda}{|\boldsymbol{\hat{\beta}}^{OLS}|})
 \end{aligned}
 \end{equation}
 
-\noindent We can then perform the exact same investigation as done in exercise d, where we first plot the MSE as function of model complexity and the regression coefficients as function of $\lambda$ for the bootstrap resampling method as well as for 10-fold, 5-fold and leave-one-out cross-validations. The MSE plots are shown in figures \ref{fig:MSELasso1}, \ref{fig:MSELasso2}, \ref{fig:MSELasso3} and \ref{fig:MSELasso4}
+\noindent where $\boldsymbol{\hat{\beta}}^{OLS}$ is the ordinary least squares regression coefficients given by equation \ref{eq:minBeta}. We can then perform the exact same investigation as done in exercise d, where we first plot the MSE as function of model complexity and the regression coefficients as function of $\lambda$ for the bootstrap resampling method as well as for 10-fold, 5-fold and leave-one-out cross-validations. The MSE plots are shown in figures \ref{fig:MSELasso1}, \ref{fig:MSELasso2}, \ref{fig:MSELasso3} and \ref{fig:MSELasso4}
 
 \begin{figure}[H]
 \centering
@@ -567,9 +658,9 @@ some eq
 \caption{\label{fig:MSELasso4} MSE as a function of polynomial degree up to 10 for different values of $\lambda$ using the LOOCV resampling method and a Lasso regression scheme. Here we have 100 observations while we consider every possible permutation of a LOOCV with a noise level of $0.001$.}
 \end{figure}
 
-\noindent Let us first discuss the difference between the bootstrap resampling method seen in figure \ref{fig:MSELasso1} and the CV resampling method seen in figures \ref{fig:MSELasso2}, \ref{fig:MSELasso3} and \ref{fig:MSELasso4}. The models creating using bootstrap seem much smoother than the models using CV. More importantly, we observe that the bootstrap models tend to increase their MSE exponentially, while the CV models tend to increase their MSE linearly. This may be important if one wishes to create a model of a high degree without letting the MSE get out of hand. 
+\noindent Let us first discuss the difference between the bootstrap resampling method seen in figure \ref{fig:MSELasso1} and the CV resampling method seen in figures \ref{fig:MSELasso2}, \ref{fig:MSELasso3} and \ref{fig:MSELasso4}. The models creating using bootstrap seem much smoother than the models using CV. More importantly, we observe that the bootstrap models tend to increase their MSE exponentially, while the CV models tend to increase their MSE linearly. This may be important if one wishes to create a model of a high degree without letting the MSE get out of hand. Additionally, the CV models have lower overall test MSE than the bootstrap equivalent. 
 \\
-As for the dependence on different $\lambda$-values, we can observe the same effect as in exercise d in figures \ref{fig:MSERidgeCV1}, \ref{fig:MSERidgeCV2} and \ref{fig:MSERidgeCV3}, namely that increasing the value of $\lambda$ increases the overall MSE. There seem to be one exception however as the model using $\lambda = 0$ had relatively low MSE. This is because this particular model is equivalent to the OLS model and will therefore perform better than some incremental value just under zero. 
+As for the dependence on different $\lambda$-values, we can observe that lower $\lambda$-values tend to lie close to the OLS model ($\lambda = 0$). However, when $\lambda$ is increased in the bootstrap method, the overall test MSE decreases while the opposite is the case in the CV method. 
 \\
 Another observations is that some models using low values of $\lambda$ never really increase in MSE. This is particularly the case for the bootstrap and LOOCV models where polynomials of degree 10 have less $0.1$ in MSE. Such a feet is possible due to the variable shrinkage done by the Lasso regression scheme. Removing variables makes the model less prone to over-fitting, thus reducing the MSE at higher complexity. This means that using models with a high number of bootstrap iterations or low number of folds while using low values of $\lambda$ allows us to create a model for higher order polynomials, which in turn may increase the models predictive capabilities.
 \\
@@ -609,15 +700,23 @@ We also notice that the Lasso regression reduces the variables at lower values o
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainData2.PNG}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainData1.PNG}
 \caption{\label{fig:terrainData1} Terrain data over Norway.}
 \end{figure}
 
-\noindent This data will from now act as the response $\hat{y}$ just like the Franke function have been used so far. Since we now have already developed the tools to model the image in figure \ref{fig:terrainData1}, we can proceed to exercise g.
+\noindent We also want to scale the data so that the distribution of the data is centred around zero with standard deviation one. Additionally, we only consider every 10th point on figure \ref{fig:terrainData1} for computational effective reasons. Doing this results in figure \ref{fig:terrainData2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainData_clip_scale_skip.PNG}
+\caption{\label{fig:terrainData2} Terrain data over Norway where the data has been scaled and reduced to $\frac{n}{10}$ data points.}
+\end{figure}
+
+\noindent Figure \ref{fig:terrainData2} will from now act as the response $\hat{y}$ just like the Franke function have been used so far. Since we now have already developed the tools to model the image in figure \ref{fig:terrainData2}, we can proceed to exercise g.
 
 \newpage
 
-\noindent \textbf{g)} In this exercise I want to demonstrate how to properly go forth when creating a decent model using linear regression, or in other words, I want to find the optimal parameters of a linear regression model. Three models will be made, one OLS, one Ridge using 10-fold CV and one Lasso using 10-fold CV. 10-fold CV was chosen as it gave reasonable results in the previous exercises and it shortens the run-time in the python code compared to a LOOCV. We again use a noise-level of $0.001$ and the number of observations is this time determined by the data set (figure \ref{fig:terrainData1}). For computational effective reasons, only every tenth value of the original data set will be used. We can now list a table where we keep our variables updated as we go
+\noindent \textbf{g)} In this exercise I want to demonstrate how to properly go forth when creating a decent model using linear regression, or in other words, I want to find the optimal parameters of a linear regression model. Three models will be made, one OLS, one Ridge using 10-fold CV and one Lasso using 10-fold CV. 10-fold CV was chosen as it gave reasonable results in the previous exercises and it shortens the run-time in the python code compared to a LOOCV. We now reject any noise in our model as the noise-level was simply a tool to simulate realistic data, and thus the noise-level equals zero. The number of observations is this time determined by the data set (figure \ref{fig:terrainData1}) and is $\frac{1800^2}{10} = 324000$. We can now list a table where we keep our variables updated as we go
 
 \begin{table}[h]
 \caption{\label{tab:update1} An overview of the three models which will be updated as we go. Undiscovered parameters/values are denoted by "-".}
@@ -625,19 +724,89 @@ We also notice that the Lasso regression reduces the variables at lower values o
 \begin{tabular}{c|c|c|c}
  & OLS & Ridge & Lasso\\
 \hline
-n & $\frac{1800}{10} = 180$ & $\frac{1800}{10} = 180$ & $\frac{1800}{10} = 180$\\
+Number of observation n & $324000$ & $324000$ & $324000$\\
 \hline
-noise-level & $0.001$ & $0.001$ & $0.001$\\
+noise-level & $0$ & $0$ & $0$\\
 \hline
 Optimal $\lambda$ & None & - & -\\
 \hline
-Optimal complexity & - & - & -\\
+Optimal complexity p & - & - & -\\
 \hline
 Lowest MSE & - & - & -\\
 \end{tabular}
 \end{table}
 
-\noindent We will continuously update table \ref{tab:update1} as we find the optimal parameters of the three models. This will allow us to better compare the models at the very end to see which one is preferable over the others. Let us first find the optimal values of the shrinkage parameter $\lambda$ for both the Ridge and Lasso regression schemes (OLS does use a shrinkage parameter). 
+\noindent We will continuously update table \ref{tab:update1} as we find the optimal parameters of the three models. This will allow us to better compare the models at the very end to see which one is preferable over the others. Let us first find the optimal values of the shrinkage parameter $\lambda$ for both the Ridge and Lasso regression schemes (OLS does use a shrinkage parameter). We only consider $\lambda$-values in the interval $[0.00001,0.0001,0.001,0.01,0.1]$. Any lower values and most regression coefficients will be reduced towards/to zero, and any higher will just be close to the OLS. We can now plot the MSE as function of polynomial degree using 10-fold CV for the OLS, Ridge and Lasso regression schemes using the array of $\lambda$-values previously mentioned
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_p20_CV10_OLS_TERREIN.PNG}
+\caption{\label{fig:MSEOLST} MSE as a function of polynomial degree up to 20 for different values of $\lambda$ using the 10-fold CV resampling method and a OLS regression scheme. Here we have 100 observations while we consider every possible permutation of a 10-fold cross-validation.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_p20_CV10_RIDGE_TERREIN.PNG}
+\caption{\label{fig:MSERIDGET} MSE as a function of polynomial degree up to 20 for different values of $\lambda$ using the 10-fold CV resampling method and a Ridge regression scheme. Here we have 100 observations while we consider every possible permutation of a 10-fold cross-validation.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_p20_CV10_Lasso_TERREIN.PNG}
+\caption{\label{fig:MSELASSOT} MSE as a function of polynomial degree up to 20 for different values of $\lambda$ using the 10-fold CV resampling method and a Lasso regression scheme. Here we have 100 observations while we consider every possible permutation of a 10-fold cross-validation.}
+\end{figure}
+
+\noindent From figures \ref{fig:MSEOLST}, \ref{fig:MSERIDGET} and \ref{fig:MSELASSOT} we can observe that there are large differences between the three regression schemes. The OLS scheme behaves as normal as the test MSE decreases until some minimum value and then proceeds to sharply increase as over-fitting occurs. The ridge behaves similar to the OLS for $\lambda = 0.1,0.01,0.001$ while the test MSE really never increases for $\lambda = 0.0001,0.00001$. The latter is also how the Lasso models behave as the complexity of the model never seems to increase the test MSE. This may mean that the over-fitting occurs higher than $p = 20$. With that being said, the test MSE for the Lasso models barely decrease after some point. 
+\\
+However, we can still find which $\lambda$-value produces the lowest test MSE and at which polynomial degree this occurs for the three regression schemes. These values were found and put into table \ref{tab:update1} and the updated table then looks like
+
+\begin{table}[h]
+\caption{\label{tab:update2} An overview of the three models which will be updated as we go. Undiscovered parameters/values are denoted by "-".}
+\centering
+\begin{tabular}{c|c|c|c}
+ & OLS & Ridge & Lasso\\
+\hline
+Number of observation n & $324000$ & $324000$ & $324000$\\
+\hline
+noise-level & $0$ & $0$ & $0$\\
+\hline
+Optimal $\lambda$ & None & $0.0001$ & $0.0001$\\
+\hline
+Optimal complexity p & $9$ & $20$ & $20$\\
+\hline
+Lowest MSE & $0.35434928$ & $0.34483905$ & $0.3783378$\\
+\end{tabular}
+\end{table}
+
+\noindent We can observe from table \ref{tab:update2} that all three regression schemes perform pretty well with regards to MSE. However, the Ridge regression scheme seems to perform the best. We can then create three models using the optimal parameters and plot the predicted image for each regression scheme as done in figure \ref{fig:predOLST}, \ref{fig:predRIDGET} and \ref{fig:predLASSOT}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainPred_OLS_CV10_p8.PNG}
+\caption{\label{fig:predOLST} MSE as a function of polynomial degree up to 20 for different values of $\lambda$ using the 10-fold CV resampling method and a Lasso regression scheme. Here we have 100 observations while we consider every possible permutation of a 10-fold cross-validation.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainPred_Ridge_CV10_p19_l00001.PNG}
+\caption{\label{fig:predRIDGET} MSE as a function of polynomial degree up to 20 for different values of $\lambda$ using the 10-fold CV resampling method and a Lasso regression scheme. Here we have 100 observations while we consider every possible permutation of a 10-fold cross-validation.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainPred_Lasso_CV10_p19_l00001.PNG}
+\caption{\label{fig:predLASSOT} MSE as a function of polynomial degree up to 20 for different values of $\lambda$ using the 10-fold CV resampling method and a Lasso regression scheme. Here we have 100 observations while we consider every possible permutation of a 10-fold cross-validation.}
+\end{figure}
+
+\noindent From the test MSE in table \ref{tab:update2} as well as the above images, it seems that Ridge performs the best as figure \ref{fig:predRIDGET} correlates the best with figure \ref{fig:terrainData2}. We can see that the machine learning algorithm is able to capture the main traits of the original image, but severely lacks details. One can see the two vertical "branches" pretty well, and also the smaller "branches" in the lower right corner. However, the two contrasting horizontal "branches" are not well observed in figure \ref{fig:predRIDGET}. 
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Conclusion}}
+\end{center}
+
+\noindent The main goal of this report was to develop the basic tools of a machine learning algorithm 
 
 \newpage
 

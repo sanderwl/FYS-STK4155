@@ -41,7 +41,7 @@ xt = np.arange(0, 1, 1 / (n*testSize))
 xxtt, yytt = np.meshgrid(y,xt)
 
 # Setting up the Franke function with/without noise
-z = FrankeFunc(xx, yy) #+ float(noiseLVL) * np.random.randn(n)
+z = FrankeFunc(xx, yy)
 
 if (str(part) == "a" or str(part) == "all"):
 
@@ -79,8 +79,6 @@ if (str(part) == "a" or str(part) == "all"):
 
     #Plotting difference between real and predicted Franke function
     FrankPlotDiff(xx,yy,z,estimated, plot = figureInp)
-
-    #FrankPlot(xxtt,yytt,Y_test_pred,plot=figureInp)
 
 
 elif (str(part) == "b" or str(part) == "all"):
@@ -570,6 +568,7 @@ elif (str(part) == "e" or str(part) == "all"):
 elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
 
     zz = terrainLoad()
+    zz = Scale2(zz, scalee=scaleInp)
     z = zz[1800:,:]
     #terrainPlot(figureInp,z)
     lenx = len(z)
@@ -581,6 +580,8 @@ elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
     z = z[::skip,::skip]
     x = x[::skip]
     y = y[::skip]
+
+    #terrainPlot(figureInp, z)
 
     n = len(z)
     xx, yy = np.meshgrid(x, y)
@@ -597,7 +598,11 @@ elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
         varianceCV = np.zeros(poly)
         MSE_train_CV = np.zeros(poly)
         MSE_test_CV = np.zeros(poly)
-        lamb = [0.000000001,0.00000001,0.0000001, 0.000001,0.00001]
+        if tp == "OLS":
+            lamb = [0]
+        else:
+            #lamb = [0.00001,0.0001,0.001,0.01,0.1]
+            lamb = lamb = [0.00001,0.0001,0.001,0.01,0.1]
         MSE_train_fin = np.zeros((len(lamb), poly))
         MSE_test_fin = np.zeros((len(lamb), poly))
         bias_fin = np.zeros((len(lamb), poly))
@@ -616,7 +621,7 @@ elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
                 designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
 
                 # Performing CV with OLS
-                bias, variance, MSE_train, MSE_test, randRow, betas = CV(designMatrix_scale, z, n, CVN, scaleInp,tp, f, rn, dexxer)
+                bias, variance, MSE_train, MSE_test, randRow, betas = CV(designMatrix_scale, z, n, CVN, scaleInp,tp, f, rn, i)
                 rn = randRow
                 # Calculate average means for each fold
                 biasCV[i] = np.mean(bias)
@@ -641,7 +646,10 @@ elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
     elif ye == 'l':
         # Declaring variables
         #lamb = [0.0000001, 0.000001,0.00001, 0.0001, 0.001, 0.01]
-        lamb = [0.000000001,0.00000001,0.0000001, 0.000001,0.00001]
+        if tp == "OLS":
+            lamb = [0]
+        else:
+            lamb = [0.00001,0.0001,0.001,0.01,0.1]
         designMatrixxxx = designMatrixFunc2(x, y, poly, noiseLVL)
         betasCV = np.zeros((len(designMatrixxxx[0]), n, len(lamb)))
         betas_fin = np.zeros((len(designMatrixxxx[0]), n, len(lamb)))
@@ -657,7 +665,7 @@ elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
             designMatrix_scale = Scale2(designMatrix, scalee=scaleInp)
 
             # Performing CV with Ridge
-            bias, variance, MSE_train, MSE_test, randRow, betas = CV(designMatrix_scale, z, n, CVN, scaleInp, tp,f, rn, dexxer)
+            bias, variance, MSE_train, MSE_test, randRow, betas = CV(designMatrix_scale, z, n, CVN, scaleInp, tp,f, rn, 0)
             rn = randRow
             # Calculate mean betas
             betasCV[:, :, dexxer] = np.mean(betas, axis=2)
@@ -666,9 +674,9 @@ elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
 
 
         if figureInp == True:
+            terrainPlot(figureInp, z)
             zz = betasCV[:,:,0]
             zz_pred = designMatrix_scale @ zz
             terrainPlot(figureInp,zz_pred)
-            terrainPlot(figureInp,z)
 
 

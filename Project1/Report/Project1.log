@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.9.17)  9 OCT 2020 23:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.9.17)  10 OCT 2020 18:54
 entering extended mode
 **./Project1.tex
 (Project1.tex
@@ -758,156 +758,155 @@ LaTeX Info: Redefining \nameref on input line 62.
 
  [1
 
-{C:/Users/Sander/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 85.
-
+{C:/Users/Sander/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 100
+.
 
 ("C:\Users\Sander\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 85.
-
+LaTeX Font Info:    Trying to load font information for U+msb on input line 100
+.
  ("C:\Users\Sander\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd
 "
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [2]
+) [3]
 \tmpboxcontent=\box61
+ [4]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInter
-val_ALL_n10_p5_noise0001_ts025XD.PNG, id=22, 1387.584pt x 734.9859pt>
+val_ALL_n10_p5_noise0001_ts025XD.PNG, id=42, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/beta
 Interval_ALL_n10_p5_noise0001_ts025XD.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaI
 nterval_ALL_n10_p5_noise0001_ts025XD.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/betaInterval_ALL_n10_p5_noise0001_ts025XD.PNG  used on input lin
-e 140.
+e 157.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [3]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaInter
-val_1row_n10_p5_noise0001_ts025XD.PNG, id=41, 1387.584pt x 734.9859pt>
+val_1row_n10_p5_noise0001_ts025XD.PNG, id=47, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/beta
 Interval_1row_n10_p5_noise0001_ts025XD.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaI
 nterval_1row_n10_p5_noise0001_ts025XD.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/betaInterval_1row_n10_p5_noise0001_ts025XD.PNG  used on input li
-ne 148.
+ne 165.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [4 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaI
+ [5 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaI
 nterval_ALL_n10_p5_noise0001_ts025XD.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal_n10
-_p5_noise0001_ts025.PNG, id=52, 1387.584pt x 734.9859pt>
+_p5_noise0001_ts025.PNG, id=58, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zRea
 l_n10_p5_noise0001_ts025.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal
 _n10_p5_noise0001_ts025.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/zReal_n10_p5_noise0001_ts025.PNG  used on input line 162.
+Report/Figures/zReal_n10_p5_noise0001_ts025.PNG  used on input line 179.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [5 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaI
+ [6 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/betaI
 nterval_1row_n10_p5_noise0001_ts025XD.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_n10_
-p5_noise0001_ts025.PNG, id=60, 1387.584pt x 734.9859pt>
+p5_noise0001_ts025.PNG, id=66, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst
 _n10_p5_noise0001_ts025.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_
 n10_p5_noise0001_ts025.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/zEst_n10_p5_noise0001_ts025.PNG  used on input line 168.
+Report/Figures/zEst_n10_p5_noise0001_ts025.PNG  used on input line 185.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff_n10
-_p5_noise0001_ts025.PNG, id=63, 1387.584pt x 734.9859pt>
+_p5_noise0001_ts025.PNG, id=69, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDif
 f_n10_p5_noise0001_ts025.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff
 _n10_p5_noise0001_ts025.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/zDiff_n10_p5_noise0001_ts025.PNG  used on input line 176.
+Report/Figures/zDiff_n10_p5_noise0001_ts025.PNG  used on input line 193.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [6 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal
+ [7 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal
 _n10_p5_noise0001_ts025.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Proj
 ect1/Report/Figures/zEst_n10_p5_noise0001_ts025.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal_n10
-0_p5_noise0001_ts025.PNG, id=81, 1387.584pt x 734.9859pt>
+0_p5_noise0001_ts025.PNG, id=88, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zRea
 l_n100_p5_noise0001_ts025.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal
 _n100_p5_noise0001_ts025.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/zReal_n100_p5_noise0001_ts025.PNG  used on input line 212.
+Report/Figures/zReal_n100_p5_noise0001_ts025.PNG  used on input line 229.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [7 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff
+ [8 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff
 _n10_p5_noise0001_ts025.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_n100
-_p5_noise0001_ts025.PNG, id=95, 1387.584pt x 734.9859pt>
+_p5_noise0001_ts025.PNG, id=100, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst
 _n100_p5_noise0001_ts025.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_
 n100_p5_noise0001_ts025.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/zEst_n100_p5_noise0001_ts025.PNG  used on input line 218.
+Report/Figures/zEst_n100_p5_noise0001_ts025.PNG  used on input line 235.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff_n10
-0_p5_noise0001_ts025.PNG, id=96, 1387.584pt x 734.9859pt>
+0_p5_noise0001_ts025.PNG, id=101, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDif
 f_n100_p5_noise0001_ts025.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff
 _n100_p5_noise0001_ts025.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/zDiff_n100_p5_noise0001_ts025.PNG  used on input line 224.
+Report/Figures/zDiff_n100_p5_noise0001_ts025.PNG  used on input line 241.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [8 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal
+ [9 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zReal
 _n100_p5_noise0001_ts025.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Pro
 ject1/Report/Figures/zEst_n100_p5_noise0001_ts025.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/tablllll.
-PNG, id=107, 1387.584pt x 734.9859pt>
+PNG, id=113, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/tabl
 llll.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/tabll
 lll.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/tablllll.PNG  used on input line 248.
+Report/Figures/tablllll.PNG  used on input line 265.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 
-[9 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff_
-n100_p5_noise0001_ts025.PNG>]
+[10 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zDiff
+_n100_p5_noise0001_ts025.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_n100
-_p5_noise01_ts025.PNG, id=116, 1387.584pt x 734.9859pt>
+_p5_noise01_ts025.PNG, id=122, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst
 _n100_p5_noise01_ts025.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/zEst_
 n100_p5_noise01_ts025.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/zEst_n100_p5_noise01_ts025.PNG  used on input line 256.
+Report/Figures/zEst_n100_p5_noise01_ts025.PNG  used on input line 273.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [10 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/tabl
+ [11 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/tabl
 llll.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures
-/zEst_n100_p5_noise01_ts025.PNG>] [11]
+/zEst_n100_p5_noise01_ts025.PNG>] [12] [13]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/bootstrap
-Sketch.PNG, id=135, 1007.26312pt x 659.46375pt>
+Sketch.PNG, id=148, 1007.26312pt x 659.46375pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/boot
 strapSketch.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/boots
 trapSketch.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/bootstrapSketch.PNG  used on input line 345.
+Report/Figures/bootstrapSketch.PNG  used on input line 362.
 (pdftex.def)             Requested size: 452.9679pt x 296.56474pt.
- [12]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBOOT_n
-1000_p10_noise0001_ts025_B100_shuffles.PNG, id=144, 1387.584pt x 734.9859pt>
+1000_p10_noise0001_ts025_B100_shuffles.PNG, id=151, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
 OOT_n1000_p10_noise0001_ts025_B100_shuffles.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBO
 OT_n1000_p10_noise0001_ts025_B100_shuffles.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/MSEBOOT_n1000_p10_noise0001_ts025_B100_shuffles.PNG  used on inp
-ut line 359.
+ut line 376.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 
-[13 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/boots
+[14 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/boots
 trapSketch.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotBOO
-T_n1000_p10_noise0001_ts025_B100_shuffles.PNG, id=153, 1387.584pt x 734.9859pt>
+T_n1000_p10_noise0001_ts025_B100_shuffles.PNG, id=159, 1387.584pt x 734.9859pt>
 
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otBOOT_n1000_p10_noise0001_ts025_B100_shuffles.PNG Graphic file (type png)
@@ -915,452 +914,453 @@ otBOOT_n1000_p10_noise0001_ts025_B100_shuffles.PNG Graphic file (type png)
 tBOOT_n1000_p10_noise0001_ts025_B100_shuffles.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/BVplotBOOT_n1000_p10_noise0001_ts025_B100_shuffles.PNG  used on 
-input line 365.
+input line 382.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [14 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
+ [15 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
 OOT_n1000_p10_noise0001_ts025_B100_shuffles.PNG> <C:/Users/Sander/Documents/Git
 Hub/FYS-STK4155/Project1/Report/Figures/BVplotBOOT_n1000_p10_noise0001_ts025_B1
 00_shuffles.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBOOT_n
-1000_p10_noise0001_ts025_B10_shuffles.PNG, id=165, 1387.584pt x 734.9859pt>
+1000_p10_noise0001_ts025_B10_shuffles.PNG, id=171, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
 OOT_n1000_p10_noise0001_ts025_B10_shuffles.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBO
 OT_n1000_p10_noise0001_ts025_B10_shuffles.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/MSEBOOT_n1000_p10_noise0001_ts025_B10_shuffles.PNG  used on inpu
-t line 377.
+t line 394.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [15 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
+ [16 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
 OOT_n1000_p10_noise0001_ts025_B10_shuffles.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/CVSketch.
-PNG, id=175, 902.6222pt x 276.28218pt>
+PNG, id=181, 902.6222pt x 276.28218pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/CVSk
 etch.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/CVSke
 tch.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/CVSketch.PNG  used on input line 401.
+Report/Figures/CVSketch.PNG  used on input line 418.
 (pdftex.def)             Requested size: 452.9679pt x 138.65085pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n10
-0_p10_noise0001_CV10_shuffles.PNG, id=177, 1387.584pt x 734.9859pt>
+0_p10_noise0001_CV10_shuffles.PNG, id=183, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV10_shuffles.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _n100_p10_noise0001_CV10_shuffles.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/MSECV_n100_p10_noise0001_CV10_shuffles.PNG  used on input line 4
-13.
+30.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [16 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/CVSk
+ [17 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/CVSk
 etch.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_
-n100_p10_noise0001_CV10.PNG, id=186, 1387.584pt x 734.9859pt>
+n100_p10_noise0001_CV10.PNG, id=192, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otCV_n100_p10_noise0001_CV10.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplo
 tCV_n100_p10_noise0001_CV10.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/BVplotCV_n100_p10_noise0001_CV10.PNG  used on input line 421.
+Report/Figures/BVplotCV_n100_p10_noise0001_CV10.PNG  used on input line 438.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [17 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
-V_n100_p10_noise0001_CV10_shuffles.PNG> <C:/Users/Sander/Documents/GitHub/FYS-S
-TK4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV10.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n10
-0_p10_noise0001_CV5_shuffles.PNG, id=200, 1387.584pt x 734.9859pt>
+0_p10_noise0001_CV5_shuffles.PNG, id=199, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV5_shuffles.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _n100_p10_noise0001_CV5_shuffles.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_n100_p10_noise0001_CV5_shuffles.PNG  used on input line 43
-1.
+Report/Figures/MSECV_n100_p10_noise0001_CV5_shuffles.PNG  used on input line 44
+8.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [18 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
+V_n100_p10_noise0001_CV10_shuffles.PNG> <C:/Users/Sander/Documents/GitHub/FYS-S
+TK4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV10.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_
-n100_p10_noise0001_CV5.PNG, id=201, 1387.584pt x 734.9859pt>
+n100_p10_noise0001_CV5.PNG, id=207, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otCV_n100_p10_noise0001_CV5.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplo
 tCV_n100_p10_noise0001_CV5.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/BVplotCV_n100_p10_noise0001_CV5.PNG  used on input line 437.
+Report/Figures/BVplotCV_n100_p10_noise0001_CV5.PNG  used on input line 454.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [18 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
+ [19 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV5_shuffles.PNG> <C:/Users/Sander/Documents/GitHub/FYS-ST
 K4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV5.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n10
-0_p10_noise0001_CV1_shuffles.PNG, id=218, 1387.584pt x 734.9859pt>
+0_p10_noise0001_CV1_shuffles.PNG, id=225, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV1_shuffles.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _n100_p10_noise0001_CV1_shuffles.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_n100_p10_noise0001_CV1_shuffles.PNG  used on input line 44
-5.
+Report/Figures/MSECV_n100_p10_noise0001_CV1_shuffles.PNG  used on input line 46
+2.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_
-n100_p10_noise0001_CV1.PNG, id=219, 1387.584pt x 734.9859pt>
+n100_p10_noise0001_CV1.PNG, id=226, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otCV_n100_p10_noise0001_CV1.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplo
 tCV_n100_p10_noise0001_CV1.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/BVplotCV_n100_p10_noise0001_CV1.PNG  used on input line 451.
+Report/Figures/BVplotCV_n100_p10_noise0001_CV1.PNG  used on input line 468.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [19 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
+ [20 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV1_shuffles.PNG> <C:/Users/Sander/Documents/GitHub/FYS-ST
-K4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV1.PNG>] [20]
+K4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV1.PNG>] [21]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBOOT_n
-100_p10_noise0001_B100_RIDGE.PNG, id=242, 1387.584pt x 734.9859pt>
+100_p10_noise0001_B100_RIDGE.PNG, id=248, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
 OOT_n100_p10_noise0001_B100_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBO
 OT_n100_p10_noise0001_B100_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSEBOOT_n100_p10_noise0001_B100_RIDGE.PNG  used on input line 49
-3.
+Report/Figures/MSEBOOT_n100_p10_noise0001_B100_RIDGE.PNG  used on input line 51
+0.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [21 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
-OOT_n100_p10_noise0001_B100_RIDGE.PNG>]
+ [22]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotBOO
-T_n100_p10_noise0001_ts025_B100_RIDGE.PNG, id=254, 1387.584pt x 734.9859pt>
+T_n100_p10_noise0001_ts025_B100_RIDGE.PNG, id=259, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otBOOT_n100_p10_noise0001_ts025_B100_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplo
 tBOOT_n100_p10_noise0001_ts025_B100_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/BVplotBOOT_n100_p10_noise0001_ts025_B100_RIDGE.PNG  used on inpu
-t line 501.
+t line 518.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [23 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
+OOT_n100_p10_noise0001_B100_RIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlo
-t_n100_p5_noise0001_ts025_B100_RIDGE.PNG, id=263, 1387.584pt x 734.9859pt>
+t_n100_p5_noise0001_ts025_B100_RIDGE.PNG, id=274, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_ts025_B100_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
 aPlot_n100_p5_noise0001_ts025_B100_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/LambdaPlot_n100_p5_noise0001_ts025_B100_RIDGE.PNG  used on input
- line 515.
+ line 532.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [22 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
+ [24 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otBOOT_n100_p10_noise0001_ts025_B100_RIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlo
-t_n100_p5_noise0001_ts025_B100_RIDGESort.PNG, id=273, 1387.584pt x 734.9859pt>
+t_n100_p5_noise0001_ts025_B100_RIDGESort.PNG, id=283, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_ts025_B100_RIDGESort.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
 aPlot_n100_p5_noise0001_ts025_B100_RIDGESort.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/LambdaPlot_n100_p5_noise0001_ts025_B100_RIDGESort.PNG  used on i
-nput line 523.
+nput line 540.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [23 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
-daPlot_n100_p5_noise0001_ts025_B100_RIDGE.PNG> <C:/Users/Sander/Documents/GitHu
-b/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_ts025_B100_R
-IDGESort.PNG>]
+
+[25 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
+aPlot_n100_p5_noise0001_ts025_B100_RIDGE.PNG> <C:/Users/Sander/Documents/GitHub
+/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_ts025_B100_RI
+DGESort.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n10
-0_p10_noise0001_CV10_RIDGE.PNG, id=286, 1387.584pt x 734.9859pt>
+0_p10_noise0001_CV10_RIDGE.PNG, id=297, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV10_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _n100_p10_noise0001_CV10_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_n100_p10_noise0001_CV10_RIDGE.PNG  used on input line 537.
+Report/Figures/MSECV_n100_p10_noise0001_CV10_RIDGE.PNG  used on input line 554.
 
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n10
-0_p10_noise0001_CV5_RIDGE.PNG, id=287, 1387.584pt x 734.9859pt>
+0_p10_noise0001_CV5_RIDGE.PNG, id=298, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV5_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _n100_p10_noise0001_CV5_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_n100_p10_noise0001_CV5_RIDGE.PNG  used on input line 543.
+Report/Figures/MSECV_n100_p10_noise0001_CV5_RIDGE.PNG  used on input line 560.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [24 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
+ [26 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV10_RIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n10
-0_p10_noise0001_CV1_RIDGE.PNG, id=296, 1387.584pt x 734.9859pt>
+0_p10_noise0001_CV1_RIDGE.PNG, id=307, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV1_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _n100_p10_noise0001_CV1_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_n100_p10_noise0001_CV1_RIDGE.PNG  used on input line 549.
+Report/Figures/MSECV_n100_p10_noise0001_CV1_RIDGE.PNG  used on input line 566.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [25 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
+ [27 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV5_RIDGE.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK41
 55/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV1_RIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_
-n100_p10_noise0001_CV10_RIDGE.PNG, id=320, 1387.584pt x 734.9859pt>
+n100_p10_noise0001_CV10_RIDGE.PNG, id=330, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otCV_n100_p10_noise0001_CV10_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplo
 tCV_n100_p10_noise0001_CV10_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/BVplotCV_n100_p10_noise0001_CV10_RIDGE.PNG  used on input line 5
-63.
+80.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_
-n100_p10_noise0001_CV5_RIDGE.PNG, id=323, 1387.584pt x 734.9859pt>
+n100_p10_noise0001_CV5_RIDGE.PNG, id=333, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otCV_n100_p10_noise0001_CV5_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplo
 tCV_n100_p10_noise0001_CV5_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/BVplotCV_n100_p10_noise0001_CV5_RIDGE.PNG  used on input line 56
-9.
+Report/Figures/BVplotCV_n100_p10_noise0001_CV5_RIDGE.PNG  used on input line 58
+6.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [26 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
+ [28 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otCV_n100_p10_noise0001_CV10_RIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplotCV_
-n100_p10_noise0001_CV1_RIDGE.PNG, id=334, 1387.584pt x 734.9859pt>
+n100_p10_noise0001_CV1_RIDGE.PNG, id=344, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
 otCV_n100_p10_noise0001_CV1_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplo
 tCV_n100_p10_noise0001_CV1_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/BVplotCV_n100_p10_noise0001_CV1_RIDGE.PNG  used on input line 57
-5.
+Report/Figures/BVplotCV_n100_p10_noise0001_CV1_RIDGE.PNG  used on input line 59
+2.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [27 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVpl
-otCV_n100_p10_noise0001_CV5_RIDGE.PNG> <C:/Users/Sander/Documents/GitHub/FYS-ST
-K4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV1_RIDGE.PNG>]
+
+[29 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/BVplo
+tCV_n100_p10_noise0001_CV5_RIDGE.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK
+4155/Project1/Report/Figures/BVplotCV_n100_p10_noise0001_CV1_RIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlo
-t_n100_p5_noise0001_CV10_RIDGE.PNG, id=349, 1387.584pt x 734.9859pt>
+t_n100_p5_noise0001_CV10_RIDGE.PNG, id=359, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_CV10_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
 aPlot_n100_p5_noise0001_CV10_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/LambdaPlot_n100_p5_noise0001_CV10_RIDGE.PNG  used on input line 
-589.
+606.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlo
-t_n100_p5_noise0001_CV5_RIDGE.PNG, id=350, 1387.584pt x 734.9859pt>
+t_n100_p5_noise0001_CV5_RIDGE.PNG, id=360, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_CV5_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
 aPlot_n100_p5_noise0001_CV5_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/LambdaPlot_n100_p5_noise0001_CV5_RIDGE.PNG  used on input line 5
-95.
+Report/Figures/LambdaPlot_n100_p5_noise0001_CV5_RIDGE.PNG  used on input line 6
+12.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlo
-t_n100_p5_noise0001_CV1_RIDGE.PNG, id=351, 1387.584pt x 734.9859pt>
+t_n100_p5_noise0001_CV1_RIDGE.PNG, id=361, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_CV1_RIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
 aPlot_n100_p5_noise0001_CV1_RIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/LambdaPlot_n100_p5_noise0001_CV1_RIDGE.PNG  used on input line 6
-01.
+18.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [28 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
-daPlot_n100_p5_noise0001_CV10_RIDGE.PNG> <C:/Users/Sander/Documents/GitHub/FYS-
-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV5_RIDGE.PNG>] [2
-9 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaP
-lot_n100_p5_noise0001_CV1_RIDGE.PNG>]
+
+[30 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
+aPlot_n100_p5_noise0001_CV10_RIDGE.PNG> <C:/Users/Sander/Documents/GitHub/FYS-S
+TK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV5_RIDGE.PNG>]
+[31 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
+aPlot_n100_p5_noise0001_CV1_RIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBOOT_n
-100_p10_noise0001_ts025_B100_Lasso.PNG, id=377, 1387.584pt x 734.9859pt>
+100_p10_noise0001_ts025_B100_Lasso.PNG, id=386, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
 OOT_n100_p10_noise0001_ts025_B100_Lasso.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEBO
 OT_n100_p10_noise0001_ts025_B100_Lasso.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/MSEBOOT_n100_p10_noise0001_ts025_B100_Lasso.PNG  used on input l
-ine 639.
+ine 648.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n10
-0_p10_noise0001_CV10_Lasso.PNG, id=378, 1387.584pt x 734.9859pt>
+0_p10_noise0001_CV10_Lasso.PNG, id=387, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV10_Lasso.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _n100_p10_noise0001_CV10_Lasso.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_n100_p10_noise0001_CV10_Lasso.PNG  used on input line 645.
+Report/Figures/MSECV_n100_p10_noise0001_CV10_Lasso.PNG  used on input line 654.
 
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [30 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
+ [32 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEB
 OOT_n100_p10_noise0001_ts025_B100_Lasso.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n10
-0_p10_noise0001_CV5_Lasso.PNG, id=390, 1387.584pt x 734.9859pt>
+0_p10_noise0001_CV5_Lasso.PNG, id=398, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV5_Lasso.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _n100_p10_noise0001_CV5_Lasso.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_n100_p10_noise0001_CV5_Lasso.PNG  used on input line 651.
+Report/Figures/MSECV_n100_p10_noise0001_CV5_Lasso.PNG  used on input line 660.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_n10
-0_p10_noise0001_CV1_Lasso.PNG, id=391, 1387.584pt x 734.9859pt>
+0_p10_noise0001_CV1_Lasso.PNG, id=399, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV1_Lasso.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _n100_p10_noise0001_CV1_Lasso.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_n100_p10_noise0001_CV1_Lasso.PNG  used on input line 657.
+Report/Figures/MSECV_n100_p10_noise0001_CV1_Lasso.PNG  used on input line 666.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [31 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
+ [33 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_n100_p10_noise0001_CV10_Lasso.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4
 155/Project1/Report/Figures/MSECV_n100_p10_noise0001_CV5_Lasso.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlo
-t_n100_p5_noise0001_ts025_B100_LassoSort.PNG, id=410, 1387.584pt x 734.9859pt>
+t_n100_p5_noise0001_ts025_B100_LassoSort.PNG, id=414, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_ts025_B100_LassoSort.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
 aPlot_n100_p5_noise0001_ts025_B100_LassoSort.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/LambdaPlot_n100_p5_noise0001_ts025_B100_LassoSort.PNG  used on i
-nput line 671.
+nput line 680.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [32 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
-V_n100_p10_noise0001_CV1_Lasso.PNG>]
+
+[34 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
+_n100_p10_noise0001_CV1_Lasso.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlo
-t_n100_p5_noise0001_CV10_LassoSort.PNG, id=420, 1387.584pt x 734.9859pt>
+t_n100_p5_noise0001_CV10_LassoSort.PNG, id=424, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_CV10_LassoSort.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
 aPlot_n100_p5_noise0001_CV10_LassoSort.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/LambdaPlot_n100_p5_noise0001_CV10_LassoSort.PNG  used on input l
-ine 677.
+ine 686.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlo
-t_n100_p5_noise0001_CV5_LassoSort.PNG, id=421, 1387.584pt x 734.9859pt>
+t_n100_p5_noise0001_CV5_LassoSort.PNG, id=425, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_CV5_LassoSort.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
 aPlot_n100_p5_noise0001_CV5_LassoSort.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/LambdaPlot_n100_p5_noise0001_CV5_LassoSort.PNG  used on input li
-ne 683.
+ne 692.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [33 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
+ [35 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_ts025_B100_LassoSort.PNG> <C:/Users/Sander/Documents/G
 itHub/FYS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV10_Las
 soSort.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/LambdaPlo
-t_n100_p5_noise0001_CV1_LassoSort.PNG, id=428, 1387.584pt x 734.9859pt>
+t_n100_p5_noise0001_CV1_LassoSort.PNG, id=432, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
 daPlot_n100_p5_noise0001_CV1_LassoSort.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
 aPlot_n100_p5_noise0001_CV1_LassoSort.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
 Report/Figures/LambdaPlot_n100_p5_noise0001_CV1_LassoSort.PNG  used on input li
-ne 689.
+ne 698.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
-
-
-LaTeX Warning: Command \L invalid in math mode on input line 695.
-
-[34 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lambd
-aPlot_n100_p5_noise0001_CV5_LassoSort.PNG> <C:/Users/Sander/Documents/GitHub/FY
-S-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV1_LassoSort.PN
-G>] [35]
+ [36 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/Lamb
+daPlot_n100_p5_noise0001_CV5_LassoSort.PNG> <C:/Users/Sander/Documents/GitHub/F
+YS-STK4155/Project1/Report/Figures/LambdaPlot_n100_p5_noise0001_CV1_LassoSort.P
+NG>] [37]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainDa
-ta1.PNG, id=444, 1387.584pt x 734.9859pt>
+ta1.PNG, id=449, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terr
 ainData1.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terra
 inData1.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/terrainData1.PNG  used on input line 703.
+Report/Figures/terrainData1.PNG  used on input line 720.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainDa
-ta_clip_scale_skip.PNG, id=447, 1387.584pt x 734.9859pt>
+ta_clip_scale_skip.PNG, id=452, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terr
 ainData_clip_scale_skip.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terra
 inData_clip_scale_skip.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/terrainData_clip_scale_skip.PNG  used on input line 711.
+Report/Figures/terrainData_clip_scale_skip.PNG  used on input line 728.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [36 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terr
-ainData1.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Fig
-ures/terrainData_clip_scale_skip.PNG>] [37]
+ [38 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terr
+ainData1.PNG>] [39 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Repor
+t/Figures/terrainData_clip_scale_skip.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_p20
-_CV10_OLS_TERREIN.PNG, id=466, 1387.584pt x 734.9859pt>
+_CV10_OLS_TERREIN.PNG, id=469, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_p20_CV10_OLS_TERREIN.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _p20_CV10_OLS_TERREIN.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_p20_CV10_OLS_TERREIN.PNG  used on input line 743.
+Report/Figures/MSECV_p20_CV10_OLS_TERREIN.PNG  used on input line 774.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [38]
+ [40]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_p20
-_CV10_RIDGE_TERREIN.PNG, id=473, 1387.584pt x 734.9859pt>
+_CV10_RIDGE_TERREIN.PNG, id=476, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_p20_CV10_RIDGE_TERREIN.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _p20_CV10_RIDGE_TERREIN.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_p20_CV10_RIDGE_TERREIN.PNG  used on input line 749.
+Report/Figures/MSECV_p20_CV10_RIDGE_TERREIN.PNG  used on input line 780.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV_p20
-_CV10_Lasso_TERREIN.PNG, id=474, 1387.584pt x 734.9859pt>
+_CV10_Lasso_TERREIN.PNG, id=477, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_p20_CV10_Lasso_TERREIN.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
 _p20_CV10_Lasso_TERREIN.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/MSECV_p20_CV10_Lasso_TERREIN.PNG  used on input line 755.
+Report/Figures/MSECV_p20_CV10_Lasso_TERREIN.PNG  used on input line 786.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [39 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
+ [41 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
 V_p20_CV10_OLS_TERREIN.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Proje
 ct1/Report/Figures/MSECV_p20_CV10_RIDGE_TERREIN.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainPr
-ed_OLS_CV10_p8.PNG, id=491, 1387.584pt x 734.9859pt>
+ed_OLS_CV10_p8.PNG, id=494, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terr
 ainPred_OLS_CV10_p8.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terra
 inPred_OLS_CV10_p8.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/terrainPred_OLS_CV10_p8.PNG  used on input line 785.
+Report/Figures/terrainPred_OLS_CV10_p8.PNG  used on input line 820.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [40 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSEC
-V_p20_CV10_Lasso_TERREIN.PNG>]
+
+[42 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/MSECV
+_p20_CV10_Lasso_TERREIN.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainPr
-ed_Ridge_CV10_p19_l00001.PNG, id=502, 1387.584pt x 734.9859pt>
+ed_Ridge_CV10_p19_l00001.PNG, id=504, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terr
 ainPred_Ridge_CV10_p19_l00001.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terra
 inPred_Ridge_CV10_p19_l00001.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/terrainPred_Ridge_CV10_p19_l00001.PNG  used on input line 791.
+Report/Figures/terrainPred_Ridge_CV10_p19_l00001.PNG  used on input line 826.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terrainPr
-ed_Lasso_CV10_p19_l00001.PNG, id=503, 1387.584pt x 734.9859pt>
+ed_Lasso_CV10_p19_l00001.PNG, id=507, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terr
 ainPred_Lasso_CV10_p19_l00001.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terra
 inPred_Lasso_CV10_p19_l00001.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/
-Report/Figures/terrainPred_Lasso_CV10_p19_l00001.PNG  used on input line 797.
+Report/Figures/terrainPred_Lasso_CV10_p19_l00001.PNG  used on input line 832.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [41 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terr
+ [43 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1/Report/Figures/terr
 ainPred_OLS_CV10_p8.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project1
-/Report/Figures/terrainPred_Ridge_CV10_p19_l00001.PNG>] [42 <C:/Users/Sander/Do
+/Report/Figures/terrainPred_Ridge_CV10_p19_l00001.PNG>] [44 <C:/Users/Sander/Do
 cuments/GitHub/FYS-STK4155/Project1/Report/Figures/terrainPred_Lasso_CV10_p19_l
-00001.PNG>]
-[43] [44]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 821.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 821.
+00001.PNG>] [45] [46] [47]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 878.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 878.
  (Project1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 821.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 821.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 878.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 878.
 Package rerunfilecheck Info: File `Project1.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 13604 strings out of 480934
- 246501 string characters out of 2899449
- 590666 words of memory out of 3000000
+ 13607 strings out of 480934
+ 246514 string characters out of 2899449
+ 589666 words of memory out of 3000000
  29026 multiletter control sequences out of 15000+200000
- 546830 words of font info for 77 fonts, out of 3000000 for 9000
+ 547177 words of font info for 78 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,18n,77p,1216b,462s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 43i,18n,77p,1249b,462s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Sander\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600
 \tcrm1200.pk><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
 lic/amsfonts/cm/cmbx12.pfb><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/f
@@ -1374,11 +1374,12 @@ nts/cm/cmr12.pfb><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
 /fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Sander/AppData/Local/Program
 s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Sander/AppData
 /Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/S
-ander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.p
-fb>
-Output written on Project1.pdf (44 pages, 6462736 bytes).
+ander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.p
+fb><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmtt12.pfb>
+Output written on Project1.pdf (47 pages, 6487457 bytes).
 PDF statistics:
- 595 PDF objects out of 1000 (max. 8388607)
- 113 named destinations out of 1000 (max. 500000)
+ 613 PDF objects out of 1000 (max. 8388607)
+ 115 named destinations out of 1000 (max. 500000)
  251 words of extra memory for PDF output out of 10000 (max. 10000000)
 

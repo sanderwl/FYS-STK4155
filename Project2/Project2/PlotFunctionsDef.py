@@ -64,11 +64,13 @@ def MSESGD(mseThing, f, st, plot):
         plt.legend(loc="upper right", prop={'size': 20})
         plt.show()
 
-def MSEvsLRATE(testMSE, testMSE_Sci, learningRates, plot):
+def MSEvsLRATE(testMSESig, testMSERelu, testMSE_SciRelu, testMSELeakyRelu, learningRates, plot):
     if plot == True:
         xxx = np.log10(learningRates)
-        plt.plot(xxx, testMSE, label="MSE (NN)", linewidth=4)
-        plt.plot(xxx, testMSE_Sci, ':', label="MSE (Scikit)", linewidth=4)
+        plt.plot(xxx, testMSESig, label="Sigmoid (NN)", linewidth=4)
+        plt.plot(xxx, testMSERelu, label="Relu (NN)", linewidth=4)
+        plt.plot(xxx, testMSE_SciRelu, ':', label="Relu (Scikit)", linewidth=4)
+        plt.plot(xxx, testMSELeakyRelu, label="Leaky Relu (NN)", linewidth=4)
         plt.xticks(xxx)
         plt.xticks(fontsize=14)
         plt.yticks(fontsize=14)
@@ -77,13 +79,16 @@ def MSEvsLRATE(testMSE, testMSE_Sci, learningRates, plot):
         plt.ylabel('MSE', fontsize=20)
         plt.xlabel('Logarithm of learning rates', fontsize=20)
         plt.legend(loc="upper right", prop={'size': 20})
+        plt.grid()
         plt.show()
 
-def R2vsLRATE(R2, R2_sci, learningRates, plot):
+def R2vsLRATE(R2Sig, R2Relu, R2_sciRelu, R2LeakyRelu, learningRates, plot):
     if plot == True:
         xxx = np.log10(learningRates)
-        plt.plot(xxx, R2, label="R2 (NN)", linewidth=4)
-        plt.plot(xxx, R2_sci, ':', label="R2 (Scikit)", linewidth=4)
+        plt.plot(xxx, R2Sig, label="Sigmoid (NN)", linewidth=4)
+        plt.plot(xxx, R2Relu, label="Relu (NN)", linewidth=4)
+        plt.plot(xxx, R2_sciRelu, ':', label="Relu (Scikit)", linewidth=4)
+        plt.plot(xxx, R2LeakyRelu, label="Leaky Relu (NN)", linewidth=4)
         plt.xticks(xxx)
         plt.xticks(fontsize=14)
         plt.yticks(fontsize=14)
@@ -92,6 +97,7 @@ def R2vsLRATE(R2, R2_sci, learningRates, plot):
         plt.ylabel('R2', fontsize=20)
         plt.xlabel('Logarithm of learning rates', fontsize=20)
         plt.legend(loc="lower right", prop={'size': 20})
+        plt.grid()
         plt.show()
 
 def heatmap(x, neurons, layers, rm, plot):

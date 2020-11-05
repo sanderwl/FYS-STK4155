@@ -6,14 +6,14 @@ class NeuralNetwork:
             self,
             X,
             y,
-            hiddenNeurons=[20],
-            epochsN=1000,
-            batch_size=10,
-            learningRate=0.01,
-            learningType='constant',
-            initialBias=0.01,
-            activationType='sigmoid',
-            outputFunctionType='identity',
+            hiddenNeurons = [10],
+            epochsN = 1000,
+            batch_size = 10,
+            learningRate = 0.01,
+            learningType = 'constant',
+            initialBias = 0.01,
+            activationType = 'sigmoid',
+            outputFunctionType = 'identity',
             alpha = 0):
 
         self.X_train = X
@@ -49,7 +49,7 @@ class NeuralNetwork:
         self.costs = np.zeros(self.epochsN) # cost function
 
         for l in range(1, self.layersN):
-            self.weights.append(np.random.randn(self.layers[l - 1], self.layers[l]))
+            self.weights.append(np.random.normal(loc=0.0,scale=np.sqrt(2 / (self.layers[l - 1] + self.layers[l])), size=(self.layers[l - 1], self.layers[l])))
             self.biases.append(np.zeros(self.layers[l]) + self.initialBias)
             self.z.append(None)
             self.a.append(None)
@@ -178,20 +178,20 @@ class NeuralNetwork:
         return exp_term / exp_term.sum(axis=1, keepdims=True)
 
     def relu(self, x):
-        check = np.isnan(np.maximum(x, 0))
+        #check = np.isnan(x)
         #if True in check:
-            #print("NaN passing through network!")
+        #    print("Nan in relu")
         return np.maximum(x, 0)
 
     def reluDerivative(self, x):
-        return 1. * (self.relu(x) >= 0)
+        return 1 * (x >= 0)
 
     def leakyRelu(self, x):
         smallV = 0.01
         return np.maximum(x, smallV)
 
     def leakyReluDerivative(self, x):
-        return 1. * (self.leakyRelu(x) >= 0)
+        return 1 * (x >= 0)
 
     def linear(self, x):
         return x

@@ -481,10 +481,28 @@ ax,& \text{otherwise}
 
 \noindent We can see that this is close to the linear activation function where the input is simply passed through without any alterations. However, if the input is zero, then the output from a given neuron will be zero in the RELU case. The same goes for the leaky RELU case, but instead if setting the input values to zero, we set it to some small constant times the input. a in equation \ref{eq:leakyRELU} is typically in the range of $0.01$ and kind of has the same purpose as the bias in the way that it prevents the neuron from ever giving an output of zero (thereby the name "leaky"). Similar to the bias, this is done to prevent a chain of zeros to be passed through the neural network.
 \\
+One can observe from equations \ref{eq:RELU} and \ref{eq:leakyRELU} that the output from a given neuron will not be between zero and one if the input to the neuron is greater than zero. This has proven to be a problem when implementing the code as some configurations of the neural network will explode the gradient. The exploding gradient happens when 
+\\
 We can now perform the same analysis as in exercise 1b), but using the RELU and leaky RELU instead of the sigmoid as our hidden layer activation function.
 
 \begin{center}
-\large{\textbf{Neural network results using RELU activation functions}}
+\large{\textbf{Learning rate, weights and biases}}
+\end{center}
+
+\noindent The neural network have proved stable when using the sigmoid activation function for the hidden layers as observed from the previous exercise. The leaky RELU and sometimes the RELU were prone to overflow leading to a worse predictions. The overflow became a huge problem for learning rates larger than 0.01, and therefore, only learning rates under this value were considered. Another solution to counter the overflow problem were increasing the number of epoch iterations to 2000 and decreasing the batch size to around 5. 
+\\
+It was also observed that the initial weights really impacted whether the network overflowed or not. Setting the initial weight to some random number drawn from a standard normal distribution gave severe flaws for many layer/neuron configurations. However, the xavier weight initialization proved to stabilize the network in most cases. The xavier weight initialization aims to maintain a constant variance of the data passing through the network (kilde). Doing this drastically reduced the chance for overflow which really showed when coding the network.
+\\
+The biases were simply set to a value of 0.01 as varying the bias showed to be of little significance when we played around with the code. The only important thing was that the bias was greater than zero, as a bias of zero often resulted in the network only passing zeros through, ultimately leading to a terrible prediction.
+
+\begin{center}
+\large{\textbf{Neural network results using the RELU activation functions}}
+\end{center}
+
+\noindent The network were training with an initial bias of 0.01 and a xavier weight initialization using the RELU activation function for the hidden layers and a linear activation function for the output layer. The goal is now to compare these results with those using the sigmoid activation function. 
+
+\begin{center}
+\large{\textbf{Neural network results using the leaky RELU activation functions}}
 \end{center}
 
 \newpage

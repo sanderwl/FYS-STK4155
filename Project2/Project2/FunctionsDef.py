@@ -32,7 +32,7 @@ def inputsss():
         figureInp = False
     testlevel = input("What is the test size? (between 0 and 1, but typically around 0.25)")
     part = input("Which sub-exericse will you run(a,b,c,d,e,f/all)?")
-    return int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
+    return 100,5,True,True,"b",True,0.001,0.25#int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
 
 def inputsssA():
     # Input function for interactivity in part a)
@@ -57,7 +57,7 @@ def inputsssB():
     elif tp == 'Ridge':
         alpha = input("What is the penalty term in the Ridge regression? (float)")
 
-    return int(layers), int(neuron), str(hiddenFunc), str(learn), str(outputFunc), float(alpha), str(tp)
+    return 10,10,"sigmoid","constant", "identity", 0.001, "Ridge"#int(layers), int(neuron), str(hiddenFunc), str(learn), str(outputFunc), float(alpha), str(tp)
 
 def R2(y_pred, y_real):
     # Calculate r squared
@@ -88,6 +88,16 @@ def FrankeFunc(x, y):
     z = term1 + term2 + term3 + term4
     return z
 
+def FrankeFuncNN(x, y):
+    # Declare terms of the Franke function
+    term1 = 0.75 * np.exp(-(0.25 * (9 * x - 2) ** 2) - 0.25 * ((9 * y - 2) ** 2))
+    term2 = 0.75 * np.exp(-((9 * x + 1) ** 2) / 49.0 - 0.1 * (9 * y + 1))
+    term3 = 0.5 * np.exp(-(9 * x - 7) ** 2 / 4.0 - 0.25 * ((9 * y - 3) ** 2))
+    term4 = -0.2 * np.exp(-(9 * x - 4) ** 2 - (9 * y - 7) ** 2)
+    z = term1 + term2 + term3 + term4
+    z = z.ravel()[:, np.newaxis]
+    return z
+
 def standardize(z, scalee):
     # Standardize input by having mean equal zero and standard deviation equal one
     if scalee == True:
@@ -116,6 +126,14 @@ def createDesignmatrix(x, y, poly):
     dx = PolynomialFeatures(degree=poly, include_bias=False).fit_transform(preds)
     designMatrix = np.c_[np.ones((len(dx), 1)), dx]
     return designMatrix
+
+def createDesignmatrixNN(x, y, poly):
+    # Creating design matrix of p polynomial degrees
+    x1, x2 = np.meshgrid(x, x)
+    p = int((poly + 1) * (poly + 2) / 2)
+    X = np.ones((len(x), p))
+    X = np.c_[x1.ravel()[:, np.newaxis], x2.ravel()[:, np.newaxis]]
+    return X
 
 def dataSplit(designMatrix, z, testsize, i, rn):
 

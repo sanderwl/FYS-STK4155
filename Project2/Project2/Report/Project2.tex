@@ -109,7 +109,22 @@
 \large{\textbf{The Franke function}}
 \end{center}
 
-\noindent a
+\noindent In this first part of the exercise, we focus on regression by training a neural network to predict the Franke function. The Franke function is a weighted sum of exponentials given by equation \ref{eq:Franke}
+
+\begin{equation}\label{eq:Franke}
+\begin{aligned}
+f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}+\frac{3}{4}\exp{\left(-\frac{(9x+1)^2}{49}- \frac{(9y+1)}{10}\right)} \\
+&+\frac{1}{2}\exp{\left(-\frac{(9x-7)^2}{4} - \frac{(9y-3)^2}{4}\right)} -\frac{1}{5}\exp{\left(-(9x-4)^2 - (9y-7)^2\right) }
+\end{aligned}
+\end{equation}
+
+\noindent where x and y are in the span of 0 and 1. The Franke function will be fit using polynomials of up to degree 5, as this was proven yield the best fit in Project one (the report can be found at \href{{https://github.com/sanderwl/FYS-STK4155/tree/master/Project1/Report}}{\nolinkurl{https://github.com/sanderwl/FYS-STK4155/tree/master/Project1/Report}}). The number of observations is set to 100 as this was also applied in the Project one. Keeping the consistency will make for better comparison later in this Project. The Franke function can be plotted and is shown i figure \ref{fig:Franke}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/FrankOG.PNG}
+\caption{\label{fig:Franke} A plot of the Franke function discretized with 100 times a 100 observations. The function is standardized and normalized such that the mean is zero and the variance is 1 and the maximum value is 1.}
+\end{figure}
 
 \begin{center}
 \large{\textbf{Concepts of gradient descent and the cost function}}
@@ -320,7 +335,7 @@ We also observe that the MSE for penalty parameters less than one decrease their
 \newpage
 
 \begin{center}
-\Large{\textbf{Exercise 1b): Neural network for regression}}
+\Large{\textbf{Exercise 1b)and 1c): Neural network for regression}}
 \end{center}
 
 \begin{center}
@@ -340,12 +355,10 @@ We also observe that the MSE for penalty parameters less than one decrease their
 The next step is to tune the weights within the neural network. This is where the gradient descent from exercise 1a) comes in. We can utilize the stochastic gradient descent to find the minimum of a cost function where each dimension is the weights of the neural network. Can then find which value of the weight would incrementally decrease the cost function, and then go back though our neural network and update the weight values in each neuron. This process is often called back propagation. We want to repeat the feed forward and back propagation many times in order for the weight to find their optimal value. This is called the training of the neural network. When we have trained the neural network sufficiently, it can be used to predict new data the network has never seen before. With these processes in mind, we can implement an algorithm that performs feed forward and back propagation.
 
 \begin{center}
-\large{\textbf{Set-up of our neural network}}
+\large{\textbf{The sigmoid activation function}}
 \end{center}
 
-\noindent We now aim to implement a neural network code, but first we must decide what the parameters of the network should be. The initial values of the weights are simply drawn randomly from a normal distribution and each neuron has its own weight. The bias has in this case simply been set to $0.01$. The role of the bias is to make sure there is some input to the neurons. Say a neuron only receives zeros from the previous layer. This would in turn lead to a feed forward of only zeros for that particular set of neurons meaning they will never contribute to the network. Therefore, it is important to add some bias to each neuron. 
-\\
-The activation function in the hidden layer will be the sigmoid function which is given by equation \ref{eq:sig}
+\noindent Three types of activation functions within the hidden layers will be implemented, the first one being the sigmoid activation function which is given by equation \ref{eq:sig}
 
 \begin{equation}\label{eq:sig}
 \begin{aligned}
@@ -354,104 +367,6 @@ The activation function in the hidden layer will be the sigmoid function which i
 \end{equation}
 
 \noindent It can be seen from the definition of the sigmoid function that whatever the value of x, the output is always somewhere between zero and one. We can utilize this to force the neurons to output a value between zero and one.
-\\
-The activation function for the output layer is simply a linear function that return itself, i.e. there is no activation function. This is because we essentially performing linear regression, and the output function must therefore be the same shape as the input.
-\\
-The input will in this case be the Franke function of dimensions $100 \times 100$ and so the output must also be of dimensions $100 \times 100$. 
-
-\begin{center}
-\large{\textbf{Neural network results}}
-\end{center}
-
-\noindent After implementing the neural network described in the previous section, we can analyse the results by plotting the MSE and $R^2$ for different learning rates for the SGD regression scheme, the neural network implementation and the Scikit neural network implementation for both the OLS and Ridge case as seen in figures \ref{fig:MSEvsLearn_OLS}, \ref{fig:MSEvsLearn_Ridge}, \ref{fig:R2vsLearn_OLS} and \ref{fig:R2vsLearn_Ridge} 
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS.PNG}
-\caption{\label{fig:MSEvsLearn_OLS} The MSE as function of different learning rates for the SGD regression scheme, the neural network implementation and the Scikit neural network implementation. Here we have utilized the OLS implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_Ridge.PNG}
-\caption{\label{fig:MSEvsLearn_Ridge} The MSE as function of different learning rates for the SGD regression scheme, the neural network implementation and the Scikit neural network implementation. Here we have utilized the Ridge implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/R2vsLearn_OLS.PNG}
-\caption{\label{fig:R2vsLearn_OLS} The $R^2$ as function of different learning rates for the SGD regression scheme, the neural network implementation and the Scikit neural network implementation. Here we have utilized the OLS implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_Ridge.PNG}
-\caption{\label{fig:R2vsLearn_Ridge} The $R^2$ as function of different learning rates for the SGD regression scheme, the neural network implementation and the Scikit neural network implementation. Here we have utilized the Ridge implementation.}
-\end{figure}
-
-\noindent One can observe from figures \ref{fig:MSEvsLearn_OLS} and \ref{fig:MSEvsLearn_Ridge} that the MSE for all three methods are about equal for learning rates over $0.001$. However, when we decrease the learning rate below this value, we see a sharp contrast. Here, the Scikit neural network implementation performs the best for both Ridge and OLS. The regression and my own neural network seems to perform about the same for Ridge regression, but my neural network outperforms the regression in the OLS case. This is confirmed by by the $R^2$ plots in figures \ref{fig:R2vsLearn_OLS} and \ref{fig:R2vsLearn_Ridge}. The optimal MSE and $R^2$ is found at learning rate equal to $0.01$ and this will be utilized in the following analysis.
-\\
-We now aim to find what number of hidden layers and hidden neurons give us the lowest MSE. The following figures shows MSE and $R^2$ heat maps for different number of hidden layers and hidden neurons using the optimal learning rate of $0.01$ using both OLS and Ridge for both my own and Scikit implementations.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapOLS_static_mine.PNG}
-\caption{\label{fig:heatOLS} Heatmap showing the MSE for my own neural network for different numbers of hidden layers and hidden neurons. Blue square at 100 neurons and 14 layers indicate the area of lowest MSE. Here we have utilized the OLS implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapOLS_static_mineR2.PNG}
-\caption{\label{fig:heatOLSR2} Heatmap showing the $R^2$ for my own neural network for different numbers of hidden layers and hidden neurons. Blue square at 100 neurons and 14 layers indicate the area of highest $R^2$. Here we have utilized the OLS implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapOLS_static_scikit.PNG}
-\caption{\label{fig:heatOLSsci} Heatmap showing the MSE using Scikit implementation for different numbers of hidden layers and hidden neurons. Blue square at 180 neurons and 9 layers indicate the area of lowest MSE. Here we have utilized the OLS implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapOLS_static_scikitR2.PNG}
-\caption{\label{fig:heatOLSsciR2} Heatmap showing the $R^2$ using Scikit implementation for different numbers of hidden layers and hidden neurons. Blue square at 180 neurons and 9 layers indicate the area of highest $R^2$. Here we have utilized the OLS implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_static_mine.PNG}
-\caption{\label{fig:heatRidge} Heatmap showing the MSE for my own neural network for different numbers of hidden layers and hidden neurons. Blue square at 160 neurons and 14 layers indicate the area of lowest MSE. Here we have utilized the Ridge implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_static_mineR2.PNG}
-\caption{\label{fig:heatRidgeR2} Heatmap showing the $R^2$ for my own neural network for different numbers of hidden layers and hidden neurons. Blue square at 160 neurons and 14 layers indicate the area of lowest MSE. Here we have utilized the Ridge implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_static_scikit.PNG}
-\caption{\label{fig:heatRidgesci} Heatmap showing the MSE using Scikit implementation for different numbers of hidden layers and hidden neurons. Blue square at 190 neurons and 15 layers indicate the area of lowest MSE. Here we have utilized the Ridge implementation.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_static_scikitR2.PNG}
-\caption{\label{fig:heatRidgesciR2} Heatmap showing the $R^2$ using Scikit implementation for different numbers of hidden layers and hidden neurons. Blue square at 190 neurons and 3 layers indicate the area of lowest MSE. Here we have utilized the Ridge implementation.}
-\end{figure}
-
-\noindent We first compare the OLS implementations and see that my own implementation seems to struggle quite a lot at a low number of layers, while the Scikit implementation seems to do just fine at any number of layers as seen from figures \ref{fig:heatOLS} and \ref{fig:heatOLSsci}. This is supported by looking at the $R^2$ values in figures \ref{fig:heatOLSR2} and \ref{fig:heatOLSsciR2}. However, for number of layers above 8, my own implementation is comparable to that of the Scikit as the minimum MSEs found were $0.0059$ for my own implementation and $0.0051$ for the Scikit implementation. 
-\\
-It is also observed that the minimum MSE is located at different values of hidden neurons and hidden layers for my own implementation and the Scikit implementation. However, seeing as the MSE does not really change that much after a $9$ or $10$ hidden layers, this is pretty meaningless. As long as we chose the number of layers to be significantly large, it seems the algorithm performs very well.
-\\
-The Ridge implementation seen in figure \ref{fig:heatRidge}, \ref{fig:heatRidgeR2}, \ref{fig:heatRidgesci} and \ref{fig:heatRidgesciR2} are quite interesting as the MSE seems to depend on the number of neurons as well as the number of layers. This is evident in my own implementation, but even more so in the Scikit implementation. There are very high MSE values for lower number of hidden neurons per layer, but the MSE decreases as we increase the number of hidden neurons. The size of the layer seem to be less in this case.
-
-\newpage
-
-\begin{center}
-\Large{\textbf{Exercise 1c): Testing different activation functions}}
-\end{center}
 
 \begin{center}
 \large{\textbf{The RELU activation functions}}
@@ -493,25 +408,195 @@ We can now perform the same analysis as in exercise 1b), but using the RELU and 
 \\
 It was also observed that the initial weights really impacted whether the network overflowed or not. Setting the initial weight to some random number drawn from a standard normal distribution gave severe flaws for many layer/neuron configurations. However, the xavier weight initialization proved to stabilize the network in most cases. The xavier weight initialization aims to maintain a constant variance of the data passing through the network (kilde). Doing this drastically reduced the chance for overflow which really showed when coding the network.
 \\
-The biases were simply set to a value of 0.01 as varying the bias showed to be of little significance when we played around with the code. The only important thing was that the bias was greater than zero, as a bias of zero often resulted in the network only passing zeros through, ultimately leading to a terrible prediction.
+The bias has in this case was simply been set to $0.01$. The role of the bias is to make sure there is some input to the neurons. Say a neuron only receives zeros from the previous layer. This would in turn lead to a feed forward of only zeros for that particular set of neurons meaning they will never contribute to the network. Therefore, it is important to add some bias to each neuron. The choice of bias showed to be of little significance when we played around with the code. The only important thing was that the bias was greater than zero, as a bias of zero often resulted in the network only passing zeros through, ultimately leading to a terrible prediction.
 
 \begin{center}
-\large{\textbf{Neural network results using the RELU activation functions}}
+\large{\textbf{Neural network results}}
 \end{center}
 
-\noindent The network were training with an initial bias of 0.01 and a xavier weight initialization using the RELU activation function for the hidden layers and a linear activation function for the output layer. The goal is now to compare these results with those using the sigmoid activation function. 
+\noindent We first want to see how the different activation function behave relative to the number of epoch iterations, the size of the batch and the learning rate. Figure \ref{fig:MSEvsLrateTOTAL1} and \ref{fig:MSEvsLrateTOTAL2} show the MSE and $R^2$ as function of learning rate using 100 epoch iterations and a batch size of 10 for the sigmoid, RELU and leaky RELU activation functions
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch100_batch10.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL1} The MSE as function of number of learning rate for the three activation functions when we utilize 100 epoch iterations and a batch size of 10. This is the OLS equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch100_batch10_r2.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL2} The $R^2$ as function of number of learning rate for the three activation functions when we utilize 100 epoch iterations and a batch size of 10. This is the OLS equivalent.}
+\end{figure}
+
+\noindent Figures \ref{fig:MSEvsLrateTOTAL1} and \ref{fig:MSEvsLrateTOTAL2} also include the Scikit implementation of the RELU activation function. It can be observed that the Scikit implementation outperforms my own neural network, particularly for lower learning rates. My own RELU and leaky RELU implementations seem nearly equivalent and are able to predict the test set much better than the sigmoid. It seems that the sigmoid implementation reaches a cap at $R^2 = 0$, which is equivalent to the baseline model. This means that the sigmoid model is just as good as randomly guessing the prediction. It can also be observed that the RELU implementations gets closer to the Scikit implementation for higher learning rates. We now aim to increase the number of epoch iterations from 100 to 500 as seen in figures \ref{fig:MSEvsLrateTOTAL3} and \ref{fig:MSEvsLrateTOTAL4}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch500_batch10.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL3} The MSE as function of number of learning rate for the three activation functions when we utilize 500 epoch iterations and a batch size of 10. This is the OLS equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch500_batch10_r2.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL4} The $R^2$ as function of number of learning rate for the three activation functions when we utilize 500 epoch iterations and a batch size of 10. This is the OLS equivalent.}
+\end{figure}
+
+\noindent One can observe that increasing the number of epoch iterations caused the sigmoid implementation to perform better. It seems as going over some epoch threshold results in the sigmoid implementation breaking through the previously stated cap and it can therefore predict the test data better than the baseline. We now increase the number of epoch iterations from 500 to 2000 as seen in figures \ref{fig:MSEvsLrateTOTAL5} and \ref{fig:MSEvsLrateTOTAL6}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000_batch10.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL5} The MSE as function of number of learning rate for the three activation functions when we utilize 2000 epoch iterations and a batch size of 10. This is the OLS equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000_batch10_r2.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL6} The $R^2$ as function of number of learning rate for the three activation functions when we utilize 2000 epoch iterations and a batch size of 10. This is the OLS equivalent.}
+\end{figure}
+
+\noindent One can observe from figures \ref{fig:MSEvsLrateTOTAL5} and \ref{fig:MSEvsLrateTOTAL6} that the three implementations now perform about the same. This leads one to believe that there is a given threshold for when the activation functions are equivalent. At learning rates higher than 0.001, my implementations performs on par with the Scikit implementation, which is reassuring. 
+\\
+We now aim to see the variation in term of the size of the batch. We keep the number of epochs at 2000, but decrease the batch size from 10 to 2. Figures QQQ and QQQ shows these results.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000_batch2.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL7} The MSE as function of number of learning rate for the three activation functions when we utilize 2000 epoch iterations and a batch size of 2. This is the OLS equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000_batch2_r2.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL8} The $R^2$ as function of number of learning rate for the three activation functions when we utilize 2000 epoch iterations and a batch size of 2. This is the OLS equivalent.}
+\end{figure}
+
+\noindent One can observe that the decreasing the batch size does not really impact the Scikit and sigmoid implementations, but the RELU implementations are severely improved. In fact, the RELU implementations outperform the Scikit implementations at learning rates over 0.0001. Additionally, my own implementations outperform the Scikit implementations for learning rates higher than 0.001.
+\\
+We now see that increasing the number of epoch and decreasing the batch size leads to better prediction for my own neural network implementations. The next goal is to find the number of hidden layers and hidden neurons that minimize the MSE (or maximize the $R^2$). To do this, we implement the different activation functions using 2000 epoch iterations and a batch size of 2. Then, we can plot a heatmap where we study the MSE as function of the number of hidden layers and hidden neurons. We only consider hidden layers between 1 and 10 and hidden neurons between 1 and 100, as this task is extremely computationally heavy using 2000 epoch iterations and a batch size of 2. The MSE heatmap using the sigmoid activation function can be seen in figure \ref{fig:heatmap1}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapOLS_TOTAL_sigmoidMSE_REAL.PNG}
+\caption{\label{fig:heatmap1} Heatmap for different number of hidden layers and neurons using the sigmoid activation function. This is the OLS equivalent.}
+\end{figure}
+
+\noindent One can observe from the heatmap in figure \ref{fig:heatmap1} that the neural network performs well as long as we keep the number of hidden layers above 4 and the number of hidden neurons above 10. In this range, the MSE is less than $0.0006$ which means the network is able to predict the Franke function accurately. Let us now take a look at the RELU implementation using both my own and the Scikit implementation as seen in figures QQQ and QQQ.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapOLS_TOTAL_reluMSE_REAL.PNG}
+\caption{\label{fig:heatmap2} Heatmap for different number of hidden layers and neurons using the RELU activation function. This is the OLS equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapOLS_TOTAL_reluMSE_sci_REAL.PNG}
+\caption{\label{fig:heatmap3} Heatmap for different number of hidden layers and neurons using the RELU activation function with the Scikit implementation. This is the OLS equivalent.}
+\end{figure}
+
+\noindent One can observe from figure \ref{fig:heatmap2} that my own network experienced overflow at given layer/neuron configurations, as some of the squares in the heatmap is not included. This is particularly the case when there is only 1 hidden neuron in the layers. However, the network seems stable for a larger number of neurons in the layers. For hidden neurons above 30 and hidden layers above 5 it can be observed from figure \ref{fig:heatmap2} that the network is able to produce MSEs of under $0.0003$ which is lower than that of the sigmoid implementation. The Scikit implementation seems to be stable at any and all configurations of hidden layers and neurons. However, when there is only 1 neuron per hidden layer, the network gives a really high MSE. It is likely that the Scikit package includes some anti-overflow procedures that makes the algorithm able to deal with the overflow, but the neuron/layer configuration here still yields terrible results. We also observe that the MSE of the Scikit implementation is lower than that of my own implementation. These observations are compatable with those observed in figures \ref{fig:MSEvsLrateTOTAL1} to \ref{fig:MSEvsLrateTOTAL8}. 
+\\
+The leaky RELU implementation is plotted in figure \ref{fig:heatmap4}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapOLS_TOTAL_leakyreluMSE_REAL.PNG}
+\caption{\label{fig:heatmap4} Heatmap for different number of hidden layers and neurons using the leaky RELU activation function with the Scikit implementation. This is the OLS equivalent.}
+\end{figure}
+
+\noindent One can observe from figure \ref{fig:heatmap4} that it resembles my own RELU implementation seen in figure \ref{fig:heatmap2}. However, the algorithms is more unstable and there are many overflows occurring even for more layers and neurons. However, the MSE in the leaky RELU implementation seems to yield similar MSE values to the RELU implementation (slightly higher).
 
 \begin{center}
-\large{\textbf{Neural network results using the leaky RELU activation functions}}
+\large{\textbf{Ridge equivalent implementation}}
 \end{center}
+
+\noindent We now aim to perform the above analysis, but using the Ridge equivalent implementation. The Ridge implementation works similar to that of linear regression, but we here add the penalty parameter while the neural network performs the back propagation. The weights are then adjusted with the penalty parameter in mind and the result is a reduction in what weights contribute to the overall output of the network. The penalty parameter was in this case set to $0.001$ as this was seen to yield good results in the previous project. 
+
+MSE/r2 vs laernrates for ridge
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_Ridge_TOTAL_epoch2000_batch2.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL8} The MSE as function of number of learning rate for the three activation functions when we utilize 2000 epoch iterations and a batch size of 2. This is the Ridge equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_Ridge_TOTAL_epoch2000_batch2_r2.PNG}
+\caption{\label{fig:MSEvsLrateTOTAL9} The $R^2$ as function of number of learning rate for the three activation functions when we utilize 2000 epoch iterations and a batch size of 2. This is the Ridge equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_TOTAL_sigmoid_REAL.PNG}
+\caption{\label{fig:heatmap5} Heatmap for different number of hidden layers and neurons using the sigmoid activation function. This is the Ridge equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_TOTAL_relu_REAL.PNG}
+\caption{\label{fig:heatmap6} Heatmap for different number of hidden layers and neurons using the sigmoid activation function. This is the Ridge equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_TOTAL_relu_sci_REAL.PNG}
+\caption{\label{fig:heatmap7} Heatmap for different number of hidden layers and neurons using the Scikit RELU activation function. This is the Ridge equivalent.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_TOTAL_leakyrelu_REAL.PNG}
+\caption{\label{fig:heatmap8} Heatmap for different number of hidden layers and neurons using the leaky RELU activation function. This is the Ridge equivalent.}
+\end{figure}
 
 \newpage
 
 \begin{center}
-\Large{\textbf{Exercise d): a}}
+\Large{\textbf{Exercise d): Neural network classification}}
 \end{center}
 
-\noindent a
+\begin{center}
+\large{\textbf{Data set of hand-written digits}}
+\end{center}
+
+\noindent In this exercise we aim to classify hand-written digits given in the MNIST data set which can be downloaded from \href{{http://yann.lecun.com/exdb/mnist/}}{\nolinkurl{http://yann.lecun.com/exdb/mnist/}}. The data set contain both training data which will be used to train the neural network, and also test data which will be passed through the already trained network and compared to the actual answer. The data can be plotted and looks something like figure \ref{fig:DigitDataFig}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/DigitDataFig.PNG}
+\caption{\label{fig:DigitDataFig} Example of how the training data looks. The digit shown is a hand-written digit that would be hard for a computer to recognize.}
+\end{figure}
+
+\begin{center}
+\large{\textbf{Model evaluation principles}}
+\end{center}
+
+\noindent In order to evaluate a classification network we can no longer rely on the MSE or the $R^2$. Instead, we rely on using the accuracy score. The accuracy score is simply the correct number of prediction by the neural network divided by the total number of prediction (including wrong ones) and is defined by equation \ref{eq:acc}
+
+\begin{equation}\label{eq:acc}
+\begin{aligned}
+\textrm{Accuracy} = \frac{\sum_{i = 1}^n I(f_i = y_i)}{n}
+\end{aligned}
+\end{equation}
+
+\noindent where the numerator is the sum of correctly predicted digits and n is the total number of predictions. 
+
+\begin{center}
+\large{\textbf{The softmax activation function}}
+\end{center}
+
+\noindent The softmax function is a function that aims to take an input (what is passed through the neural network) and create a probability distribution of m different probabilities (m is 10 since we are working with the numbers from zero to nine). This function is given by equation \ref{eq:softmax}
+
+\begin{equation}\label{eq:softmax}
+\begin{aligned}
+P(Y = y) = \frac{e^{\textbf{X}\beta}}{\sum_{i = 1}^m e^{\textbf{X}\beta}} 
+\end{aligned}
+\end{equation}
+
+\noindent where \textbf{X} is the design matrix, $\beta$ is the regression coefficients matrix or weights in the neural network and P(Y = y) is the probability distribution of different possible outcomes from the neural network prediction. The softmax function allows us to categorize the input, digits in this case, into m different categories, 10 in this case, based on the probability estimated by the neural network. We can utilize the softmax function function as the output function in the output layer of the neural network, while the hidden layer activation functions can still be another function such as the sigmoid, RELU or leaky RELU. 
 
 \newpage
 

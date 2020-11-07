@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn.preprocessing import PolynomialFeatures
+import gzip
 
 def inputsss():
     # Input function for interactivity
@@ -32,7 +33,7 @@ def inputsss():
         figureInp = False
     testlevel = input("What is the test size? (between 0 and 1, but typically around 0.25)")
     part = input("Which sub-exericse will you run(a,b,c,d,e,f/all)?")
-    return 100,5,True,True,"b",True,0.001,0.25#int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
+    return int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
 
 def inputsssA():
     # Input function for interactivity in part a)
@@ -57,7 +58,7 @@ def inputsssB():
     elif tp == 'Ridge':
         alpha = input("What is the penalty term in the Ridge regression? (float)")
 
-    return 10,10,"sigmoid","constant", "identity", 0.001, "Ridge"#int(layers), int(neuron), str(hiddenFunc), str(learn), str(outputFunc), float(alpha), str(tp)
+    return int(layers), int(neuron), str(hiddenFunc), str(learn), str(outputFunc), float(alpha), str(tp)
 
 def R2(y_pred, y_real):
     # Calculate r squared
@@ -97,6 +98,17 @@ def FrankeFuncNN(x, y):
     z = term1 + term2 + term3 + term4
     z = z.ravel()[:, np.newaxis]
     return z
+
+def getNumbers(nums):
+
+    f = gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/t10k-images-idx3-ubyte.gz', 'r')
+    image_size = 28
+    num_images = nums
+    f.read(16)
+    buf = f.read(image_size * image_size * num_images)
+    data = np.frombuffer(buf, dtype=np.uint8).astype(np.float32)
+    data = data.reshape(num_images, image_size, image_size, 1)
+    return data
 
 def standardize(z, scalee):
     # Standardize input by having mean equal zero and standard deviation equal one

@@ -100,15 +100,18 @@ def R2vsLRATE(R2Sig, R2Relu, R2_sciRelu, R2LeakyRelu, learningRates, plot):
         plt.grid()
         plt.show()
 
-def heatmap(x, neurons, layers, rm, plot):
+def heatmap(x, neurons, layers, rm, mains, plot):
     if plot == True:
         plt.figure()
         ax = sns.heatmap(x, xticklabels=neurons, yticklabels=layers, annot=True)
-        if rm == 'mse':
-            t = (np.where(x == np.nanmin(x)))
-        elif rm== 'r2':
-            t = (np.where(x == np.nanmax(x)))
-        ax.add_patch(Rectangle((t[1], t[0]), 1, 1, edgecolor='blue', fill=False))
+        plt.suptitle(rm + ' comparison of number of layers and neurons using the ' + mains + " activation function"
+                     , fontsize=25, fontweight="bold")
         ax.set_xlabel('Number of hidden neurons')
         ax.set_ylabel('Number of hidden layers')
+        plt.show()
+
+def plotNumbers(data, plot):
+    if plot == True:
+        image = np.asarray(data[7]).squeeze()
+        plt.imshow(image)
         plt.show()

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.9.17)  5 NOV 2020 18:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.9.17)  7 NOV 2020 02:21
 entering extended mode
 **./Project2.tex
 (Project2.tex
@@ -641,7 +641,11 @@ nd-pdfmode.def"
 File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count293
 \l__pdf_internal_box=\box58
-) (Project2.aux)
+) (Project2.aux
+
+LaTeX Warning: Label `fig:MSEvsLrateTOTAL8' multiply defined.
+
+)
 \openout1 = `Project2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
@@ -770,333 +774,448 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 94.
  ("C:\Users\Sander\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd
 "
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [3] [4]
+) [3]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+FrankOG.PNG, id=24, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/FrankOG.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/FrankOG.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/FrankOG.PNG  used on input line 125.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [4 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/FrankOG.PNG>] [5]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_StandardOLS.PNG, id=50, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_StandardOLS.PNG, id=56, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_StandardOLS.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_StandardOLS.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsEPOCH_StandardOLS.PNG  used on input line 212.
+Project2/Report/Figures/MSEvsEPOCH_StandardOLS.PNG  used on input line 227.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+[6]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_StandardRIDGE.PNG, id=52, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_StandardRIDGE.PNG, id=64, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_StandardRIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_StandardRIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsEPOCH_StandardRIDGE.PNG  used on input line 218.
+Project2/Report/Figures/MSEvsEPOCH_StandardRIDGE.PNG  used on input line 233.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [6 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+ [7 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_StandardOLS.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_BatchOLS.PNG, id=64, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_BatchOLS.PNG, id=77, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_BatchOLS.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_BatchOLS.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsEPOCH_BatchOLS.PNG  used on input line 226.
+Project2/Report/Figures/MSEvsEPOCH_BatchOLS.PNG  used on input line 241.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_BatchRIDGE.PNG, id=65, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_BatchRIDGE.PNG, id=78, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_BatchRIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_BatchRIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsEPOCH_BatchRIDGE.PNG  used on input line 232.
+Project2/Report/Figures/MSEvsEPOCH_BatchRIDGE.PNG  used on input line 247.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [7 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+ [8 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_StandardRIDGE.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155
 /Project2/Project2/Report/Figures/MSEvsEPOCH_BatchOLS.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_LearnOLS.PNG, id=78, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_LearnOLS.PNG, id=90, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_LearnOLS.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_LearnOLS.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsEPOCH_LearnOLS.PNG  used on input line 242.
+Project2/Report/Figures/MSEvsEPOCH_LearnOLS.PNG  used on input line 257.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [8 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+ [9 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_BatchRIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_LearnRIDGE.PNG, id=84, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_LearnRIDGE.PNG, id=96, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_LearnRIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_LearnRIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsEPOCH_LearnRIDGE.PNG  used on input line 248.
+Project2/Report/Figures/MSEvsEPOCH_LearnRIDGE.PNG  used on input line 263.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [9 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/MSEvsEPOCH_LearnOLS.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Proj
-ect2/Project2/Report/Figures/MSEvsEPOCH_LearnRIDGE.PNG>]
+ [10 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/MSEvsEPOCH_LearnOLS.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Pro
+ject2/Project2/Report/Figures/MSEvsEPOCH_LearnRIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_lambRIDGE.PNG, id=96, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_lambRIDGE.PNG, id=108, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_lambRIDGE.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_lambRIDGE.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsEPOCH_lambRIDGE.PNG  used on input line 258.
+Project2/Report/Figures/MSEvsEPOCH_lambRIDGE.PNG  used on input line 273.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_StandardOLS_schedule.PNG, id=99, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_StandardOLS_schedule.PNG, id=111, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_StandardOLS_schedule.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_StandardOLS_schedule.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
 Project2/Report/Figures/MSEvsEPOCH_StandardOLS_schedule.PNG  used on input line
- 272.
+ 287.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [10 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ [11 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_lambRIDGE.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_StandardRIDGE_schedule.PNG, id=106, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_StandardRIDGE_schedule.PNG, id=118, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_StandardRIDGE_schedule.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_StandardRIDGE_schedule.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
 Project2/Report/Figures/MSEvsEPOCH_StandardRIDGE_schedule.PNG  used on input li
-ne 278.
+ne 293.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_BatchOLS_schedule.PNG, id=111, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_BatchOLS_schedule.PNG, id=123, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_BatchOLS_schedule.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_BatchOLS_schedule.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsEPOCH_BatchOLS_schedule.PNG  used on input line 28
-8.
+Project2/Report/Figures/MSEvsEPOCH_BatchOLS_schedule.PNG  used on input line 30
+3.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [11 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ [12 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_StandardOLS_schedule.PNG> <C:/Users/Sander/Documents/GitHub/FYS
 -STK4155/Project2/Project2/Report/Figures/MSEvsEPOCH_StandardRIDGE_schedule.PNG
 >]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_BatchRIDGE_schedule.PNG, id=120, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_BatchRIDGE_schedule.PNG, id=132, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_BatchRIDGE_schedule.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_BatchRIDGE_schedule.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
 Project2/Report/Figures/MSEvsEPOCH_BatchRIDGE_schedule.PNG  used on input line 
-294.
+309.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [12 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ [13 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_BatchOLS_schedule.PNG> <C:/Users/Sander/Documents/GitHub/FYS-ST
 K4155/Project2/Project2/Report/Figures/MSEvsEPOCH_BatchRIDGE_schedule.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_lambRIDGE_schedule.PNG, id=134, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_lambRIDGE_schedule.PNG, id=147, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_lambRIDGE_schedule.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_lambRIDGE_schedule.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
 Project2/Report/Figures/MSEvsEPOCH_lambRIDGE_schedule.PNG  used on input line 3
-06.
+21.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsEPOCH_lambRIDGE_schedule2.PNG, id=135, 1387.584pt x 734.9859pt>
+MSEvsEPOCH_lambRIDGE_schedule2.PNG, id=148, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/MSEvsEPOCH_lambRIDGE_schedule2.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/MSEvsEPOCH_lambRIDGE_schedule2.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
 Project2/Report/Figures/MSEvsEPOCH_lambRIDGE_schedule2.PNG  used on input line 
-312.
+327.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [13 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/MSEvsEPOCH_lambRIDGE_schedule.PNG>] [14 <C:/Users/Sander/Documents/GitHub/
+ [14 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/MSEvsEPOCH_lambRIDGE_schedule.PNG>] [15 <C:/Users/Sander/Documents/GitHub/
 FYS-STK4155/Project2/Project2/Report/Figures/MSEvsEPOCH_lambRIDGE_schedule2.PNG
 >]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-NeuralNetConcept.PNG, id=152, 931.22906pt x 507.39563pt>
+NeuralNetConcept.PNG, id=164, 931.22906pt x 507.39563pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/NeuralNetConcept.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
 res/NeuralNetConcept.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/NeuralNetConcept.PNG  used on input line 334.
+Project2/Report/Figures/NeuralNetConcept.PNG  used on input line 349.
 (pdftex.def)             Requested size: 452.9679pt x 246.80661pt.
- [15 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/NeuralNetConcept.PNG>]
+ [16 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/NeuralNetConcept.PNG>] [17]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsLearn_OLS.PNG, id=164, 1387.584pt x 734.9859pt>
+MSEvsLearn_OLS_TOTAL_epoch100_batch10.PNG, id=187, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/MSEvsLearn_OLS.PNG Graphic file (type png)
+ures/MSEvsLearn_OLS_TOTAL_epoch100_batch10.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/MSEvsLearn_OLS.PNG>
+res/MSEvsLearn_OLS_TOTAL_epoch100_batch10.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsLearn_OLS.PNG  used on input line 370.
+Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch100_batch10.PNG  used on inpu
+t line 421.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [16]
+ [18]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-MSEvsLearn_Ridge.PNG, id=174, 1387.584pt x 734.9859pt>
+MSEvsLearn_OLS_TOTAL_epoch100_batch10_r2.PNG, id=194, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/MSEvsLearn_Ridge.PNG Graphic file (type png)
+ures/MSEvsLearn_OLS_TOTAL_epoch100_batch10_r2.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/MSEvsLearn_Ridge.PNG>
+res/MSEvsLearn_OLS_TOTAL_epoch100_batch10_r2.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsLearn_Ridge.PNG  used on input line 376.
+Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch100_batch10_r2.PNG  used on i
+nput line 427.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [19 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/MSEvsLearn_OLS_TOTAL_epoch100_batch10.PNG> <C:/Users/Sander/Documents/GitH
+ub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch100_b
+atch10_r2.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-R2vsLearn_OLS.PNG, id=175, 1387.584pt x 734.9859pt>
+MSEvsLearn_OLS_TOTAL_epoch500_batch10.PNG, id=206, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/R2vsLearn_OLS.PNG Graphic file (type png)
+ures/MSEvsLearn_OLS_TOTAL_epoch500_batch10.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/R2vsLearn_OLS.PNG>
+res/MSEvsLearn_OLS_TOTAL_epoch500_batch10.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/R2vsLearn_OLS.PNG  used on input line 382.
-(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [17 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/MSEvsLearn_OLS.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2
-/Project2/Report/Figures/MSEvsLearn_Ridge.PNG>]
-File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/MSEvsLearn_Ridge.PNG Graphic file (type png)
-<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/MSEvsLearn_Ridge.PNG>
-Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/MSEvsLearn_Ridge.PNG  used on input line 388.
-(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
- [18 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/R2vsLearn_OLS.PNG>]
-<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-heatmapOLS_static_mine.PNG, id=191, 1387.584pt x 734.9859pt>
-File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapOLS_static_mine.PNG Graphic file (type png)
-<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapOLS_static_mine.PNG>
-Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/heatmapOLS_static_mine.PNG  used on input line 398.
+Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch500_batch10.PNG  used on inpu
+t line 435.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-heatmapOLS_static_mineR2.PNG, id=192, 1387.584pt x 734.9859pt>
+MSEvsLearn_OLS_TOTAL_epoch500_batch10_r2.PNG, id=207, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapOLS_static_mineR2.PNG Graphic file (type png)
+ures/MSEvsLearn_OLS_TOTAL_epoch500_batch10_r2.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapOLS_static_mineR2.PNG>
+res/MSEvsLearn_OLS_TOTAL_epoch500_batch10_r2.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/heatmapOLS_static_mineR2.PNG  used on input line 404.
-(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
-
-[19 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapOLS_static_mine.PNG>]
-<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-heatmapOLS_static_scikit.PNG, id=200, 1387.584pt x 734.9859pt>
-File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapOLS_static_scikit.PNG Graphic file (type png)
-<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapOLS_static_scikit.PNG>
-Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/heatmapOLS_static_scikit.PNG  used on input line 410.
-(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
-<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-heatmapOLS_static_scikitR2.PNG, id=201, 1387.584pt x 734.9859pt>
-File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapOLS_static_scikitR2.PNG Graphic file (type png)
-<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapOLS_static_scikitR2.PNG>
-Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/heatmapOLS_static_scikitR2.PNG  used on input line 416.
-
+Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch500_batch10_r2.PNG  used on i
+nput line 441.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
  [20 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapOLS_static_mineR2.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK415
-5/Project2/Project2/Report/Figures/heatmapOLS_static_scikit.PNG>]
+ures/MSEvsLearn_OLS_TOTAL_epoch500_batch10.PNG> <C:/Users/Sander/Documents/GitH
+ub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch500_b
+atch10_r2.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-heatmapRidge_static_mine.PNG, id=210, 1387.584pt x 734.9859pt>
+MSEvsLearn_OLS_TOTAL_epoch2000_batch10.PNG, id=218, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapRidge_static_mine.PNG Graphic file (type png)
+ures/MSEvsLearn_OLS_TOTAL_epoch2000_batch10.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapRidge_static_mine.PNG>
+res/MSEvsLearn_OLS_TOTAL_epoch2000_batch10.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/heatmapRidge_static_mine.PNG  used on input line 422.
+Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000_batch10.PNG  used on inp
+ut line 449.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-heatmapRidge_static_mineR2.PNG, id=211, 1387.584pt x 734.9859pt>
-File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapRidge_static_mineR2.PNG Graphic file (type png)
-<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapRidge_static_mineR2.PNG>
-Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/heatmapRidge_static_mineR2.PNG  used on input line 428.
+MSEvsLearn_OLS_TOTAL_epoch2000_batch10_r2.PNG, id=219, 1387.584pt x 734.9859pt>
 
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/MSEvsLearn_OLS_TOTAL_epoch2000_batch10_r2.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/MSEvsLearn_OLS_TOTAL_epoch2000_batch10_r2.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000_batch10_r2.PNG  used on 
+input line 455.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
  [21 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapOLS_static_scikitR2.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4
-155/Project2/Project2/Report/Figures/heatmapRidge_static_mine.PNG>]
+ures/MSEvsLearn_OLS_TOTAL_epoch2000_batch10.PNG> <C:/Users/Sander/Documents/Git
+Hub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000
+_batch10_r2.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-heatmapRidge_static_scikit.PNG, id=220, 1387.584pt x 734.9859pt>
+MSEvsLearn_OLS_TOTAL_epoch2000_batch2.PNG, id=230, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapRidge_static_scikit.PNG Graphic file (type png)
+ures/MSEvsLearn_OLS_TOTAL_epoch2000_batch2.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapRidge_static_scikit.PNG>
+res/MSEvsLearn_OLS_TOTAL_epoch2000_batch2.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/heatmapRidge_static_scikit.PNG  used on input line 434.
-
+Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000_batch2.PNG  used on inpu
+t line 465.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-heatmapRidge_static_scikitR2.PNG, id=221, 1387.584pt x 734.9859pt>
+MSEvsLearn_OLS_TOTAL_epoch2000_batch2_r2.PNG, id=231, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapRidge_static_scikitR2.PNG Graphic file (type png)
+ures/MSEvsLearn_OLS_TOTAL_epoch2000_batch2_r2.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapRidge_static_scikitR2.PNG>
+res/MSEvsLearn_OLS_TOTAL_epoch2000_batch2_r2.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/heatmapRidge_static_scikitR2.PNG  used on input line 44
-0.
+Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000_batch2_r2.PNG  used on i
+nput line 471.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
  [22 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/heatmapRidge_static_mineR2.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4
-155/Project2/Project2/Report/Figures/heatmapRidge_static_scikit.PNG>]
+ures/MSEvsLearn_OLS_TOTAL_epoch2000_batch2.PNG> <C:/Users/Sander/Documents/GitH
+ub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_OLS_TOTAL_epoch2000_
+batch2_r2.PNG>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+heatmapOLS_TOTAL_sigmoidMSE_REAL.PNG, id=241, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapOLS_TOTAL_sigmoidMSE_REAL.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/heatmapOLS_TOTAL_sigmoidMSE_REAL.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/heatmapOLS_TOTAL_sigmoidMSE_REAL.PNG  used on input lin
+e 481.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+heatmapOLS_TOTAL_reluMSE_REAL.PNG, id=243, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapOLS_TOTAL_reluMSE_REAL.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/heatmapOLS_TOTAL_reluMSE_REAL.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/heatmapOLS_TOTAL_reluMSE_REAL.PNG  used on input line 4
+89.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+
 [23 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/heatmapRidge_static_scikitR2.PNG>] [24] [25] [26] [27] [28] [29] [30]
-[31]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 558.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 558.
+res/heatmapOLS_TOTAL_sigmoidMSE_REAL.PNG>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+heatmapOLS_TOTAL_reluMSE_sci_REAL.PNG, id=250, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapOLS_TOTAL_reluMSE_sci_REAL.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/heatmapOLS_TOTAL_reluMSE_sci_REAL.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/heatmapOLS_TOTAL_reluMSE_sci_REAL.PNG  used on input li
+ne 495.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [24 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapOLS_TOTAL_reluMSE_REAL.PNG> <C:/Users/Sander/Documents/GitHub/FYS-S
+TK4155/Project2/Project2/Report/Figures/heatmapOLS_TOTAL_reluMSE_sci_REAL.PNG>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+heatmapOLS_TOTAL_leakyreluMSE_REAL.PNG, id=264, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapOLS_TOTAL_leakyreluMSE_REAL.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/heatmapOLS_TOTAL_leakyreluMSE_REAL.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/heatmapOLS_TOTAL_leakyreluMSE_REAL.PNG  used on input l
+ine 505.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+MSEvsLearn_Ridge_TOTAL_epoch2000_batch2.PNG, id=267, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/MSEvsLearn_Ridge_TOTAL_epoch2000_batch2.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/MSEvsLearn_Ridge_TOTAL_epoch2000_batch2.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/MSEvsLearn_Ridge_TOTAL_epoch2000_batch2.PNG  used on in
+put line 521.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [25 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapOLS_TOTAL_leakyreluMSE_REAL.PNG>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+MSEvsLearn_Ridge_TOTAL_epoch2000_batch2_r2.PNG, id=276, 1387.584pt x 734.9859pt
+>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/MSEvsLearn_Ridge_TOTAL_epoch2000_batch2_r2.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/MSEvsLearn_Ridge_TOTAL_epoch2000_batch2_r2.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/MSEvsLearn_Ridge_TOTAL_epoch2000_batch2_r2.PNG  used on
+ input line 527.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+heatmapRidge_TOTAL_sigmoid_REAL.PNG, id=277, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapRidge_TOTAL_sigmoid_REAL.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/heatmapRidge_TOTAL_sigmoid_REAL.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/heatmapRidge_TOTAL_sigmoid_REAL.PNG  used on input line
+ 533.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [26 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/MSEvsLearn_Ridge_TOTAL_epoch2000_batch2.PNG> <C:/Users/Sander/Documents/Gi
+tHub/FYS-STK4155/Project2/Project2/Report/Figures/MSEvsLearn_Ridge_TOTAL_epoch2
+000_batch2_r2.PNG>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+heatmapRidge_TOTAL_relu_REAL.PNG, id=285, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapRidge_TOTAL_relu_REAL.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/heatmapRidge_TOTAL_relu_REAL.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/heatmapRidge_TOTAL_relu_REAL.PNG  used on input line 53
+9.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+heatmapRidge_TOTAL_relu_sci_REAL.PNG, id=286, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapRidge_TOTAL_relu_sci_REAL.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/heatmapRidge_TOTAL_relu_sci_REAL.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/heatmapRidge_TOTAL_relu_sci_REAL.PNG  used on input lin
+e 545.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [27 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapRidge_TOTAL_sigmoid_REAL.PNG> <C:/Users/Sander/Documents/GitHub/FYS
+-STK4155/Project2/Project2/Report/Figures/heatmapRidge_TOTAL_relu_REAL.PNG>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+heatmapRidge_TOTAL_leakyrelu_REAL.PNG, id=295, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapRidge_TOTAL_leakyrelu_REAL.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/heatmapRidge_TOTAL_leakyrelu_REAL.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/heatmapRidge_TOTAL_leakyrelu_REAL.PNG  used on input li
+ne 551.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [28 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/heatmapRidge_TOTAL_relu_sci_REAL.PNG> <C:/Users/Sander/Documents/GitHub/FY
+S-STK4155/Project2/Project2/Report/Figures/heatmapRidge_TOTAL_leakyrelu_REAL.PN
+G>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+DigitDataFig.PNG, id=306, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/DigitDataFig.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/DigitDataFig.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/DigitDataFig.PNG  used on input line 569.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [29 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/DigitDataFig.PNG>] [30] [31] [32] [33] [34]
+[35]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 643.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 643.
  (Project2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 558.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 558.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 643.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 643.
 Package rerunfilecheck Info: File `Project2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 13350 strings out of 480934
- 230057 string characters out of 2899449
- 591666 words of memory out of 3000000
- 28847 multiletter control sequences out of 15000+200000
+ 13429 strings out of 480934
+ 236827 string characters out of 2899449
+ 590666 words of memory out of 3000000
+ 28902 multiletter control sequences out of 15000+200000
  542075 words of font info for 59 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,15n,77p,1067b,375s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 43i,15n,77p,1236b,375s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Sander\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600
 \tcrm1200.pk><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
 lic/amsfonts/cm/cmbx12.pfb><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Sander/AppData/Local/Program
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Sander/AppData
-/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/S
-ander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.
-pfb><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
-nts/cm/cmr12.pfb><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmr6.pfb><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Sander/AppData/Local/Program
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Sander/AppData
-/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/S
-ander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.p
-fb>
-Output written on Project2.pdf (31 pages, 3331355 bytes).
+onts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/Sander/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Sander/AppData/
+Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/S
+ander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pf
+b><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmmib10.pfb><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmr12.pfb><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Sander/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Sander/AppData/
+Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/S
+ander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pf
+b><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmtt12.pfb>
+Output written on Project2.pdf (35 pages, 3125723 bytes).
 PDF statistics:
- 342 PDF objects out of 1000 (max. 8388607)
- 67 named destinations out of 1000 (max. 500000)
- 126 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 405 PDF objects out of 1000 (max. 8388607)
+ 82 named destinations out of 1000 (max. 500000)
+ 171 words of extra memory for PDF output out of 10000 (max. 10000000)
 

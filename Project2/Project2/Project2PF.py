@@ -1,7 +1,7 @@
 import numpy as np
 from FunctionsDef import inputsss, FrankeFunc, standardize, createDesignmatrix, dataSplit, MSE, R2, gradient, \
-    inputsssA, testParams, normalize, SGD, addNoise, inputsssB, FrankeFuncNN, createDesignmatrixNN
-from PlotFunctionsDef import FrankPlot, FrankPlotDiff, MSESGD, MSEvsLRATE, R2vsLRATE, MSESGDSTANDARD, heatmap
+    inputsssA, testParams, normalize, SGD, addNoise, inputsssB, FrankeFuncNN, createDesignmatrixNN, getNumbers
+from PlotFunctionsDef import FrankPlot, FrankPlotDiff, MSESGD, MSEvsLRATE, R2vsLRATE, MSESGDSTANDARD, heatmap, plotNumbers
 from NeuralNetworkReg import NeuralNetwork
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error, r2_score, accuracy_score
@@ -95,17 +95,16 @@ elif (str(part) == "b" or str(part) == "c" or str(part) == "all"):
     layersN, neuron, hiddenFuncInp, learn, outputFunc, alpha, tp = inputsssB()
 
     # Setting up the polynomial design matrix with/without noise
-    designMatrix = createDesignmatrixNN(x, y, poly)
-    designMatrixSci = createDesignmatrix(x, y, poly)
+    designMatrix = createDesignmatrix(x, y, poly)
 
     # Splitting the data into training and test sets
-    X_train, X_test, Y_train, Y_test = train_test_split(designMatrixSci, zSci, test_size=testSize, random_state=40)
+    X_train, X_test, Y_train, Y_test = train_test_split(designMatrix, zSci, test_size=testSize, random_state=40)
 
     # Creating the neural network
     layers = [neuron, layersN]
     learningRates = [0.00001, 0.0001, 0.001, 0.01]
-    epochN = 100
-    batch = 10
+    epochN = 2000
+    batch = 2
     hiddenFunc = ["sigmoid", "relu", "leaky relu"]
 
     testMSESig = np.zeros(len(learningRates))
@@ -218,36 +217,57 @@ elif (str(part) == "b" or str(part) == "c" or str(part) == "all"):
     layersFind = np.arange(1, 10, 1)
     neuronFind = np.arange(1, 101, 10)
 
-    mseFind = np.zeros((len(layersFind), len(neuronFind)))
-    mseFindSci = np.zeros((len(layersFind), len(neuronFind)))
-    r2Find = np.zeros((len(layersFind), len(neuronFind)))
-    r2FindSci = np.zeros((len(layersFind), len(neuronFind)))
+    mseFindSig = np.zeros((len(layersFind), len(neuronFind)))
+    r2FindSig = np.zeros((len(layersFind), len(neuronFind)))
+    mseFindRelu = np.zeros((len(layersFind), len(neuronFind)))
+    r2FindRelu = np.zeros((len(layersFind), len(neuronFind)))
+    mseFindSciRelu = np.zeros((len(layersFind), len(neuronFind)))
+    r2FindSciRelu = np.zeros((len(layersFind), len(neuronFind)))
+    mseFindLeakyRelu = np.zeros((len(layersFind), len(neuronFind)))
+    r2FindLeakyRelu = np.zeros((len(layersFind), len(neuronFind)))
 
+    for k in range(len(hiddenFunc)):
+        for i in range(len(layersFind)):
+            for j in range(len(neuronFind)):
+                print("[Number of layers: ", i+1, ", number of neurons: ", j+1, "]")
+                # My neural network
+                model = NeuralNetwork(
+                    X=X_train,
+                    y=Y_train,
+                    hiddenNeurons=[neuronFind[j], layersFind[i]],
+                    learningRate=learnOptSig,
+                    batch_size=batch,
+                    learningType=learn,
+                    epochsN=epochN,
+                    activationType=hiddenFunc[k],
+                    outputFunctionType=outputFunc,
+                    alpha=alpha)
+                model.train()
+                Y_test_pred_find = model.predict(X_test)
+
+                check = np.isnan(Y_test_pred_find)
+                if hiddenFunc[k] == "sigmoid":
+                    mseFindSig[i, j] = MSE(Y_test_pred_find, Y_test)
+                    if True in check:
+                        r2FindSig[i] = None
+                    else:
+                        r2FindSig[i] = r2_score(Y_test, Y_test_pred_find)
+                elif hiddenFunc[k] == "relu":
+                    mseFindRelu[i, j] = MSE(Y_test_pred_find, Y_test)
+                    if True in check:
+                        r2FindRelu[i] = None
+                    else:
+                        r2FindRelu[i] = r2_score(Y_test, Y_test_pred_find)
+                elif hiddenFunc[k] == "leaky relu":
+                    mseFindLeakyRelu[i, j] = MSE(Y_test_pred_find, Y_test)
+                    if True in check:
+                        r2FindLeakyRelu[i] = None
+                    else:
+                        r2FindLeakyRelu[i] = r2_score(Y_test, Y_test_pred_find)
+
+    # Sci kit implementation
     for i in range(len(layersFind)):
         for j in range(len(neuronFind)):
-            print("[Number of layers: ", i+1, ", number of neurons: ", j+1, "]")
-            # My neural network
-            model = NeuralNetwork(
-                X=X_train,
-                y=Y_train,
-                hiddenNeurons=[neuronFind[j], layersFind[i]],
-                learningRate=learnOptSig,
-                batch_size=batch,
-                learningType=learn,
-                epochsN=epochN,
-                activationType=hiddenFuncInp,
-                outputFunctionType=outputFunc,
-                alpha=alpha)
-            model.train()
-            Y_test_pred_find = model.predict(X_test)
-            mseFind[i, j] = MSE(Y_test_pred_find, Y_test)
-            check = np.isnan(Y_test_pred_find)
-            if True in check:
-                r2Find[i, j] = 0
-            else:
-                r2Find[i, j] = r2_score(Y_test, Y_test_pred_find)
-
-            # Sci kit implementation
             modelSci = MLPRegressor(hidden_layer_sizes=neuronFind[j],
                                     activation="relu",
                                     solver='sgd',
@@ -255,31 +275,38 @@ elif (str(part) == "b" or str(part) == "c" or str(part) == "all"):
                                     batch_size=batch,
                                     learning_rate=learn,
                                     learning_rate_init=learnOptSig,
-                                    max_iter=500,
+                                    max_iter=epochN,
                                     shuffle=True).fit(X_train, Y_train)
             Y_test_pred_Sci = modelSci.predict(X_test)
-            mseFindSci[i, j] = MSE(Y_test_pred_Sci, Y_test)
-            check2 = np.isnan(Y_test_pred_find)
+            mseFindSciRelu[i, j] = MSE(Y_test_pred_Sci, Y_test)
+            check2 = np.isnan(Y_test_pred_Sci)
             if True in check2:
-                r2FindSci[i, j] = 0
+                r2FindSciRelu[i, j] = None
             else:
-                r2FindSci[i, j] = r2_score(Y_test, Y_test_pred_Sci)
+                r2FindSciRelu[i, j] = r2_score(Y_test, Y_test_pred_Sci)
 
     # Plotting heatmaps
     # MSE
-    heatmap(mseFind, neuronFind, layersFind, 'mse', plot=figureInp)
-    heatmap(mseFindSci, neuronFind, layersFind, 'mse', plot=figureInp)
+    heatmap(mseFindSig, neuronFind, layersFind, 'mse', "sigmoid", plot=figureInp)
+    heatmap(mseFindRelu, neuronFind, layersFind, 'mse', "relu", plot=figureInp)
+    heatmap(mseFindSciRelu, neuronFind, layersFind, 'mse', "relu", plot=figureInp)
+    heatmap(mseFindLeakyRelu, neuronFind, layersFind, 'mse', "leaky relu", plot=figureInp)
     # R2
-    heatmap(r2Find, neuronFind, layersFind, 'r2', plot=figureInp)
-    heatmap(r2FindSci, neuronFind, layersFind, 'r2', plot=figureInp)
+    heatmap(r2FindSig, neuronFind, layersFind, 'r2', "sigmoid", plot=figureInp)
+    heatmap(r2FindRelu, neuronFind, layersFind, 'r2', "relu", plot=figureInp)
+    heatmap(r2FindSciRelu, neuronFind, layersFind, 'r2', "relu", plot=figureInp)
+    heatmap(r2FindLeakyRelu, neuronFind, layersFind, 'r2', "leaky relu", plot=figureInp)
 
 
 elif (str(part) == "d" or str(part) == "all"):
-    print("Coming")
+
+    # Read the digit data
+    num_images = 100
+    numbers = getNumbers(num_images)
+    plotNumbers(numbers, figureInp)
 
 elif (str(part) == "e" or str(part) == "all"):
     print("Coming")
 
 elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
-
-    print(np.max(np.random.randn(10, 5)))
+    print("Coming")

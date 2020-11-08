@@ -1,11 +1,15 @@
 import numpy as np
 from FunctionsDef import inputsss, FrankeFunc, standardize, createDesignmatrix, dataSplit, MSE, R2, gradient, \
     inputsssA, testParams, normalize, SGD, addNoise, inputsssB, FrankeFuncNN, createDesignmatrixNN, getNumbers
-from PlotFunctionsDef import FrankPlot, FrankPlotDiff, MSESGD, MSEvsLRATE, R2vsLRATE, MSESGDSTANDARD, heatmap, plotNumbers
+from PlotFunctionsDef import FrankPlot, FrankPlotDiff, MSESGD, MSEvsLRATE, R2vsLRATE, MSESGDSTANDARD, heatmap, \
+    plotNumbers, heatmap2
 from NeuralNetworkReg import NeuralNetwork
+from NeuralNetworkClassification import NeuralNetworkClass
+from NeuralNetworkClassification2 import NeuralNetwork
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error, r2_score, accuracy_score
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 # Input function
 observations, degree, scaleInp, figureInp, part, noiseInp, noiseLVL, testsizesss = inputsss()
@@ -301,12 +305,93 @@ elif (str(part) == "b" or str(part) == "c" or str(part) == "all"):
 elif (str(part) == "d" or str(part) == "all"):
 
     # Read the digit data
-    num_images = 100
-    numbers = getNumbers(num_images)
-    plotNumbers(numbers, figureInp)
+    num_train_images = 10
+    num_test_images = 5
+    X_train, Y_train, X_test, Y_test = getNumbers(num_train_images, num_test_images)
+    #plotNumbers(numbers, figureInp)
+
+    layers = [10]
+    epochN = 2000
+    batch = 2
+    hiddenFunc = "relu"
+    outputFunc = "softmax"
+
+    Y_train = Y_train.reshape(-1, 1)
+    encoder = OneHotEncoder(categories='auto')
+    Y_train_1hot = encoder.fit_transform(Y_train).toarray()
+    Y_test_1hot = encoder.fit_transform(Y_test.reshape(-1, 1)).toarray()
+
+    Y_test_pred_class = np.zeros(len(Y_test))
+    Acc = np.zeros(len(Y_test))
+
+    print(X_train.shape)
+    print(Y_train.shape)
+    print(X_test.shape)
+    print(Y_test.shape)
+
+    for i in range(len(X_train)):
+        print(i)
+        model = NeuralNetworkClass(
+            X=X_train[i],
+            y=Y_train_1hot[i],
+            hiddenNeurons=layers,
+            learningRate=0.01,
+            batch_size=batch,
+            learningType="constant",
+            epochsN=epochN,
+            activationType="sigmoid",
+            outputFunctionType="softmax",
+            alpha=0)
+        model.train()
+
+    for i in range(len(Y_test)):
+        xd = model.predict(X_test[i])
+        print(xd.shape)
+
+    Acc = accuracy_score(Y_test, Y_test_pred_class)
+
+
+    print("Accuracy of model: ", Acc)
+
 
 elif (str(part) == "e" or str(part) == "all"):
     print("Coming")
 
 elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
-    print("Coming")
+
+    # Read the digit data
+    num_train_images = 100 # best 4000
+    num_test_images = 30 # best 100
+    X_train, Y_train, X_test, Y_test = getNumbers(num_train_images, num_test_images)
+    # plotNumbers(numbers, figureInp)
+
+    layers = [10]
+    epochN = 2000
+    batch = 4
+    hiddenFunc = "relu"
+    outputFunc = "softmax"
+
+    Y_train = Y_train.reshape(-1, 1)
+    encoder = OneHotEncoder(categories='auto')
+    Y_train_1hot = encoder.fit_transform(Y_train).toarray()
+    Y_test_1hot = encoder.fit_transform(Y_test.reshape(-1, 1)).toarray()
+
+    n_inputs = len(X_train)
+    n_inputs2 = len(X_test)
+    inputs = X_train.reshape(n_inputs, -1)
+    inputs2 = X_test.reshape(n_inputs2, -1)
+
+    learningRates = [0.00001, 0.0001, 0.001, 0.01]
+    alphas = [0.0001, 0.001, 0.01, 0.1]
+    Acc = np.zeros((len(learningRates), len(alphas)))
+
+    for i in range(len(learningRates)):
+        print(i)
+        for j in range(len(alphas)):
+            dnn = NeuralNetwork(inputs, Y_train_1hot, eta=learningRates[i], lmbd=alphas[j],
+                                epochs=epochN, batch_size=batch, n_hidden_neurons=50, n_categories=10)
+            dnn.train()
+            Acc[i,j] = accuracy_score(Y_test, dnn.predict(inputs2))
+
+    # Plot heatmaps
+    heatmap2(Acc, learningRates, alphas, plot=figureInp)

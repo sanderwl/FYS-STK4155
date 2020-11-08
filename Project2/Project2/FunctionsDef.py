@@ -33,7 +33,7 @@ def inputsss():
         figureInp = False
     testlevel = input("What is the test size? (between 0 and 1, but typically around 0.25)")
     part = input("Which sub-exericse will you run(a,b,c,d,e,f/all)?")
-    return int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
+    return 100,5,True,True,"f",True,0.001,0.25#int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
 
 def inputsssA():
     # Input function for interactivity in part a)
@@ -99,16 +99,63 @@ def FrankeFuncNN(x, y):
     z = z.ravel()[:, np.newaxis]
     return z
 
-def getNumbers(nums):
+def getNumbers(nums, nums2):
 
-    f = gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/t10k-images-idx3-ubyte.gz', 'r')
-    image_size = 28
-    num_images = nums
-    f.read(16)
-    buf = f.read(image_size * image_size * num_images)
-    data = np.frombuffer(buf, dtype=np.uint8).astype(np.float32)
-    data = data.reshape(num_images, image_size, image_size, 1)
-    return data
+    with gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/train-images-idx3-ubyte.gz', 'r') as f:
+        # first 4 bytes is a magic number
+        magic_number = int.from_bytes(f.read(4), 'big')
+        # second 4 bytes is the number of images
+        image_count = int.from_bytes(f.read(4), 'big')
+        # third 4 bytes is the row count
+        row_count = int.from_bytes(f.read(4), 'big')
+        # fourth 4 bytes is the column count
+        column_count = int.from_bytes(f.read(4), 'big')
+        # rest is the image pixel data, each pixel is stored as an unsigned byte
+        # pixel values are 0 to 255
+        image_data = f.read()
+        images = np.frombuffer(image_data, dtype=np.uint8) \
+            .reshape((image_count, row_count, column_count))
+        images = images[0:nums,:,:]
+
+    with gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/train-labels-idx1-ubyte.gz', 'r') as f:
+        # first 4 bytes is a magic number
+        magic_number = int.from_bytes(f.read(4), 'big')
+        # second 4 bytes is the number of labels
+        label_count = int.from_bytes(f.read(4), 'big')
+        # rest is the label data, each label is stored as unsigned byte
+        # label values are 0 to 9
+        label_data = f.read()
+        labels = np.frombuffer(label_data, dtype=np.uint8)
+        labels = labels[0:nums]
+
+    with gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/t10k-images-idx3-ubyte.gz', 'r') as f:
+        # first 4 bytes is a magic number
+        magic_number = int.from_bytes(f.read(4), 'big')
+        # second 4 bytes is the number of images
+        image_count = int.from_bytes(f.read(4), 'big')
+        # third 4 bytes is the row count
+        row_count = int.from_bytes(f.read(4), 'big')
+        # fourth 4 bytes is the column count
+        column_count = int.from_bytes(f.read(4), 'big')
+        # rest is the image pixel data, each pixel is stored as an unsigned byte
+        # pixel values are 0 to 255
+        image_test = f.read()
+        images_test = np.frombuffer(image_test, dtype=np.uint8) \
+            .reshape((image_count, row_count, column_count))
+        images_test = images_test[0:nums2,:,:]
+
+    with gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/t10k-labels-idx1-ubyte.gz', 'r') as f:
+        # first 4 bytes is a magic number
+        magic_number = int.from_bytes(f.read(4), 'big')
+        # second 4 bytes is the number of labels
+        label_count = int.from_bytes(f.read(4), 'big')
+        # rest is the label data, each label is stored as unsigned byte
+        # label values are 0 to 9
+        label_test= f.read()
+        labels_test = np.frombuffer(label_test, dtype=np.uint8)
+        labels_test = labels_test[0:nums2]
+
+    return images, labels, images_test, labels_test
 
 def standardize(z, scalee):
     # Standardize input by having mean equal zero and standard deviation equal one

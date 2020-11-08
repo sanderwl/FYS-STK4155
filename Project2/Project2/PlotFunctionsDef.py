@@ -110,6 +110,16 @@ def heatmap(x, neurons, layers, rm, mains, plot):
         ax.set_ylabel('Number of hidden layers')
         plt.show()
 
+def heatmap2(x, learningRate, Penalty, plot):
+    if plot == True:
+        plt.figure()
+        ax = sns.heatmap(x, xticklabels=learningRate, yticklabels=Penalty, annot=True)
+        plt.suptitle('Accuracy comparison different values of learning rate and penalty parameters'
+                     , fontsize=25, fontweight="bold")
+        ax.set_xlabel('Learning rates')
+        ax.set_ylabel('Penalty')
+        plt.show()
+
 def plotNumbers(data, plot):
     if plot == True:
         image = np.asarray(data[7]).squeeze()

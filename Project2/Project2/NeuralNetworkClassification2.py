@@ -1,12 +1,12 @@
 import numpy as np
 
 
-class NeuralNetwork:
+class NeuralNetwork2:
     def __init__(
             self,
             X_data,
             Y_data,
-            n_hidden_neurons=50,
+            n_hidden_neurons=[50],
             n_categories=10,
             epochs=10,
             batch_size=100,
@@ -19,7 +19,9 @@ class NeuralNetwork:
         self.n_inputs = X_data.shape[0]
         self.n_features = X_data.shape[1]
         self.n_hidden_neurons = n_hidden_neurons
-        self.n_categories = n_categories
+        self.n_categories = Y_data.shape[1]
+
+        self.layers = ([self.n_features] + self.n_hidden_neurons + [self.n_categories])
 
         self.epochs = epochs
         self.batch_size = batch_size

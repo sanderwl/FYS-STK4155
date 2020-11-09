@@ -33,7 +33,7 @@ def inputsss():
         figureInp = False
     testlevel = input("What is the test size? (between 0 and 1, but typically around 0.25)")
     part = input("Which sub-exericse will you run(a,b,c,d,e,f/all)?")
-    return 100,5,True,True,"f",True,0.001,0.25#int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
+    return 100,5,True,True,"d",True,0.001,0.25#int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
 
 def inputsssA():
     # Input function for interactivity in part a)

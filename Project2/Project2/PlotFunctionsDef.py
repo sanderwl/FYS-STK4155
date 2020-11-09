@@ -100,6 +100,24 @@ def R2vsLRATE(R2Sig, R2Relu, R2_sciRelu, R2LeakyRelu, learningRates, plot):
         plt.grid()
         plt.show()
 
+def AccvsLRATE(Acc1, Acc2, Acc3, Acc4, learningRates, plot):
+    if plot == True:
+        xxx = np.log10(learningRates)
+        plt.plot(xxx, Acc1, label="My NN implementation (sigmoid)", linewidth=4)
+        plt.plot(xxx, Acc2, label="Scikit NN implementation(sigmoid)", linewidth=4)
+        plt.plot(xxx, Acc3, label="My NN implementation (RELU)", linewidth=4)
+        plt.plot(xxx, Acc4, label="Scikit NN implementation (RELU)", linewidth=4)
+        plt.xticks(xxx)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
+        plt.suptitle('Accuracy comparison of different implementations', fontsize=25,
+                     fontweight="bold")
+        plt.ylabel('Accuracy', fontsize=20)
+        plt.xlabel('Logarithm of learning rates', fontsize=20)
+        plt.legend(loc="lower right", prop={'size': 20})
+        plt.grid()
+        plt.show()
+
 def heatmap(x, neurons, layers, rm, mains, plot):
     if plot == True:
         plt.figure()

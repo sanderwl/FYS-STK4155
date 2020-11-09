@@ -2,11 +2,11 @@ import numpy as np
 from FunctionsDef import inputsss, FrankeFunc, standardize, createDesignmatrix, dataSplit, MSE, R2, gradient, \
     inputsssA, testParams, normalize, SGD, addNoise, inputsssB, FrankeFuncNN, createDesignmatrixNN, getNumbers
 from PlotFunctionsDef import FrankPlot, FrankPlotDiff, MSESGD, MSEvsLRATE, R2vsLRATE, MSESGDSTANDARD, heatmap, \
-    plotNumbers, heatmap2
+    plotNumbers, heatmap2, AccvsLRATE
 from NeuralNetworkReg import NeuralNetwork
 from NeuralNetworkClassification import NeuralNetworkClass
-from NeuralNetworkClassification2 import NeuralNetwork
-from sklearn.neural_network import MLPRegressor
+from NeuralNetworkClassification2 import NeuralNetwork2
+from sklearn.neural_network import MLPRegressor, MLPClassifier
 from sklearn.metrics import mean_squared_error, r2_score, accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -305,72 +305,20 @@ elif (str(part) == "b" or str(part) == "c" or str(part) == "all"):
 elif (str(part) == "d" or str(part) == "all"):
 
     # Read the digit data
-    num_train_images = 10
-    num_test_images = 5
-    X_train, Y_train, X_test, Y_test = getNumbers(num_train_images, num_test_images)
-    #plotNumbers(numbers, figureInp)
-
-    layers = [10]
-    epochN = 2000
-    batch = 2
-    hiddenFunc = "relu"
-    outputFunc = "softmax"
-
-    Y_train = Y_train.reshape(-1, 1)
-    encoder = OneHotEncoder(categories='auto')
-    Y_train_1hot = encoder.fit_transform(Y_train).toarray()
-    Y_test_1hot = encoder.fit_transform(Y_test.reshape(-1, 1)).toarray()
-
-    Y_test_pred_class = np.zeros(len(Y_test))
-    Acc = np.zeros(len(Y_test))
-
-    print(X_train.shape)
-    print(Y_train.shape)
-    print(X_test.shape)
-    print(Y_test.shape)
-
-    for i in range(len(X_train)):
-        print(i)
-        model = NeuralNetworkClass(
-            X=X_train[i],
-            y=Y_train_1hot[i],
-            hiddenNeurons=layers,
-            learningRate=0.01,
-            batch_size=batch,
-            learningType="constant",
-            epochsN=epochN,
-            activationType="sigmoid",
-            outputFunctionType="softmax",
-            alpha=0)
-        model.train()
-
-    for i in range(len(Y_test)):
-        xd = model.predict(X_test[i])
-        print(xd.shape)
-
-    Acc = accuracy_score(Y_test, Y_test_pred_class)
-
-
-    print("Accuracy of model: ", Acc)
-
-
-elif (str(part) == "e" or str(part) == "all"):
-    print("Coming")
-
-elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
-
-    # Read the digit data
-    num_train_images = 100 # best 4000
-    num_test_images = 30 # best 100
+    num_train_images = 1000
+    num_test_images = 1000
     X_train, Y_train, X_test, Y_test = getNumbers(num_train_images, num_test_images)
     # plotNumbers(numbers, figureInp)
 
-    layers = [10]
-    epochN = 2000
-    batch = 4
-    hiddenFunc = "relu"
+    # Defining network parameters
+    layers = [10, 10]
+    epochN = 1000
+    batch = 10
+    hiddenFunc = ["sigmoid", "relu"]
+    hiddenFunc2 = ["logistic", "relu"]
     outputFunc = "softmax"
 
+    # Have to flatten the image
     Y_train = Y_train.reshape(-1, 1)
     encoder = OneHotEncoder(categories='auto')
     Y_train_1hot = encoder.fit_transform(Y_train).toarray()
@@ -381,17 +329,178 @@ elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
     inputs = X_train.reshape(n_inputs, -1)
     inputs2 = X_test.reshape(n_inputs2, -1)
 
-    learningRates = [0.00001, 0.0001, 0.001, 0.01]
+    # More parameters
+    learningRates = [0.0001, 0.001, 0.01, 0.1]
     alphas = [0.0001, 0.001, 0.01, 0.1]
-    Acc = np.zeros((len(learningRates), len(alphas)))
+    AccySig = np.zeros(len(learningRates))
+    AccySciSig = np.zeros(len(learningRates))
+    AccyRelu = np.zeros(len(learningRates))
+    AccySciRelu = np.zeros(len(learningRates))
+    AccSig = np.zeros((len(learningRates), len(alphas)))
+    AccSciSig = np.zeros((len(learningRates), len(alphas)))
+    AccRelu = np.zeros((len(learningRates), len(alphas)))
+    AccSciRelu = np.zeros((len(learningRates), len(alphas)))
+    DNN_scikit = np.zeros((len(learningRates), len(alphas)), dtype=object)
 
-    for i in range(len(learningRates)):
-        print(i)
-        for j in range(len(alphas)):
-            dnn = NeuralNetwork(inputs, Y_train_1hot, eta=learningRates[i], lmbd=alphas[j],
-                                epochs=epochN, batch_size=batch, n_hidden_neurons=50, n_categories=10)
-            dnn.train()
-            Acc[i,j] = accuracy_score(Y_test, dnn.predict(inputs2))
+    for k in range(len(hiddenFunc)):
+        for i in range(len(learningRates)):
+            print(i)
+            model = NeuralNetwork(
+                X=inputs,
+                y=Y_train_1hot,
+                hiddenNeurons=layers,
+                learningRate=learningRates[i],
+                batch_size=batch,
+                learningType='constant',
+                epochsN=epochN,
+                activationType=hiddenFunc[k],
+                outputFunctionType='softmax',
+                alpha=0)
+            model.train()
+            Y_test_pred = model.predict(inputs2)
+            Y_pred = model.predict_class(inputs2)
 
-    # Plot heatmaps
-    heatmap2(Acc, learningRates, alphas, plot=figureInp)
+            if hiddenFunc2[k] == 'logistic':
+                AccySig[i] = accuracy_score(Y_test, Y_pred)
+            elif hiddenFunc2[k] == 'relu':
+                AccyRelu[i] = accuracy_score(Y_test, Y_pred)
+
+            # Scikit implementation
+            dnnSci = MLPClassifier(hidden_layer_sizes=layers, activation=hiddenFunc2[k], alpha=0,
+                                   learning_rate_init=learningRates[i], max_iter=epochN)
+            dnnSci.fit(inputs, Y_train_1hot)
+            Y_pred1 = dnnSci.predict_proba(inputs2)
+            Y_pred2 = np.argmax(Y_pred1, axis=1)
+            if hiddenFunc2[k] == 'logistic':
+                AccySciSig[i] = accuracy_score(Y_test, Y_pred2)
+            elif hiddenFunc2[k] == 'relu':
+                AccySciRelu[i] = accuracy_score(Y_test, Y_pred2)
+
+    lrateOptSig = learningRates[np.argmax(AccySig)]
+    lrateOptRelu = learningRates[np.argmax(AccyRelu)]
+    optRates = [lrateOptSig, lrateOptRelu]
+    print("Optimal learning rate using logistic sigmoid: ", lrateOptSig)
+    print("Optimal learning rate using RELU: ", lrateOptRelu)
+
+    # Optimal number of neurons and layers
+    layersFind = np.arange(1, 10, 1)
+    neuronFind = np.arange(1, 101, 10)
+    AccFindSig = np.zeros((len(layersFind), len(neuronFind)))
+    AccFindRelu = np.zeros((len(layersFind), len(neuronFind)))
+    AccFindSciSig = np.zeros((len(layersFind), len(neuronFind)))
+    AccFindSciRelu = np.zeros((len(layersFind), len(neuronFind)))
+
+    for k in range(len(hiddenFunc)):
+        for i in range(len(layersFind)):
+            for j in range(len(neuronFind)):
+                print("[Number of layers: ", i+1, ", number of neurons: ", j+1, "]")
+                # My neural network
+                model = NeuralNetwork(
+                    X=inputs,
+                    y=Y_train_1hot,
+                    hiddenNeurons=layers,
+                    learningRate=optRates[k],
+                    batch_size=batch,
+                    learningType='constant',
+                    epochsN=epochN,
+                    activationType=hiddenFunc[k],
+                    outputFunctionType='softmax',
+                    alpha=0)
+                model.train()
+                Y_test_pred_x = model.predict(inputs2)
+                Y_pred_x = model.predict_class(inputs2)
+
+                if hiddenFunc2[k] == 'logistic':
+                    AccFindSig[i,j] = accuracy_score(Y_test, Y_pred_x)
+                elif hiddenFunc2[k] == 'relu':
+                    AccFindRelu[i,j] = accuracy_score(Y_test, Y_pred_x)
+
+                # Scikit implementation
+                dnnSci = MLPClassifier(hidden_layer_sizes=[i+1, j+1], activation=hiddenFunc2[k], alpha=0,
+                                       learning_rate_init=optRates[k], max_iter=epochN)
+                dnnSci.fit(inputs, Y_train_1hot)
+                Y_pred1_x = dnnSci.predict_proba(inputs2)
+                Y_pred2_x = np.argmax(Y_pred1_x, axis=1)
+                if hiddenFunc2[k] == 'logistic':
+                    AccFindSciSig[i, j] = accuracy_score(Y_test, Y_pred2_x)
+                elif hiddenFunc2[k] == 'relu':
+                    AccFindSciRelu[i, j] = accuracy_score(Y_test, Y_pred2_x)
+
+    optSig = np.unravel_index(AccFindSig.argmin(), AccFindSig.shape)
+    optRelu = np.unravel_index(AccFindRelu.argmin(), AccFindRelu.shape)
+    optLayerSig = optSig[0]
+    optNeuronSig = optSig[1]
+    optLayerRelu = optRelu[0]
+    optNeuronRelu = optRelu[1]
+
+    # Penalty parameter for Ridge
+    AccSig_Ridge = np.zeros((len(learningRates), len(alphas)))
+    AccRelu_Ridge = np.zeros((len(learningRates), len(alphas)))
+    AccSciSig_Ridge = np.zeros((len(learningRates), len(alphas)))
+    AccSciRelu_Ridge = np.zeros((len(learningRates), len(alphas)))
+
+    for k in range(len(hiddenFunc)):
+        for i in range(len(learningRates)):
+            print(i)
+            for j in range(len(alphas)):
+                # My implementation
+                model = NeuralNetwork(
+                    X=inputs,
+                    y=Y_train_1hot,
+                    hiddenNeurons=layers,
+                    learningRate=learningRates[i],
+                    batch_size=batch,
+                    learningType='constant',
+                    epochsN=epochN,
+                    activationType=hiddenFunc[k],
+                    outputFunctionType='softmax',
+                    alpha=alphas[j])
+                model.train()
+                Y_test_Ridge = model.predict(inputs2)
+                Y_pred_Ridge = model.predict_class(inputs2)
+
+                if hiddenFunc2[k] == 'logistic':
+                    AccSig_Ridge[i, j] = accuracy_score(Y_test, Y_pred_Ridge)
+                elif hiddenFunc2[k] == 'relu':
+                    AccRelu_Ridge[i,j] = accuracy_score(Y_test, Y_pred_Ridge)
+
+                # Scikit implementation
+                dnnSciRidge = MLPClassifier(hidden_layer_sizes=layers, activation=hiddenFunc2[k], alpha=alphas[j],
+                                            learning_rate_init=learningRates[i], max_iter=epochN)
+                dnnSci.fit(inputs, Y_train_1hot)
+
+                Y_pred_Sci_Ridge = dnnSci.predict_proba(inputs2)
+                Y_pred_Sci_Ridge2 = np.argmax(Y_pred_Sci_Ridge, axis=1)
+
+                if hiddenFunc2[k] == 'logistic':
+                    AccSciSig_Ridge[i, j] = accuracy_score(Y_test, Y_pred_Sci_Ridge2)
+                elif hiddenFunc2[k] == 'relu':
+                    AccSciRelu_Ridge[i, j] = accuracy_score(Y_test, Y_pred_Sci_Ridge2)
+
+    # Plot accuracy vs learning rate
+    AccvsLRATE(AccySig, AccySciSig, AccyRelu, AccySciRelu, learningRates, figureInp)
+
+    # Plot heatmap of different layer and neuron sizes
+    heatmap(AccFindSig, neuronFind, layersFind, 'Accuracy', "sigmoid", plot=figureInp)
+    heatmap(AccFindRelu, neuronFind, layersFind, 'Accuracy', "relu", plot=figureInp)
+    heatmap(AccFindSciSig, neuronFind, layersFind, 'Accuracy', "sigmoid", plot=figureInp)
+    heatmap(AccFindSciRelu, neuronFind, layersFind, 'Accuracy', "relu", plot=figureInp)
+
+    # Plot heatmap of learning rate and penalty for Ridge
+    heatmap2(AccSig_Ridge, learningRates, alphas, plot=figureInp)
+    heatmap2(AccRelu_Ridge, learningRates, alphas, plot=figureInp)
+    heatmap2(AccSciSig_Ridge, learningRates, alphas, plot=figureInp)
+    heatmap2(AccSciRelu_Ridge, learningRates, alphas, plot=figureInp)
+
+
+elif (str(part) == "e" or str(part) == "all"):
+    print("Coming")
+
+elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
+
+        xxx = np.random.rand(10,10)
+
+        opt = np.unravel_index(xxx.argmin(), xxx.shape)
+        optlayer = opt[0]
+        optneuron = opt[1]
+        print(optlayer,optneuron)

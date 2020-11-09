@@ -115,6 +115,10 @@ class NeuralNetwork:
 
             self.costs[i] = self.cost
 
+    def predict_class(self, X):
+        output = self.feedForwardOut(X)
+        return np.argmax(output, axis=1)
+
     def predict(self, X):
         return self.feedForwardOut(X)
 

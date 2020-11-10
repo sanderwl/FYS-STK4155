@@ -14,6 +14,7 @@ class NeuralNetwork:
             initialBias = 0.01,
             activationType = 'sigmoid',
             outputFunctionType = 'identity',
+            cost_func_str='mse',
             alpha = 0):
 
         self.X_train = X
@@ -42,6 +43,8 @@ class NeuralNetwork:
         self.initialBias = initialBias # bias for every layer
         self.biases = [None]
         self.alpha = alpha
+        self.cost_func_str = cost_func_str
+        self.set_cost_func(self.cost_func_str)
 
         self.a = [None]  # neuron output
         self.z = [None]  # activation function
@@ -76,7 +79,7 @@ class NeuralNetwork:
 
     def backPropagation(self):
 
-        self.cost = self.mse(self.a[-1])
+        self.cost = self.cost_func(self.a[-1])
 
         self.backError[-1] = self.a[-1] - self.y
 
@@ -159,11 +162,25 @@ class NeuralNetwork:
         elif self.outputFunctionType == 'identity':
             self.output_func = self.linear
 
+    def set_cost_func(self, cost_func_str):
+        if cost_func_str == 'mse':
+            self.cost_func = self.mse
+            self.cost_func_der = self.mseDerivative
+        elif cost_func_str == 'ce':
+            self.cost_func = self.CE
+            self.cost_func_der = self.CEDerivative
+
     def mse(self, x):
         return 0.5 * ((x - self.y) ** 2).mean()
 
     def mseDerivative(self, x):
         return x - self.y
+
+    def CE(self, x):
+        return - (self.y * np.log(x) + (1 - self.y) * np.log(1 - x)).mean()
+
+    def CEDerivative(self, x):
+        return -self.y/x + (1 - self.y)/(1 - x)
 
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))

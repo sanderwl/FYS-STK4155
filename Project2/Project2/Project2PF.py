@@ -305,15 +305,15 @@ elif (str(part) == "b" or str(part) == "c" or str(part) == "all"):
 elif (str(part) == "d" or str(part) == "all"):
 
     # Read the digit data
-    num_train_images = 1000
-    num_test_images = 1000
+    num_train_images = 200
+    num_test_images = 70
     X_train, Y_train, X_test, Y_test = getNumbers(num_train_images, num_test_images)
     # plotNumbers(numbers, figureInp)
 
     # Defining network parameters
-    layers = [10, 10]
+    layers = [20,20,20]
     epochN = 1000
-    batch = 10
+    batch = 100
     hiddenFunc = ["sigmoid", "relu"]
     hiddenFunc2 = ["logistic", "relu"]
     outputFunc = "softmax"
@@ -330,7 +330,7 @@ elif (str(part) == "d" or str(part) == "all"):
     inputs2 = X_test.reshape(n_inputs2, -1)
 
     # More parameters
-    learningRates = [0.0001, 0.001, 0.01, 0.1]
+    learningRates = [0.00001, 0.0001, 0.001, 0.01, 0.1]
     alphas = [0.0001, 0.001, 0.01, 0.1]
     AccySig = np.zeros(len(learningRates))
     AccySciSig = np.zeros(len(learningRates))
@@ -355,6 +355,7 @@ elif (str(part) == "d" or str(part) == "all"):
                 epochsN=epochN,
                 activationType=hiddenFunc[k],
                 outputFunctionType='softmax',
+                cost_func_str='ce',
                 alpha=0)
             model.train()
             Y_test_pred = model.predict(inputs2)
@@ -432,13 +433,49 @@ elif (str(part) == "d" or str(part) == "all"):
     optNeuronSig = optSig[1]
     optLayerRelu = optRelu[0]
     optNeuronRelu = optRelu[1]
+    optTotalSig = np.repeat(optNeuronSig, optLayerSig)
+    optTotalRelu = np.repeat(optNeuronRelu, optLayerRelu)
+    optTotal = [optTotalSig, optTotalRelu]
+
+    # Best model
+    for k in range(len(hiddenFunc)):
+        EpicModel = NeuralNetwork(
+            X=inputs,
+            y=Y_train_1hot,
+            hiddenNeurons= list(optTotal[k]),
+            learningRate=optRates[k],
+            batch_size=batch,
+            learningType='constant',
+            epochsN=epochN,
+            activationType=hiddenFunc[k],
+            outputFunctionType='softmax',
+            cost_func_str='ce',
+            alpha=0)
+        EpicModel.train()
+        Y_test_pred_epic = EpicModel.predict(inputs2)
+        Y_pred_epic = EpicModel.predict_class(inputs2)
+
+        if hiddenFunc2[k] == 'logistic':
+            AccSig_epic = accuracy_score(Y_test, Y_pred_epic)
+        elif hiddenFunc2[k] == 'relu':
+            AccRelu_epic = accuracy_score(Y_test, Y_pred_epic)
+
+        # Scikit implementation
+        dnnSci_epic = MLPClassifier(hidden_layer_sizes=optTotal[k], activation=hiddenFunc2[k], alpha=0,
+                               learning_rate_init=optRates[k], max_iter=epochN)
+        dnnSci_epic.fit(inputs, Y_train_1hot)
+        Y_pred1_epic = dnnSci.predict_proba(inputs2)
+        Y_pred2_epic = np.argmax(Y_pred1_epic, axis=1)
+        if hiddenFunc2[k] == 'logistic':
+            AccSciSig_epic = accuracy_score(Y_test, Y_pred2_epic)
+        elif hiddenFunc2[k] == 'relu':
+            AccSciRelu_epic = accuracy_score(Y_test, Y_pred2_epic)
 
     # Penalty parameter for Ridge
     AccSig_Ridge = np.zeros((len(learningRates), len(alphas)))
     AccRelu_Ridge = np.zeros((len(learningRates), len(alphas)))
     AccSciSig_Ridge = np.zeros((len(learningRates), len(alphas)))
     AccSciRelu_Ridge = np.zeros((len(learningRates), len(alphas)))
-
     for k in range(len(hiddenFunc)):
         for i in range(len(learningRates)):
             print(i)
@@ -462,7 +499,7 @@ elif (str(part) == "d" or str(part) == "all"):
                 if hiddenFunc2[k] == 'logistic':
                     AccSig_Ridge[i, j] = accuracy_score(Y_test, Y_pred_Ridge)
                 elif hiddenFunc2[k] == 'relu':
-                    AccRelu_Ridge[i,j] = accuracy_score(Y_test, Y_pred_Ridge)
+                    AccRelu_Ridge[i, j] = accuracy_score(Y_test, Y_pred_Ridge)
 
                 # Scikit implementation
                 dnnSciRidge = MLPClassifier(hidden_layer_sizes=layers, activation=hiddenFunc2[k], alpha=alphas[j],
@@ -477,6 +514,124 @@ elif (str(part) == "d" or str(part) == "all"):
                 elif hiddenFunc2[k] == 'relu':
                     AccSciRelu_Ridge[i, j] = accuracy_score(Y_test, Y_pred_Sci_Ridge2)
 
+    optSig3 = np.unravel_index(AccSig_Ridge.argmin(), AccSig_Ridge.shape)
+    optRelu3 = np.unravel_index(AccRelu_Ridge.argmin(), AccRelu_Ridge.shape)
+    optLrateSig3 = optSig3[0]
+    optAlphaSig3 = optSig3[1]
+    optLrateRelu2 = optRelu3[0]
+    optAlphaRelu3 = optRelu3[1]
+    optALpha = [optAlphaSig3, optAlphaRelu3]
+    optLrate3 = [optLrateSig3, optLrateRelu2]
+
+    # Optimal number of hidden neurons and layers for Ridge
+    AccFindSig_Ridge = np.zeros((len(layersFind), len(neuronFind)))
+    AccFindRelu_Ridge = np.zeros((len(layersFind), len(neuronFind)))
+    AccFindSciSig_Ridge = np.zeros((len(layersFind), len(neuronFind)))
+    AccFindSciRelu_Ridge = np.zeros((len(layersFind), len(neuronFind)))
+    eps = 0.00001
+    for k in range(len(hiddenFunc)):
+        for i in range(len(layersFind)):
+            for j in range(len(neuronFind)):
+                print("[Number of layers: ", i+1, ", number of neurons: ", j+1, "]")
+                # My neural network
+                model = NeuralNetwork(
+                    X=inputs,
+                    y=Y_train_1hot,
+                    hiddenNeurons=layers,
+                    learningRate=optLrate3[k],
+                    batch_size=batch,
+                    learningType='constant',
+                    epochsN=epochN,
+                    activationType=hiddenFunc[k],
+                    outputFunctionType='softmax',
+                    alpha=optALpha[k])
+                model.train()
+                Y_test_pred_x = model.predict(inputs2)
+                Y_pred_x = model.predict_class(inputs2)
+
+                if hiddenFunc2[k] == 'logistic':
+                    AccFindSig_Ridge[i,j] = accuracy_score(Y_test, Y_pred_x)
+                elif hiddenFunc2[k] == 'relu':
+                    AccFindRelu_Ridge[i,j] = accuracy_score(Y_test, Y_pred_x)
+
+                # Scikit implementation
+                dnnSci = MLPClassifier(hidden_layer_sizes=[i+1, j+1], activation=hiddenFunc2[k], alpha=optALpha[k],
+                                       learning_rate_init=optLrate3[k]+eps, max_iter=epochN)
+                dnnSci.fit(inputs, Y_train_1hot)
+                Y_pred1_x = dnnSci.predict_proba(inputs2)
+                Y_pred2_x = np.argmax(Y_pred1_x, axis=1)
+                if hiddenFunc2[k] == 'logistic':
+                    AccFindSciSig_Ridge[i, j] = accuracy_score(Y_test, Y_pred2_x)
+                elif hiddenFunc2[k] == 'relu':
+                    AccFindSciRelu_Ridge[i, j] = accuracy_score(Y_test, Y_pred2_x)
+
+    optSig2 = np.unravel_index(AccFindSig_Ridge.argmin(), AccFindSig_Ridge.shape)
+    optRelu2 = np.unravel_index(AccFindRelu_Ridge.argmin(), AccFindRelu_Ridge.shape)
+    optLayerSig2 = optSig2[0]
+    optNeuronSig2 = optSig2[1]
+    optLayerRelu2 = optRelu2[0]
+    optNeuronRelu2 = optRelu2[1]
+    optTotalSig2 = np.repeat(optNeuronSig2, optLayerSig2)
+    optTotalRelu2 = np.repeat(optNeuronRelu2, optLayerRelu2)
+    optTotal2 = [optTotalSig2, optTotalRelu2]
+
+    # Best model for Ridge
+    for k in range(len(hiddenFunc)):
+        EpicModel = NeuralNetwork(
+            X=inputs,
+            y=Y_train_1hot,
+            hiddenNeurons=list(optTotal2[k]),
+            learningRate=optLrate3[k],
+            batch_size=batch,
+            learningType='constant',
+            epochsN=epochN,
+            activationType=hiddenFunc[k],
+            outputFunctionType='softmax',
+            cost_func_str='ce',
+            alpha=optALpha[k])
+        EpicModel.train()
+        Y_test_pred_epic = EpicModel.predict(inputs2)
+        Y_pred_epic = EpicModel.predict_class(inputs2)
+
+        if hiddenFunc2[k] == 'logistic':
+            AccSig_epic2 = accuracy_score(Y_test, Y_pred_epic)
+        elif hiddenFunc2[k] == 'relu':
+            AccRelu_epic2 = accuracy_score(Y_test, Y_pred_epic)
+
+        # Scikit implementation
+        dnnSci_epic = MLPClassifier(hidden_layer_sizes=optTotal2[k], activation=hiddenFunc2[k], alpha=optALpha[k],
+                                    learning_rate_init=optLrate3[k]+eps, max_iter=epochN)
+        dnnSci_epic.fit(inputs, Y_train_1hot)
+        Y_pred1_epic = dnnSci.predict_proba(inputs2)
+        Y_pred2_epic = np.argmax(Y_pred1_epic, axis=1)
+        if hiddenFunc2[k] == 'logistic':
+            AccSciSig_epic2 = accuracy_score(Y_test, Y_pred2_epic)
+        elif hiddenFunc2[k] == 'relu':
+            AccSciRelu_epic2 = accuracy_score(Y_test, Y_pred2_epic)
+
+
+    print("----------------------------")
+    print("Optimal learning rate using logistic sigmoid: ", lrateOptSig2)
+    print("Optimal learning rate using RELU: ", lrateOptRelu2)
+
+    print("Optimal learning rate using logistic sigmoid: ", lrateOptSig)
+    print("Optimal learning rate using RELU: ", lrateOptRelu)
+
+    print("Optimal layer sigmoid", optLayerSig)
+    print("Optimal layer relu", optLayerRelu)
+    print("Optimal neuron sigmoid", optNeuronSig)
+    print("Optimal neuron relu", optNeuronRelu)
+
+    print("Accuracy of my best model using sigmoid: ", AccSig_epic)
+    print("Accuracy of my best model using RELU: ", AccRelu_epic)
+    print("Accuracy of Scikits best model using sigmoid: ", AccSciSig_epic)
+    print("Accuracy of Scikits best model using RELU: ", AccSciRelu_epic)
+
+    print("Accuracy of my best Ridge model using sigmoid: ", AccSig_epic2)
+    print("Accuracy of my best Ridge model using RELU: ", AccRelu_epic2)
+    print("Accuracy of Scikits Ridge best model using sigmoid: ", AccSciSig_epic2)
+    print("Accuracy of Scikits Ridge best model using RELU: ", AccSciRelu_epic2)
+
     # Plot accuracy vs learning rate
     AccvsLRATE(AccySig, AccySciSig, AccyRelu, AccySciRelu, learningRates, figureInp)
 
@@ -486,21 +641,20 @@ elif (str(part) == "d" or str(part) == "all"):
     heatmap(AccFindSciSig, neuronFind, layersFind, 'Accuracy', "sigmoid", plot=figureInp)
     heatmap(AccFindSciRelu, neuronFind, layersFind, 'Accuracy', "relu", plot=figureInp)
 
+    # Plot heatmap of different layer and neuron sizes Ridge
+    heatmap(AccFindSig_Ridge, neuronFind, layersFind, 'Accuracy', "sigmoid", plot=figureInp)
+    heatmap(AccFindRelu_Ridge, neuronFind, layersFind, 'Accuracy', "relu", plot=figureInp)
+    heatmap(AccFindSciSig_Ridge, neuronFind, layersFind, 'Accuracy', "sigmoid", plot=figureInp)
+    heatmap(AccFindSciRelu_Ridge, neuronFind, layersFind, 'Accuracy', "relu", plot=figureInp)
+
     # Plot heatmap of learning rate and penalty for Ridge
     heatmap2(AccSig_Ridge, learningRates, alphas, plot=figureInp)
     heatmap2(AccRelu_Ridge, learningRates, alphas, plot=figureInp)
     heatmap2(AccSciSig_Ridge, learningRates, alphas, plot=figureInp)
     heatmap2(AccSciRelu_Ridge, learningRates, alphas, plot=figureInp)
 
-
 elif (str(part) == "e" or str(part) == "all"):
     print("Coming")
 
 elif (str(part) == "f" or str(part) == "g" or str(part) == "all"):
-
-        xxx = np.random.rand(10,10)
-
-        opt = np.unravel_index(xxx.argmin(), xxx.shape)
-        optlayer = opt[0]
-        optneuron = opt[1]
-        print(optlayer,optneuron)
+    print("Coming")

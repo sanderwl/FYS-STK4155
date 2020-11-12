@@ -17,40 +17,50 @@ class NeuralNetwork:
             cost_func_str='mse',
             alpha = 0):
 
+        # Define data
         self.X_train = X
         self.Y_train = y
 
+        # Define neural network setup
         self.inputsN = X.shape[0]
         self.featuresN = X.shape[1]
         self.categoriesN = y.shape[1]
 
+        # Define neural network configuration with layers and neurons
         self.hiddenNeurons = hiddenNeurons
         self.layers = ([self.featuresN] + self.hiddenNeurons + [self.categoriesN])
         self.layersN = len(self.layers)
 
+        # Define specs of SGD
         self.batch_size = batch_size
         self.batchesN = int(self.inputsN / self.batch_size)
         self.epochsN = epochsN
         self.learningType = learningType
         self.learningRate = learningRate / batch_size
 
+        # Adjustable activation function for hidden/output layer
         self.activationType = activationType
         self.activationFunction(self.activationType)
         self.outputFunctionType = outputFunctionType
         self.outputFunction(self.outputFunctionType)
 
+        # Define initial weights and biases
         self.weights = [None]  # weights for every layer
         self.initialBias = initialBias # bias for every layer
         self.biases = [None]
         self.alpha = alpha
+
+        # Define the cost function to be used
         self.cost_func_str = cost_func_str
         self.set_cost_func(self.cost_func_str)
 
+        # Define inter-neuron data
         self.a = [None]  # neuron output
         self.z = [None]  # activation function
         self.backError = [None]  # error for back propagation
         self.costs = np.zeros(self.epochsN) # cost function
 
+        # Set biases to some small value, use xavier initial weights
         for l in range(1, self.layersN):
             self.weights.append(np.random.normal(loc=0.0,scale=np.sqrt(2 / (self.layers[l - 1] + self.layers[l])), size=(self.layers[l - 1], self.layers[l])))
             self.biases.append(np.zeros(self.layers[l]) + self.initialBias)
@@ -60,6 +70,7 @@ class NeuralNetwork:
 
     def feedForward(self):
         self.a[0] = self.X
+        # Weighting and adding bias in for every neuron in every layer
         for l in range(1, self.layersN):
             self.z[l] = self.a[l - 1] @ self.weights[l] + self.biases[l]
             self.a[l] = self.act_func(self.z[l])
@@ -69,6 +80,7 @@ class NeuralNetwork:
 
     def feedForwardOut(self, X):
         a = X
+        # Weighting and adding bias in for every neuron in every layer
         for l in range(1, self.layersN):
             z = a @ self.weights[l] + self.biases[l]
             a = self.act_func(z)
@@ -78,17 +90,21 @@ class NeuralNetwork:
         return a
 
     def backPropagation(self):
-
+        # SGD to eventually optain optimized weights
         self.cost = self.cost_func(self.a[-1])
 
+        # Check error for each iteration of SGD
         self.backError[-1] = self.a[-1] - self.y
 
+        # Define initial backpropagation
         self.backErrorW = self.a[-2].T @ self.backError[-1] + self.alpha * self.weights[-1]
         self.backErrorB = np.sum(self.backError[-1], axis=0)
 
+        # Update weights from the back
         self.weights[-1] -= self.learningRate * self.backErrorW
         self.biases[-1] -= self.learningRate * self.backErrorB
 
+        # Update weights in all neurons and layers
         for l in range(self.layersN - 2, 0, -1):
             self.backError[l] = (self.backError[l + 1] @ self.weights[l + 1].T * self.act_func_der(self.z[l]))
 
@@ -100,13 +116,14 @@ class NeuralNetwork:
     def train(self):
 
         for i in range(self.epochsN):
+            # Define random indexes
             dexxer = 0
             idx = np.arange(self.inputsN)
             np.random.shuffle(idx)
             for batch in range(self.batchesN):
 
                 self.schedule(i * self.batchesN + batch)
-
+                # Apply random indexes to data
                 rand_indeces = idx[dexxer * self.batch_size:(dexxer + 1) * self.batch_size]
                 self.X = self.X_train[rand_indeces, :]
                 self.y = self.Y_train[rand_indeces]
@@ -115,17 +132,20 @@ class NeuralNetwork:
                 self.backPropagation()
 
                 dexxer += 1
-
+            # Update the cost
             self.costs[i] = self.cost
 
     def predict_class(self, X):
+        # Return category of most likelihood
         output = self.feedForwardOut(X)
         return np.argmax(output, axis=1)
 
     def predict(self, X):
+        # Predict for regression
         return self.feedForwardOut(X)
 
     def schedule(self, t):
+        # Moment-based schedule
         if self.learningType == 'adaptive':
             t0 = 5
             t1 = 50
@@ -135,6 +155,7 @@ class NeuralNetwork:
             self.learningRate = self.learningRate
 
     def activationFunction(self, act_func_str):
+        # Define my various activation functions for the hidden layers
         if act_func_str == 'sigmoid':
             self.act_func = self.sigmoid
             self.act_func_der = self.sigmoidDerivative
@@ -149,7 +170,7 @@ class NeuralNetwork:
             self.act_func_der = self.leakyReluDerivative
 
     def outputFunction(self, output_func_str='softmax'):
-
+        # Define my various activation functions for the output layer
         if output_func_str == 'sigmoid':
             self.output_func = self.sigmoid
         if output_func_str == 'tanh':
@@ -163,6 +184,7 @@ class NeuralNetwork:
             self.output_func = self.linear
 
     def set_cost_func(self, cost_func_str):
+        # Define the cost for SGD
         if cost_func_str == 'mse':
             self.cost_func = self.mse
             self.cost_func_der = self.mseDerivative
@@ -170,6 +192,7 @@ class NeuralNetwork:
             self.cost_func = self.CE
             self.cost_func_der = self.CEDerivative
 
+    # Support functions
     def mse(self, x):
         return 0.5 * ((x - self.y) ** 2).mean()
 

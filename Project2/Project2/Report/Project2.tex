@@ -83,7 +83,13 @@
 \Large{\textbf{Introduction}}
 \end{center}
 
-\noindent a
+\noindent This project aims to implement a neural network algorithm that can train both regression and classification models. The resulting test errors from the two types of models will then be compared to the results from a linear regression scheme and a logistic regression scheme. 
+\\
+We start with the former by implementing a stochastic gradient descen (SGD)t algorithm where the goal is the predict the Franke function. This function is a weighted sum of exponentials and the evaluation of the prediction will be both in terms of MSE and $R^2$. Then, a neural network is implemented utilizing multiple hidden layer activation functions and a stochastic gradient descent when tuning the weights in the backpropagation. The results from the final and most optimized model is then compared to the results from the SGD model and the differences are made clear.
+\\
+We then move on to classification where we can utilize the same neural network algorithm, but changing the activation function in the output layer to softmax which yields a probability distribution. The model is then trained on images of hand-written digits and a prediction is made based on the training probability distribution. The evaluation of the algorithm will be in terms of the accuracy scores which simply measures the rate of successfully predicted images. The final and most optimized model is then compared to a logistic regression in the form of a logistic SGD algorithm. The results are compared and the pros and cons of each approach is highlighted.
+\\
+Finally, the results are summarized and discussed and conclusions are drawn based on the results of the described algorithms. Then, future improvements upon the implemented algorithms are discussed.
 
 \newpage
 
@@ -91,13 +97,9 @@
 \Large{\textbf{Preliminaries}}
 \end{center}
 
-\noindent \textbf{The github page} can be found at \href{{https://github.com/sanderwl/FYS-STK4155}}{\nolinkurl{https://github.com/sanderwl/FYS-STK4155}} under the folder "project 1". Here you can find the python code used to generate the results in this report as well as the report itself with figures and data.
+\noindent \textbf{The github page} can be found at \href{{https://github.com/sanderwl/FYS-STK4155/tree/master/Project2/Project2}}{\nolinkurl{https://github.com/sanderwl/FYS-STK4155/tree/master/Project2/Project2}} under the folder "project 2". This is where you find all the implemented code and results in this project.
 \\
-\textbf{Scaling the data} is necessary in order to make sense of the output values. If the data is unscaled, the resulting numbers will not make much sense as we have no reference to what are low and high numbers. When we scale the data we subtract the sample mean and divide by the sample standard deviation of the data, we essentially make the data centred around zero with standard deviation one. This way, we always have a reference to the outcome as it is always relative to zero. Additionally, most regression algorithms rely on the data having lower distance between the data points, making scaling an important pre-processing step.
-\\
-\textbf{Noise level} is a recurrent theme throughout this report. Noise is added to the data (exercises a-e) in order to prepare for the real data later on. The noise that is added has a standard normal distribution with standard deviation $1$ and maximum value of $1$ at its mean of zero. This noise is then multiplied with a constant ($0.001$ in most cases in this report) in order to adjust the noise level. 
-\\
-\textbf{The train/test split} will be $75/25$ in this project. When performing regression, we need to train the algorithm using the training set, as well as validate the trained algorithm using the independent test set. There is no set ratio which is considered the best, but the training set should include the majority of the observations. 
+\textbf{Scaling the data} was a necessity to make the algorithms work. The scaling in this project was done by subtracting the mean and dividing by the standard deviation of the data. This makes the data zero-centred with a standard deviation of one. Doing this will increase the predictive capabilities of the algorithms and make the results more interpretable.
 
 \newpage
 
@@ -512,9 +514,9 @@ The leaky RELU implementation is plotted in figure \ref{fig:heatmap4}
 \large{\textbf{Ridge equivalent implementation}}
 \end{center}
 
-\noindent We now aim to perform the above analysis, but using the Ridge equivalent implementation. The Ridge implementation works similar to that of linear regression, but we here add the penalty parameter while the neural network performs the back propagation. The weights are then adjusted with the penalty parameter in mind and the result is a reduction in what weights contribute to the overall output of the network. The penalty parameter was in this case set to $0.001$ as this was seen to yield good results in the previous project. 
-
-MSE/r2 vs laernrates for ridge
+\noindent We now aim to perform the above analysis, but using the Ridge equivalent implementation. The Ridge implementation works similar to that of linear regression, but we here add the penalty parameter while the neural network performs the back propagation so that the penalty is applied to the hidden weights within the network (kilde). The weights are then adjusted with the penalty parameter in mind and the result is a reduction in what weights contribute to the overall output of the network. The penalty parameter was in this case set to $0.001$ as this was seen to yield good results in the previous project. 
+\\
+We can begin the analysis by plotting the MSE and $R^2$ as function of the learning rate for the sigmoid, RELU (both Scikit and mine) and leaky RELU implementations as seen in figures \ref{fig:MSEvsLrateTOTAL8} and \ref{fig:MSEvsLrateTOTAL9}.
 
 \begin{figure}[H]
 \centering
@@ -528,6 +530,10 @@ MSE/r2 vs laernrates for ridge
 \caption{\label{fig:MSEvsLrateTOTAL9} The $R^2$ as function of number of learning rate for the three activation functions when we utilize 2000 epoch iterations and a batch size of 2. This is the Ridge equivalent.}
 \end{figure}
 
+\noindent It can be observed from figures \ref{fig:MSEvsLrateTOTAL8} that the RELU and leaky RELU implementation are pretty similar both in terms of MSE and $R^2$. These two implementations performs better than the Scikit implementations for learning rates larger than 0.0001, but worse for learning rates lower than that. It can also be observed that the sigmoid implementation does not compare to any of the others. It is overall worse in terms of both MSE and $R^2$ for all learning rates. However, the sigmoid catches up at learning rate 0.01, but this often yielded overflow in the neural network, meaning it is an unfair comparison. The optimal learning rate which often did not result in overflow was 0.001 which will be used from now on.
+\\
+The next step would be to find which hidden neuron/layer configuration which yields the lowest MSE. Therefore, we consider neurons in the range 1 to 90 and layers in the range 1 to 10 and the MSE is then calculated using the sigmoid, RELU (both Scikit and mine) and leaky RELU activation functions. The result is plotted in the heatmaps of figures \ref{fig:heatmap5}, \ref{fig:heatmap6}, \ref{fig:heatmap7} and \ref{fig:heatmap8}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_TOTAL_sigmoid_REAL.PNG}
@@ -537,7 +543,7 @@ MSE/r2 vs laernrates for ridge
 \begin{figure}[H]
 \centering
 \includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_TOTAL_relu_REAL.PNG}
-\caption{\label{fig:heatmap6} Heatmap for different number of hidden layers and neurons using the sigmoid activation function. This is the Ridge equivalent.}
+\caption{\label{fig:heatmap6} Heatmap for different number of hidden layers and neurons using the RELU activation function. This is the Ridge equivalent.}
 \end{figure}
 
 \begin{figure}[H]
@@ -551,6 +557,12 @@ MSE/r2 vs laernrates for ridge
 \includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/heatmapRidge_TOTAL_leakyrelu_REAL.PNG}
 \caption{\label{fig:heatmap8} Heatmap for different number of hidden layers and neurons using the leaky RELU activation function. This is the Ridge equivalent.}
 \end{figure}
+
+\noindent One can observe that my own implementation of RELU and leaky RELU is missing some values. This is due to overflow, and thus the MSE was put to NaN. However, if one compares the implementation in figures \ref{fig:heatmap6} and \ref{fig:heatmap8} to the OLS equivalent in figures \ref{fig:heatmap2} and \ref{fig:heatmap4}, one can observe that the overflow is less of a problem. This is due to the weight reduction applied by the Ridge $L_2$ norm which counteract some of the overflow. However, the overflow is still an issue for some hidden neuron/layer configurations. 
+\\
+The hidden neuron/layer configurations that does not experience overflow tend to perform very well. In fact, they are comparable to the Scikit RELU implementation in terms of MSE as can be seen when comparing figure \ref{fig:heatmap7} to figures \ref{fig:heatmap6} and \ref{fig:heatmap8}. However, the Scikit implementation seems much more stable, although it yields worse results for some hidden neuron/layer configurations.
+\\
+The sigmoid implementation seen in figure \ref{fig:heatmap5} does not experience overflow and is therefore more stable. From this figure one can observe that the MSE is relatively high for one hidden layer and one hidden neuron, but the MSE greatly decreases along with the hidden neurons and layers. This is due to the networks increased predictive capabilities created by the complexity of the network (more weights). We observe the same principle for the Scikit RELU implementation where there is no overflow and MSE decreases for increased number of hidden neurons and layers. However, as is the case for both the Scikit RELU and the sigmoid implementation, there seems to be a cap of how low the MSE will go. Additionally, this cap seems to be reached by most hidden neuron/layer configurations above one neuron and one layer, so picking any configuration in this area seems to be fine.
 
 \newpage
 
@@ -569,6 +581,8 @@ MSE/r2 vs laernrates for ridge
 \includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/DigitDataFig.PNG}
 \caption{\label{fig:DigitDataFig} Example of how the training data looks. The digit shown is a hand-written digit that would be hard for a computer to recognize.}
 \end{figure}
+
+\noindent In this part of the exercise, we consider 1000 training images like figure \ref{fig:DigitDataFig} and 1000 testing images. This proved to be sufficient through testing for the neural network to perform well.
 
 \begin{center}
 \large{\textbf{Model evaluation principles}}
@@ -598,21 +612,73 @@ P(Y = y) = \frac{e^{\textbf{X}\beta}}{\sum_{i = 1}^m e^{\textbf{X}\beta}}
 
 \noindent where \textbf{X} is the design matrix, $\beta$ is the regression coefficients matrix or weights in the neural network and P(Y = y) is the probability distribution of different possible outcomes from the neural network prediction. The softmax function allows us to categorize the input, digits in this case, into m different categories, 10 in this case, based on the probability estimated by the neural network. We can utilize the softmax function function as the output function in the output layer of the neural network, while the hidden layer activation functions can still be another function such as the sigmoid, RELU or leaky RELU. 
 
-\newpage
+\begin{center}
+\large{\textbf{Neural network classification results}}
+\end{center}
+
+\noindent We first take a look at how the neural network perform in terms of accuracy as function of different learning rates and hidden layer activation functions, as seen in figure \ref{fig:AccvsLrate}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy1.PNG}
+\caption{\label{fig:AccvsLrate} Neural network accuracy in terms of learning rate and different activation functions.}
+\end{figure}
+
+\noindent It can be observed from figure \ref{fig:AccvsLrate} that my own implementation of the RELU activation function resembles that of the Scikit implementations at higher values of learning rates. However, my own RELU implementation experience severe overflow for lower values of the learning rate, leading to worse predictions. The Scikit an dmy own sigmoid implementation are very different. My implementation has its maximum accuracy at a learning rate of 0.1, while the Scikit implementation maxes out at 0.0001. Addtionally, my sigmoid implementation seems to only be improving with learning rate, while a common trend among the RELU and Scikit sigmoid implementation is that at the accuracy suddenly decrease at some given learning rate. It was observed that at this given learning rate yielded overflow in the neural network, meaning the neural network was unable to accurately predict the test set. This is despite taking measures against overflow such as the xavier initial weights and varied learning rate and step size. It is also observed from figure \ref{fig:AccvsLrate} that the RELU implementation seem to have a maximum accuracy over several different learning rates, or a cap, meaning picking a optimal learning rate from this cap yields good results.
+\\
+We now look towards finding the optimal number of neurons and layers in the neural network using the optimal learning rate found in figure \ref{fig:AccvsLrate}. This means a learning rate of 0.1 for my sigmoid implementation and a learning rate of 0.001 for my RELU implementation. We only consider hidden neurons between 1 and 100 and hidden layers between 1 and 10 as seen in figures \ref{fig:AccvsLrate2} and \ref{fig:AccvsLrate3}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy2.PNG}
+\caption{\label{fig:AccvsLrate2} Accuracy for different configurations of hidden neurons and hidden layers.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy3.PNG}
+\caption{\label{fig:AccvsLrate3} Accuracy for different configurations of hidden neurons and hidden layers.}
+\end{figure}
+
+\noindent It can be observed from figures \ref{fig:AccvsLrate2} and \ref{fig:AccvsLrate3} that the maximum accuracy for the sigmoid implementation is 0.8 and the maximum accuracy for the RELU implementation is 0.84. These values occur at several configurations of hidden neurons and layers, so picking any configuration with this accuracy should be fine. Having a accuracy rate of 0.8 means that $80\%$ of the digit images are successfully predicted. The baseline model has an accuracy of $0.1$ because if one were to randomly guess the test images one could expect to guess correctly $10\%$ of the time as we have 10 digits and 1 guess. Therefore, the neural network models is much better than the baseline model.
+\\
+We now aim to apply the $L_2$ norm, that is, perform the Ridge regression equivalent. We again aim to find the optimal learning rate, but also the optimal penalty parameter $\lambda$. Figures \ref{fig:AccvsLrate4} and \ref{fig:AccvsLrate5} shows a heatmap of different learning rates and penalty values.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy11.PNG}
+\caption{\label{fig:AccvsLrate4} Accuracy for Ridge regression equivalent neural network for different learning rates and penalties using the sigmoid activation function.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy12.PNG}
+\caption{\label{fig:AccvsLrate5} Accuracy for Ridge regression equivalent neural network for different learning rates and penalties using the RELU activation function.}
+\end{figure}
+
+\noindent It can be observed that the sigmoid implementation in figure \ref{fig:AccvsLrate4} that the network prefers higher penalty and lower learning rates while the RELU implementation in figure \ref{fig:AccvsLrate5} seems to prefer lower penalty. It is also observed that the sigmoid implementation is sensitive to both the penalty while the RELU implementation is mostly sensitive to the penalty. It seems to be a threshold where the accuracy drops significantly as a given penalty. The sigmoid implementation on the other hand is more delicate where there is no threshold, but rather a smooth increase in accuracy towards lower learning rate and higher penalty.
+\\
+We can now see how the Ridge equivalent neural network behaves as function of the number of hidden neurons and hidden layers as seen in figures QQQ and QQQ.
 
 \begin{center}
-\Large{\textbf{Exercise 1e) a}}
+\Large{\textbf{Exercise e): Logistic SGD}}
 \end{center}
 
 \noindent a
 
-\newpage
-
 \begin{center}
-\Large{\textbf{Exercise 1f) a}}
+\Large{\textbf{Exercise f): Evaluation of regression and classification algorithms}}
 \end{center}
 
-\noindent a
+\begin{center}
+\large{\textbf{Comparison between SGD regression and neural network regression of the Franke function}}
+\end{center}
+
+\noindent We first aim to compare the OLS equivalent implementations for the SGD regression from exercise 1a) to the OLS equivalent neural network implementation in exercise 1b). Figures \ref{fig:MSEvsEPOCHbatchOLS_sch} and \ref{fig:MSEvsEPOCHlaernOLS} shows that decreasing the batch size and increasing the learning rate yielded lower MSE for the SGD model. Not only that, decreasing the batch size made the SGD algorithm avoid getting "stuck" in a local minimum, which could ruin the MSE totally. However, figure \ref{fig:MSEvsEPOCHbatchOLS_sch} alos shows that decreasing the batch size to a certain point, around 10 in this case, would only yield marginally better results. Increasing the number of epoch iterations would even out some of the differences with models of different batch size and learning rate, but not all. This is evident in figure \ref{fig:MSEvsEPOCHlaernOLS} where the model using a learning rate of $0.0001$ never evens out with the other models, even at a high number of epoch iterations. The MSE of the optimal SGD regression model was about $0.2$.
+\\
+Much the same can be said for the Ridge equivalent implementation. However, this implementation had a tendency to get "stuck" in local minimum more the the OLS implementation for larger batch sizes, although the opposite is true for smaller batch sizes as seen in figure \ref{fig:MSEvsEPOCHbatchRIDGE}. Since this implementation corresponds to Ridge regression, we can also tune the associated penalty parameter $\lambda$. This parameter was shown in figure \ref{fig:MSEvsEPOCHlambRIDGE} to be of little significance as the MSE was about the same for many different values of $\lambda$. However, when a learning schedule was implemented, the penalty parameter played an essential role in reducing chance of getting stuck in a local minimum as seen in figures \ref{fig:MSEvsEPOCHbatchRIDGE_sch} \ref{fig:MSEvsEPOCHlambRIDGE_sch}. 
+
+One can observe from comparing figures \ref{fig:MSEvsEPOCHbatchOLS_sch} to figure \ref{fig:MSEvsLrateTOTAL8} that the MSE for both implementations are pretty low, meaning both algorithms are accurately able to predict the Franke function. Additionally, the MSE for both implementations could be reduced even further by 
 
 \newpage
 

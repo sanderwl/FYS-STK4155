@@ -104,9 +104,29 @@ def AccvsLRATE(Acc1, Acc2, Acc3, Acc4, learningRates, plot):
     if plot == True:
         xxx = np.log10(learningRates)
         plt.plot(xxx, Acc1, label="My NN implementation (sigmoid)", linewidth=4)
-        plt.plot(xxx, Acc2, label="Scikit NN implementation(sigmoid)", linewidth=4)
-        plt.plot(xxx, Acc3, label="My NN implementation (RELU)", linewidth=4)
+        plt.plot(xxx, Acc2, label="My NN implementation (RELU)", linewidth=4)
+        plt.plot(xxx, Acc3, label="Scikit NN implementation (sigmoid)", linewidth=4)
         plt.plot(xxx, Acc4, label="Scikit NN implementation (RELU)", linewidth=4)
+        plt.xticks(xxx)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
+        plt.suptitle('Accuracy comparison of different implementations', fontsize=25,
+                     fontweight="bold")
+        plt.ylabel('Accuracy', fontsize=20)
+        plt.xlabel('Logarithm of learning rates', fontsize=20)
+        plt.legend(loc="lower right", prop={'size': 20})
+        plt.grid()
+        plt.show()
+
+def AccvsLRATE2(AccOLS, AccRidge, AccOLSSci, AccRidgeSci, alphas, learningRates, plot):
+    if plot == True:
+        xxx = np.log10(learningRates)
+        plt.plot(xxx, AccOLS, label="SGD accuracy for OLS", linewidth=4, color = 'blue')
+        plt.plot(xxx, AccOLSSci, label="SGD accuracy for OLS (Scikit)", linewidth=4, color = 'blue', linestyle = 'dashed')
+        for i in range(len(AccRidge)):
+            plt.plot(xxx, AccRidge[i,:], label="SGD accuracy for OLS with penalty " + str(alphas[i]), linewidth=4)
+            plt.plot(xxx, AccRidgeSci[i, :], label="SGD accuracy for OLS (Scikit) with penalty " + str(alphas[i]), linewidth=4, linestyle = 'dashed')
+
         plt.xticks(xxx)
         plt.xticks(fontsize=14)
         plt.yticks(fontsize=14)

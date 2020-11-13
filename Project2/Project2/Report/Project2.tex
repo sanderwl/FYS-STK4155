@@ -85,11 +85,11 @@
 
 \noindent This project aims to implement a neural network algorithm that can train both regression and classification models. The resulting test errors from the two types of models will then be compared to the results from a linear regression scheme and a logistic regression scheme. 
 \\
-We start with the former by implementing a stochastic gradient descen (SGD)t algorithm where the goal is the predict the Franke function. This function is a weighted sum of exponentials and the evaluation of the prediction will be both in terms of MSE and $R^2$. Then, a neural network is implemented utilizing multiple hidden layer activation functions and a stochastic gradient descent when tuning the weights in the backpropagation. The results from the final and most optimized model is then compared to the results from the SGD model and the differences are made clear.
+We start with the former by implementing a stochastic gradient descent (SGD) algorithm where the goal is the predict the Franke function. This function is a weighted sum of exponentials and the evaluation of the prediction will be both in terms of MSE and $R^2$. Then, a neural network is implemented with a varying number of hidden neurons/layers utilizing multiple hidden layer activation functions and a stochastic gradient descent when tuning the weights in the backpropagation. The results from the final and most optimized model is then compared to the results from the SGD model and the differences are made clear.
 \\
-We then move on to classification where we can utilize the same neural network algorithm, but changing the activation function in the output layer to softmax which yields a probability distribution. The model is then trained on images of hand-written digits and a prediction is made based on the training probability distribution. The evaluation of the algorithm will be in terms of the accuracy scores which simply measures the rate of successfully predicted images. The final and most optimized model is then compared to a logistic regression in the form of a logistic SGD algorithm. The results are compared and the pros and cons of each approach is highlighted.
+We then move on to classification where we can utilize the same neural network algorithm, but changing the activation function in the output layer to the softmax function which yields a probability distribution. The model is then trained on images of hand-written digits and a prediction is made based on the training probability distribution. The evaluation of the algorithm will be in terms of the accuracy scores which simply measures the rate of successfully predicted images. The final and most optimized model is then compared to a logistic regression in the form of a logistic SGD algorithm. The results are compared and the pros and cons of each approach is highlighted.
 \\
-Finally, the results are summarized and discussed and conclusions are drawn based on the results of the described algorithms. Then, future improvements upon the implemented algorithms are discussed.
+Finally, the results are summarized and conclusions are drawn based on the results of the described algorithms. Then, future improvements upon the implemented algorithms are discussed.
 
 \newpage
 
@@ -658,7 +658,7 @@ We now aim to apply the $L_2$ norm, that is, perform the Ridge regression equiva
 
 \noindent It can be observed that the sigmoid implementation in figure \ref{fig:AccvsLrate4} that the network prefers higher penalty and lower learning rates while the RELU implementation in figure \ref{fig:AccvsLrate5} seems to prefer lower penalty. It is also observed that the sigmoid implementation is sensitive to both the penalty while the RELU implementation is mostly sensitive to the penalty. It seems to be a threshold where the accuracy drops significantly as a given penalty. The sigmoid implementation on the other hand is more delicate where there is no threshold, but rather a smooth increase in accuracy towards lower learning rate and higher penalty.
 \\
-We can now see how the Ridge equivalent neural network behaves as function of the number of hidden neurons and hidden layers as seen in figures QQQ and QQQ.
+We can now see how the Ridge equivalent neural network behaves as function of the number of hidden neurons and hidden layers as seen in figures \ref{fig:AccvsLrate6} and \ref{fig:AccvsLrate7}.
 
 \begin{figure}[H]
 \centering
@@ -672,7 +672,7 @@ We can now see how the Ridge equivalent neural network behaves as function of th
 \caption{\label{fig:AccvsLrate7} Accuracy for Ridge regression equivalent neural network for different hidden neuron/layer configurations using the RELU activation function.}
 \end{figure}
 
-\noindent SOME DISCUSSION
+\noindent It can be observed when comparing figures \ref{fig:AccvsLrate6} and \ref{fig:AccvsLrate7} that the sigmoid implementation performs worse than the RELU implementation, as the optimal model for the sigmoid implementation yields an accuracy of $0.71$ at most while the RELU implementation yields an accuracy of $0.84$ at most. This means that the RELU function itself increases the chance for the neural network to predict the hand-written digit by $13\%$ relative to a model using the sigmoid function. It is also observed that the sigmoid implementation in figure \ref{fig:AccvsLrate6} is very sensitive to the configuration of the network as the accuracy drops significantly for most configurations of hidden neurons/layers. This is not the case with the RELU implementation as seen in figure \ref{fig:AccvsLrate7} where the accuracy is above $0.8$ for nearly every hidden neuron/layer configuration. 
 
 \newpage
 
@@ -680,13 +680,15 @@ We can now see how the Ridge equivalent neural network behaves as function of th
 \Large{\textbf{Exercise e): Logistic SGD}}
 \end{center}
 
-\noindent a
+\noindent In this exercise, we aim to utilize the SGD algorithm developed in exercise 1a), but for logistic regression on the MNIST digit data. The algorithm will be the same as described in exercise 1a), but where the softmax is utilized in the gradient of the loss function to give a probability distribution for the different digits. The algorithm is implemented for both the OLS and Ridge equivalent SGDs for both my own SGD algorithm and the Scikit SGD algorithm. The accuracy resulting said algorithms with different penalties are plotted versus the learning rate in figure \ref{fig:finalAcc1}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/finalAcc1.PNG}
 \caption{\label{fig:finalAcc1} Accuracy for logistic SGD for both OLS and Ridge equivalent implementations using both the Scikit and my own SGD algorithm. The results from the Scikit implementation is dashed and same color lines represent models with same $L_2$ penalty.}
 \end{figure}
+
+\noindent One can observe from figure \ref{fig:finalAcc1} that my own implementation is comparable with the Scikit implementation. The accuracy values are about the same, but their maximum occurs at different learning rates. However, the plot is a little messy so the plot is divided into two different plots, the first one being the results from my own SGD implementation and the second one being the Scikit implementation.
 
 \begin{figure}[H]
 \centering
@@ -700,6 +702,12 @@ We can now see how the Ridge equivalent neural network behaves as function of th
 \caption{\label{fig:finalAcc3} Accuracy for logistic SGD for both OLS and Ridge equivalent implementations using the Scikit SGD algorithm.}
 \end{figure}
 
+\noindent One can observe from figures \ref{fig:finalAcc2} and \ref{fig:finalAcc3} that my own algorithms achieves higher accuracy than the Scikit implementation when comparing similar penalties. As for my own implementation, one observes that the OLS and most Ridge equivalent models have the same optimal learning rate at $0.01$ (except for $\lambda = 0.1, 0.001$). Ridge models with a low penalty tens to lie close to the OLS for any learning rate (since a penalty of zero is equivalent to the OLS), but one can observe that penalties higher or equal to $0.001$ deviates from the OLS model. The model with penalty $0.1$ actually performs better than the OLS for learning rates equal to $0.0001$, $0.001$ and $0.1$, but performs worse for a learning rate of $0.01$. Ridge models with a high penalty tends to outperform the OLS everywhere but the learning rate of $0.01$. In fact the models using a penalty of $0.001$ keep increasing after the other models peak at a learning rate of $0.01$. A similar behaviour can be observe from the model using a penalty of $0.01$ as well, but the accuracy actually decreases after the other models peak.
+\\
+One also observe from the Scikit implementation that the models using different penalties are pretty similar for learning rates lower than $0.001$ (except for the model using a penalty of $0.1$). However, for learning rates higher than $0.001$, the models starts to deviate from one another. One can observe that increasing the penalty yields lower overall accuracy. In fact. it is the OLS equivalent model (blue lines) that achieve the highest overall accuracy. The difference in the models continue to increase when the learning rate increases. Another important observations is that the optimal learning rate of all the Scikit implementations are equal except for the model using a penalty of $0.1$.
+\\
+We now aim to find the optimal penalty and learning rate for the Ridge models as seen in figures \ref{fig:finalAcc4} and \ref{fig:finalAcc5}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/finalAcc4.PNG}
@@ -712,7 +720,9 @@ We can now see how the Ridge equivalent neural network behaves as function of th
 \caption{\label{fig:finalAcc5} Accuracy as function of both learning rate and penalty for the Scikit implementation.}
 \end{figure}
 
-\noindent a
+\noindent One can observe from figure \ref{fig:finalAcc4} that the highest accuracy is obtained using by using a penalty of $0.1$ and a learning rate of $0.001$. This is confirmed by looking at the corresponding black line in figure \ref{fig:finalAcc3}. However, one can also observe that there are multiple other good configuration such as a penalty of $0.001$ and a learning rate of $0.01$. This configuration basically yields the same accuracy and it can be observed from the corresponding green line in figure \ref{fig:finalAcc3} that these parameters are good option.
+\\
+The heatmap for the Scikit implementation seems to be more sensitive to the learning rate and penalty, as the accuracy varies more as seen in figure \ref{fig:finalAcc5}. However, high accuracies of $0.72$ can be obtained with a penalty of either $0.001$ or $0.0001$ and a learning rate of $0.001$. These values corresponds well to what is observed in figure \ref{fig:finalAcc3}.
 
 \newpage
 
@@ -728,7 +738,23 @@ We can now see how the Ridge equivalent neural network behaves as function of th
 \\
 Much the same can be said for the Ridge equivalent implementation. However, this implementation had a tendency to get "stuck" in local minimum more the the OLS implementation for larger batch sizes, although the opposite is true for smaller batch sizes as seen in figure \ref{fig:MSEvsEPOCHbatchRIDGE}. Since this implementation corresponds to Ridge regression, we can also tune the associated penalty parameter $\lambda$. This parameter was shown in figure \ref{fig:MSEvsEPOCHlambRIDGE} to be of little significance as the MSE was about the same for many different values of $\lambda$. However, when a learning schedule was implemented, the penalty parameter played an essential role in reducing chance of getting "stuck" in a local minimum as seen in figures \ref{fig:MSEvsEPOCHbatchRIDGE_sch} \ref{fig:MSEvsEPOCHlambRIDGE_sch}. 
 \\
-A neural network regression was implemented and one can observe from figures \ref{MSEvsLrateTOTAL1} and \ref{fig:MSEvsLrateTOTAL2} that utilizing the RELU or leaky RELU implementation yielded great results in terms of MSE and $R^2$, also for the Scikit implementation of RELU. The sigmoid seem to hit some sort of cap where the MSE did not lower using these initial parameters (epoch iterations, batch size etc.). However, when the number of epoch iterations was increased, the sigmoid implementation approach the other implementations more and more as seen in figure \ref{MSEvsLrateTOTAL5} and \ref{fig:MSEvsLrateTOTAL6}. Utilizing a high number of epoch iterations were then used 
+A neural network regression was implemented and one can observe from figures \ref{fig:MSEvsLrateTOTAL1} and \ref{fig:MSEvsLrateTOTAL2} that utilizing the RELU or leaky RELU implementation yielded great results in terms of MSE and $R^2$, also for the Scikit implementation of RELU. The sigmoid seem to hit some sort of cap where the MSE did not lower using these initial parameters (epoch iterations, batch size etc.). However, when the number of epoch iterations was increased, the sigmoid implementation approached the other implementations more and more as seen in figure \ref{fig:MSEvsLrateTOTAL5} and \ref{fig:MSEvsLrateTOTAL6}. Utilizing a high number of epoch iterations were then used see how the neural network reacted to low batch sizes as seen in figures \ref{fig:MSEvsLrateTOTAL7} and \ref{fig:MSEvsLrateTOTAL8}. One now then observed that the sigmoid again performed worse than the RELU or leaky RELU implementations. Figures \ref{fig:heatmap5}, \ref{fig:heatmap6}, \ref{fig:heatmap7} and \ref{fig:heatmap8} displays how the MSE changes as function of different hidden neuron/layer configurations. It can from these figures be observed that the MSE is relatively high for lower number of hidden neurons/layers, but improves for more hidden neurons and layers. However, the MSE seems to hit a cap where adding more layers and neuron are no longer effective in decreasing the MSE. Additionally, the RELU and leaky RELU experienced overflow within the neural network leading to missing values for some hidden neuron/layer configurations. The sigmoid and Scikit RELU implementations did not experience any overflow.
+\\
+Much the same can be said for the Ridge equivalent neural network implementation and this implementation yielded similar MSE values to the OLS equivalent implementation. However, the $L_2$ norm associated with Ridge reduced the number of overflow that occurred as seen in figures \ref{fig:heatmap6} and \ref{fig:heatmap8}. For this reason, the Ridge equivalent neural network algorithm is preferred over the OLS equivalent neural network algorithm.
+\\
+The SGD algorithm was able to push the MSE down to about $10^{-2}$ while the neural network could produce MSE values of about $3 \times 10^{-5}$ when utilizing the RELU or leaky RELU activation function for the hidden layers, as well as the optimal learning rate and $L_2$ penalty. For this reason, I would prefer the neural network, even though it sometimes overflows. The overflow did not occur with the sigmoid activation function which also yielded lower MSEs than the SGD algorithm. However, the SGD algorithm demands fart less computational power, so if an MSE of $10^{-2}$ is good enough for a given data set, then I would prefer to use the SGD. The neural network should be used otherwise.
+
+\begin{center}
+\large{\textbf{Comparison between logistic SGD and neural network classification of the MNIST digit data set}}
+\end{center}
+
+\noindent The neural network could also be used for classification by changing the activation function for the output layer to the softmax function. The network was then used to attempt prediction of the MNIST hand-written digits and the results were pretty good overall. Different activation function were applied in the hidden layers and the accuracy as function of learning rate can be seen in figure \ref{fig:AccvsLrate}. It is observed that the RELU functions outperforms the sigmoid functions for lower learning rates. This is because the RELU function tends to be unstable at higher learning rates (kilde). However, my sigmoid implementation performs better than the RELU at learning rates above $0.01$ and is then able to accurately predict the hand-written images. From figures \ref{fig:AccvsLrate2} and \ref{fig:AccvsLrate3} it can be observed that the neural network performs great for most hidden neuron/layer configurations. However a chosen few configurations really improves the accuracy to about $0.81$ for the sigmoid implementation and $0.84$ for the RELU implementation. There is little overflow to speak of when the softmax function is applied, resulting in a more robust accuracy (when compared to the MSE form exercise 1b) and 1c)). 
+\\
+The ridge equivalent implementation behaves quite different to the OLS equivalent implementation discussed above. Figures \ref{fig:AccvsLrate4} and \ref{fig:AccvsLrate5} display how the accuracy behaves as function of learning rates and penalties and it can be observed that the sigmoid implementation is really sensitive to both the learning rate and the penalty, while the RELU implementation only seems to be sensitive to the penalty itself. While the sigmoid implementation steadily increase its accuracy with decreasing learning rate and increasing penalty, the RELU implementation only seems to yield high accuracy for penalties lower than $0.001$. In fact, it appears to be some threshold at this penalty value and the penalty must therefore be chosen below this threshold. Figures \ref{fig:AccvsLrate6} and \ref{fig:AccvsLrate7} shows what happens to the accuracy for the sigmoid and RELU implementations when we vary the number of hidden neurons/layers. One can observe that the sigmoid implementation is really specific in terms of the preferred configurations, as only some configurations yield a high accuracy. The RELU implementation is not that that sensitive. It seems like there are many configurations which yields a high accuracy, but some are optimal. 
+\\
+We now turn our attention to the logistic SGD case. One can observe from figures \ref{fig:finalAcc2} and \ref{fig:finalAcc3} that my logistic SGD is able to obtain accuracies of just under $0.8$ while the Scikit implementation is able to obtain accuracies just over $0.7$ for both the OLS and Ridge equivalent implementations. One can also observe that there seems to be a optimal penalty of $0.001$ for my own implementation while increasing the penalty in the Scikit implementation only seems to decrease the accuracy. This is analysis is confirmed by figures \ref{fig:finalAcc4} and \ref{fig:finalAcc5} where the optimal penalty for my SGD implementation is $0.001$ and the OLS (penalty of zero) tens to have the highest accuracy in the Scikit implementation.
+\\
+When comparing the classification neural network to the logistic SGD one finds that the neural network perform much better than the SGD. The difference in accuracy for both optimal models is about $10\%$ in favour of the neural network. The classification neural network did not experience much overflow meaning overflow is not a problem in this case. Therefore, I would prefer using the classification neural network. Having that extra $10\%$ increased accuracy is very significant in many cases. However, the neural network demands much more computational power, but if this is available, I would prefer the classification neural network every time.
 
 \newpage
 

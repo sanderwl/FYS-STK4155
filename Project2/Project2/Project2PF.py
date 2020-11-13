@@ -5,8 +5,6 @@ from FunctionsDef import inputsss, FrankeFunc, standardize, createDesignmatrix, 
 from PlotFunctionsDef import FrankPlot, FrankPlotDiff, MSESGD, MSEvsLRATE, R2vsLRATE, MSESGDSTANDARD, heatmap, \
     plotNumbers, heatmap2, AccvsLRATE, AccvsLRATE2, AccvsLRATEMine, AccvsLRATESci
 from NeuralNetworkReg import NeuralNetwork
-from NeuralNetworkClassification import NeuralNetworkClass
-from NeuralNetworkClassification2 import NeuralNetwork2
 from sklearn.neural_network import MLPRegressor, MLPClassifier
 from sklearn.metrics import mean_squared_error, r2_score, accuracy_score
 from sklearn.model_selection import train_test_split

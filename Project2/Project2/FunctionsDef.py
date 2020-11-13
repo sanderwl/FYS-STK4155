@@ -37,7 +37,7 @@ def inputsss():
         figureInp = False
     testlevel = input("What is the test size? (between 0 and 1, but typically around 0.25)")
     part = input("Which sub-exericse will you run(a,b,c,d,e,f/all)?")
-    return 100,5,True,True,"d",True,0.001,0.25#int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
+    return int(observations), int(degree), bool(scaleInp), bool(figureInp), str(part), bool(noiseInp), float(noiseLVL), float(testlevel)
 
 def inputsssA():
     # Input function for interactivity in part a)
@@ -104,7 +104,7 @@ def FrankeFuncNN(x, y):
     return z
 
 def getNumbers(nums, nums2):
-
+    # Using gzip to load the train digit data
     with gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/train-images-idx3-ubyte.gz', 'r') as f:
         # first 4 bytes is a magic number
         magic_number = int.from_bytes(f.read(4), 'big')
@@ -120,7 +120,7 @@ def getNumbers(nums, nums2):
         images = np.frombuffer(image_data, dtype=np.uint8) \
             .reshape((image_count, row_count, column_count))
         images = images[0:nums,:,:]
-
+    # Use gzip to load the correct train labels
     with gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/train-labels-idx1-ubyte.gz', 'r') as f:
         # first 4 bytes is a magic number
         magic_number = int.from_bytes(f.read(4), 'big')
@@ -131,7 +131,7 @@ def getNumbers(nums, nums2):
         label_data = f.read()
         labels = np.frombuffer(label_data, dtype=np.uint8)
         labels = labels[0:nums]
-
+    # Using gzip to load the test digit data
     with gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/t10k-images-idx3-ubyte.gz', 'r') as f:
         # first 4 bytes is a magic number
         magic_number = int.from_bytes(f.read(4), 'big')
@@ -147,7 +147,7 @@ def getNumbers(nums, nums2):
         images_test = np.frombuffer(image_test, dtype=np.uint8) \
             .reshape((image_count, row_count, column_count))
         images_test = images_test[0:nums2,:,:]
-
+    # Use gzip to load the correct test labels
     with gzip.open('C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/data/t10k-labels-idx1-ubyte.gz', 'r') as f:
         # first 4 bytes is a magic number
         magic_number = int.from_bytes(f.read(4), 'big')
@@ -199,7 +199,7 @@ def createDesignmatrixNN(x, y, poly):
     return X
 
 def dataSplit(designMatrix, z, testsize, i, rn):
-
+    # Declare initial parameters
     n = len(designMatrix)
     designMatrix2 = np.array(designMatrix)
     z2 = np.array(z)
@@ -269,10 +269,12 @@ def schedule(f):
     return learningRate_new
 
 def SGD(epochN, designMatrix, z, tp, lamb, learningRate, learn, batch, X_test, Y_test):
+    # Declare initial parameters
     n = len(designMatrix)
     betas = np.random.randn(len(designMatrix[0]), len(z[0]))
     mse = np.zeros(epochN)
     r2 = np.zeros(epochN)
+    # Perform SGD for epoch iterations and batch sizes
     for i in range(epochN):
         for j in range(batch):
             # One random sample per variable
@@ -297,9 +299,10 @@ def SGD(epochN, designMatrix, z, tp, lamb, learningRate, learn, batch, X_test, Y
     return mse, betas, r2
 
 def SGDLog(epochN, designMatrix, z, tp, lamb, learningRate, learn, batch, X_test, Y_test):
+    # Declare initial parameters
     n = len(designMatrix)
     betas = np.random.randn(len(designMatrix[0]), len(z[0]))
-    acc = np.zeros(epochN)
+    # Perform logistic SGD for epoch iterations and batch sizes
     for i in range(epochN):
         for j in range(batch):
             # One random sample per variable
@@ -319,8 +322,10 @@ def SGDLog(epochN, designMatrix, z, tp, lamb, learningRate, learn, batch, X_test
             # Step closer to minimum of the loss function
             betas = betas - eta * grad
         # Calculate accuracy for each epoch iteration
-        acc[i] = accuracy_score(Y_test, X_test @ betas)
-    return acc, betas
+        Y_test_c = np.argmax(Y_test, axis=1)
+        X_test_c = np.argmax((X_test @ betas), axis=1)
+    acc = accuracy_score(Y_test_c, X_test_c)
+    return acc
 
 def findLearnRate(learningRates, alphas, hiddenFunc, hiddenFunc2, inputs, Y_train_1hot, inputs2, Y_test, layers, epochN, batch):
 
@@ -328,7 +333,7 @@ def findLearnRate(learningRates, alphas, hiddenFunc, hiddenFunc2, inputs, Y_trai
     AccySciSig = np.zeros(len(learningRates))
     AccyRelu = np.zeros(len(learningRates))
     AccySciRelu = np.zeros(len(learningRates))
-
+    # Both my own neural network training and prediction and Scikit neural network for training and prediction
     for k in range(len(hiddenFunc)):
         for i in range(len(learningRates)):
             print(i)
@@ -379,7 +384,7 @@ def findNeuronLayers(layersFind, neuronFind, hiddenFunc, hiddenFunc2, inputs, Y_
     AccFindRelu = np.zeros((len(layersFind), len(neuronFind)))
     AccFindSciSig = np.zeros((len(layersFind), len(neuronFind)))
     AccFindSciRelu = np.zeros((len(layersFind), len(neuronFind)))
-
+    # Train and predict using my own and Scikit neural network for different hidden neuron/layers
     for k in range(len(hiddenFunc)):
         for i in range(len(layersFind)):
             for j in range(len(neuronFind)):
@@ -428,6 +433,7 @@ def findNeuronLayers(layersFind, neuronFind, hiddenFunc, hiddenFunc2, inputs, Y_
     return optTotal, AccFindSig, AccFindRelu, AccFindSciSig, AccFindSciRelu
 
 def bestModel(optTotal, hiddenFunc, hiddenFunc2, inputs, Y_train_1hot, inputs2, Y_test, layers, optRates, epochN, batch, alpha):
+    # Didn't end up using this function, but it uses the optimal parameters to create a model both for my own NN and Scikit NN
     for k in range(len(hiddenFunc)):
         EpicModel = NeuralNetwork(
             X=inputs,
@@ -468,6 +474,7 @@ def learnAlpha(learningRates, alphas, hiddenFunc, hiddenFunc2, inputs, Y_train_1
     AccRelu_Ridge = np.zeros((len(learningRates), len(alphas)))
     AccSciSig_Ridge = np.zeros((len(learningRates), len(alphas)))
     AccSciRelu_Ridge = np.zeros((len(learningRates), len(alphas)))
+    # My own NN and Scikit NN to find the optimal penalty and learning rate
     for k in range(len(hiddenFunc)):
         for i in range(len(learningRates)):
             print(i)

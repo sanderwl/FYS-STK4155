@@ -3,7 +3,7 @@ from FunctionsDef import inputsss, FrankeFunc, standardize, createDesignmatrix, 
     inputsssA, testParams, normalize, SGD, addNoise, inputsssB, FrankeFuncNN, createDesignmatrixNN, getNumbers, \
     findLearnRate, findNeuronLayers, bestModel, learnAlpha, SGDLog
 from PlotFunctionsDef import FrankPlot, FrankPlotDiff, MSESGD, MSEvsLRATE, R2vsLRATE, MSESGDSTANDARD, heatmap, \
-    plotNumbers, heatmap2, AccvsLRATE, AccvsLRATE2
+    plotNumbers, heatmap2, AccvsLRATE, AccvsLRATE2, AccvsLRATEMine, AccvsLRATESci
 from NeuralNetworkReg import NeuralNetwork
 from NeuralNetworkClassification import NeuralNetworkClass
 from NeuralNetworkClassification2 import NeuralNetwork2
@@ -51,40 +51,40 @@ if (str(part) == "a" or str(part) == "all"):
     designMatrix = createDesignmatrix(x, y, poly)
 
     # Splitting the data into training and test sets
-    X_train, X_test, Y_train, Y_test, randomNumber = dataSplit(designMatrix, z, testSize, 0, rn)
+    X_train, X_test, Y_train, Y_test, randomNumber = dataSplit(designMatrix, zSci, testSize, 0, rn)
     rn = randomNumber
 
     # Stochastic gradient descent to find the regression coefficients using standard parameters
     lRate = 0.01
     batch = int(n / 10)
-    mseStand, betas = SGD(epochN, X_train, Y_train, tp, lamb, lRate, learn, int(batch), X_test, Y_test)
+    mseStand, betas, rr22 = SGD(epochN, X_train, Y_train, tp, lamb, lRate, learn, int(batch), X_test, Y_test)
 
     # Stochastic gradient descent to find the regression coefficients for different batch sizes
     batchIT = [n, n / 10, n / n]
     mseBatch = np.zeros((len(batchIT), epochN))
     for i in range(len(batchIT)):
-        mseBatch[i, :], betas = SGD(epochN, X_train, Y_train, tp, lamb, lRate, learn, int(batchIT[i]), X_test, Y_test)
+        mseBatch[i, :], betas, rr33 = SGD(epochN, X_train, Y_train, tp, lamb, lRate, learn, int(batchIT[i]), X_test, Y_test)
 
     # Stochastic gradient descent to find the regression coefficients for different learning rates
     lRateIT = [0.0001, 0.001, 0.01]
     mseLRate = np.zeros((len(lRateIT), epochN))
     for i in range(len(lRateIT)):
-        mseLRate[i, :], betas = SGD(epochN, X_train, Y_train, tp, lamb, lRateIT[i], learn, batch, X_test, Y_test)
+        mseLRate[i, :], betas, rr44 = SGD(epochN, X_train, Y_train, tp, lamb, lRateIT[i], learn, batch, X_test, Y_test)
 
     # Stochastic gradient descent to find the regression coefficients for different lambda-values (Ridge)
     if tp == 'Ridge':
         lambIT = [0.0001, 0.001, 0.01, 0.1, 1]
         mseLamb = np.zeros((len(lambIT), epochN))
         for i in range(len(lambIT)):
-            mseLamb[i, :], betas = SGD(epochN, X_train, Y_train, tp, lambIT[i], lRate, learn, batch, X_test, Y_test)
+            mseLamb[i, :], betas, rr55 = SGD(epochN, X_train, Y_train, tp, lambIT[i], lRate, learn, batch, X_test, Y_test)
 
     # Predict test set
     Y_test_pred = X_test @ betas
     xx_test, yy_test = testParams(n, testSize)
 
     # Plot figures
-    FrankPlot(xx, yy, z, plot=figureInp)
-    FrankPlot(xx_test, yy_test, Y_test_pred, plot=figureInp)
+    FrankPlot(xx, yy, zSci, plot=figureInp)
+    #FrankPlot(xx_test, yy_test, Y_test_pred, plot=figureInp)
     MSESGDSTANDARD(mseStand, plot=figureInp)
     MSESGD(mseBatch, batchIT, "batch size", plot=figureInp)
     MSESGD(mseLRate, lRateIT, "learning rate", plot=figureInp)
@@ -113,6 +113,7 @@ elif (str(part) == "b" or str(part) == "c" or str(part) == "all"):
     batch = 2
     hiddenFunc = ["sigmoid", "relu", "leaky relu"]
 
+    # Declare vectors
     testMSESig = np.zeros(len(learningRates))
     testMSELeakyRelu = np.zeros(len(learningRates))
     testMSERelu = np.zeros(len(learningRates))
@@ -122,6 +123,7 @@ elif (str(part) == "b" or str(part) == "c" or str(part) == "all"):
     testMSE_sci_Relu = np.zeros(len(learningRates))
     r2_sci_Relu = np.zeros(len(learningRates))
 
+    # Train and fit neural network to the data
     for k in range(len(hiddenFunc)):
         for i in range(len(learningRates)):
             print("lrate: ", learningRates[i])
@@ -232,6 +234,7 @@ elif (str(part) == "b" or str(part) == "c" or str(part) == "all"):
     mseFindLeakyRelu = np.zeros((len(layersFind), len(neuronFind)))
     r2FindLeakyRelu = np.zeros((len(layersFind), len(neuronFind)))
 
+    # Find optimal number of hidden neurons and layers
     for k in range(len(hiddenFunc)):
         for i in range(len(layersFind)):
             for j in range(len(neuronFind)):
@@ -324,12 +327,13 @@ elif (str(part) == "d" or str(part) == "all"):
     hiddenFunc2 = ["logistic", "relu"]
     outputFunc = "softmax"
 
-    # Have to flatten the image
+    # We need the 1hot format
     Y_train = Y_train.reshape(-1, 1)
     encoder = OneHotEncoder(categories='auto')
     Y_train_1hot = encoder.fit_transform(Y_train).toarray()
     Y_test_1hot = encoder.fit_transform(Y_test.reshape(-1, 1)).toarray()
 
+    # Flatten the image
     n_inputs = len(X_train)
     n_inputs2 = len(X_test)
     inputs = X_train.reshape(n_inputs, -1)
@@ -346,6 +350,7 @@ elif (str(part) == "d" or str(part) == "all"):
                                                                                        batch)
     print("Optimal learning rate for sigmoid: ", OptimalLearningRateOLS[0])
     print("Optimal learning rate for RELU: ", OptimalLearningRateOLS[1])
+    AccvsLRATE(AccSig, AccRelu, AccSciSig, AccSciRelu, learningRates, figureInp)
 
     # Finding optimal number of neurons and layers
     layersFind = np.arange(1, 10, 1)
@@ -467,12 +472,13 @@ elif (str(part) == "e" or str(part) == "all"):
     epochN = 1000
     batch = 10
 
-    # Have to flatten the image
+    # We need the 1hot format
     Y_train = Y_train.reshape(-1, 1)
     encoder = OneHotEncoder(categories='auto')
     Y_train_1hot = encoder.fit_transform(Y_train).toarray()
     Y_test_1hot = encoder.fit_transform(Y_test.reshape(-1, 1)).toarray()
 
+    # Flatten the image
     n_inputs = len(X_train)
     n_inputs2 = len(X_test)
     inputs = X_train.reshape(n_inputs, -1)
@@ -482,25 +488,32 @@ elif (str(part) == "e" or str(part) == "all"):
     learningRates = [0.0001, 0.001, 0.01, 0.1]
     alphas = [0.0001, 0.001, 0.01, 0.1]
 
+    # Declare vectors
     accuracyOLS = np.zeros(len(learningRates))
     accuracyOLSSci = np.zeros(len(learningRates))
     accuracyRidge = np.zeros((len(alphas), len(learningRates)))
     accuracyRidgeSci = np.zeros((len(alphas), len(learningRates)))
 
+    # Logistic SGD for OLS
     for i in range(len(learningRates)):
-        accuracyOLS[i], betas = SGDLog(epochN, X_train, Y_train_1hot, 'OLS', 0, learningRates[i],
-                                       'constant', batch, X_test, Y_test_1hot)
+        print(i)
+        accuracyOLS[i] = SGDLog(epochN, inputs, Y_train_1hot, 'OLS', 0, learningRates[i], 'constant', batch, inputs2, Y_test_1hot)
         SGDOLSSci = SGDClassifier(alpha=0, learning_rate='constant', eta0=learningRates[i], random_state=69)
-        SGDOLSSci.fit(X_train, Y_train_1hot)
-        accuracyOLSSci[i] = SGDOLSSci.score(X_test, Y_test_1hot)
+        SGDOLSSci.fit(inputs, np.argmax(Y_test_1hot, axis=1))
+        accuracyOLSSci[i] = SGDOLSSci.score(inputs, np.argmax(Y_test_1hot, axis=1))
 
+    # Logistic SGD for Ridge
     for i in range(len(alphas)):
+        print(i)
         for j in range(len(learningRates)):
-            accuracyOLS[i], betas = SGDLog(epochN, X_train, Y_train_1hot, 'Ridge', alphas[i], learningRates[j],
-                                           'constant', batch, X_test, Y_test_1hot)
-            SGDRidgeSci = SGDClassifier(alpha=alphas[i], learning_rate='constant', eta0=learningRates[i], random_state=69)
-            SGDRidgeSci.fit(X_train, Y_train_1hot)
-            accuracyRidgeSci[i] = SGDRidgeSci.score(X_test, Y_test_1hot)
+            accuracyRidge[i, j] = SGDLog(epochN, inputs, Y_train_1hot, 'Ridge', alphas[i], learningRates[j], 'constant', batch, inputs2, Y_test_1hot)
+            SGDRidgeSci = SGDClassifier(alpha=alphas[i], learning_rate='constant', eta0=learningRates[j], random_state=69)
+            SGDRidgeSci.fit(inputs, np.argmax(Y_test_1hot, axis=1))
+            accuracyRidgeSci[i, j] = SGDRidgeSci.score(inputs, np.argmax(Y_test_1hot, axis=1))
 
     # Plot accuracy vs. learning rate
     AccvsLRATE2(accuracyOLS, accuracyRidge, accuracyOLSSci, accuracyRidgeSci, alphas, learningRates, plot=figureInp)
+    AccvsLRATEMine(accuracyOLS, accuracyRidge, alphas, learningRates, plot=figureInp)
+    AccvsLRATESci(accuracyOLSSci, accuracyRidgeSci, alphas, learningRates, plot=figureInp)
+    heatmap2(accuracyRidge, learningRates, alphas, plot=figureInp)
+    heatmap2(accuracyRidgeSci, learningRates, alphas, plot=figureInp)

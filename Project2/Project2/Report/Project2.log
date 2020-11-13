@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.9.17)  12 NOV 2020 17:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.9.17)  13 NOV 2020 11:35
 entering extended mode
 **./Project2.tex
 (Project2.tex
@@ -1183,78 +1183,162 @@ Project2/Report/Figures/DigitDataFig.PNG  used on input line 581.
  [30 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
 ures/DigitDataFig.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-classy1.PNG, id=338, 1387.584pt x 734.9859pt>
+final1.PNG, id=338, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/classy1.PNG Graphic file (type png)
+ures/final1.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/classy1.PNG>
+res/final1.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/classy1.PNG  used on input line 623.
+Project2/Report/Figures/final1.PNG  used on input line 623.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
  [31 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/classy1.PNG>]
+ures/final1.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-classy2.PNG, id=353, 1387.584pt x 734.9859pt>
+final2.PNG, id=353, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/classy2.PNG Graphic file (type png)
+ures/final2.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/classy2.PNG>
+res/final2.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/classy2.PNG  used on input line 633.
+Project2/Report/Figures/final2.PNG  used on input line 633.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-classy3.PNG, id=354, 1387.584pt x 734.9859pt>
+final3.PNG, id=354, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/classy3.PNG Graphic file (type png)
+ures/final3.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/classy3.PNG>
+res/final3.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/classy3.PNG  used on input line 639.
+Project2/Report/Figures/final3.PNG  used on input line 639.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
 
 [32 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/classy2.PNG>]
+res/final2.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-classy11.PNG, id=366, 1387.584pt x 734.9859pt>
+final10.PNG, id=366, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/classy11.PNG Graphic file (type png)
+ures/final10.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/classy11.PNG>
+res/final10.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/classy11.PNG  used on input line 649.
+Project2/Report/Figures/final10.PNG  used on input line 649.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
  [33 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/classy3.PNG>]
+ures/final3.PNG>]
 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
-classy12.PNG, id=374, 1387.584pt x 734.9859pt>
+final11.PNG, id=374, 1387.584pt x 734.9859pt>
 File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/classy12.PNG Graphic file (type png)
+ures/final11.PNG Graphic file (type png)
 <use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
-res/classy12.PNG>
+res/final11.PNG>
 Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
-Project2/Report/Figures/classy12.PNG  used on input line 655.
+Project2/Report/Figures/final11.PNG  used on input line 655.
 (pdftex.def)             Requested size: 452.9679pt x 239.933pt.
  [34 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
-ures/classy11.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Proje
-ct2/Report/Figures/classy12.PNG>] [35]
-[36] [37] [38]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 709.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 709.
+ures/final10.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Projec
+t2/Report/Figures/final11.PNG>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+final6.PNG, id=383, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/final6.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/final6.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/final6.PNG  used on input line 665.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+final7.PNG, id=384, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/final7.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/final7.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/final7.PNG  used on input line 671.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [35 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/final6.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project
+2/Report/Figures/final7.PNG>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+finalAcc1.PNG, id=393, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/finalAcc1.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/finalAcc1.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/finalAcc1.PNG  used on input line 687.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+finalAcc2.PNG, id=394, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/finalAcc2.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/finalAcc2.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/finalAcc2.PNG  used on input line 693.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+finalAcc3.PNG, id=395, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/finalAcc3.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/finalAcc3.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/finalAcc3.PNG  used on input line 699.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [36 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/finalAcc1.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Proj
+ect2/Report/Figures/finalAcc2.PNG>]
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+finalAcc4.PNG, id=404, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/finalAcc4.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/finalAcc4.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/finalAcc4.PNG  used on input line 705.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+<C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/
+finalAcc5.PNG, id=405, 1387.584pt x 734.9859pt>
+File: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/finalAcc5.PNG Graphic file (type png)
+<use C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figu
+res/finalAcc5.PNG>
+Package pdftex.def Info: C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/
+Project2/Report/Figures/finalAcc5.PNG  used on input line 711.
+(pdftex.def)             Requested size: 452.9679pt x 239.933pt.
+ [37 <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Fig
+ures/finalAcc3.PNG> <C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Proj
+ect2/Report/Figures/finalAcc4.PNG>] [38 <C:/Users/Sander/Documents/GitHub/FYS-S
+TK4155/Project2/Project2/Report/Figures/finalAcc5.PNG>]
+
+LaTeX Warning: Reference `MSEvsLrateTOTAL1' on page 39 undefined on input line 
+731.
+
+
+LaTeX Warning: Reference `MSEvsLrateTOTAL5' on page 39 undefined on input line 
+731.
+
+[39] [40] [41] [42]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 759.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 759.
  (Project2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 709.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 709.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 759.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 759.
 Package rerunfilecheck Info: File `Project2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+
+
+LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 13472 strings out of 480934
- 239404 string characters out of 2899449
+ 13534 strings out of 480934
+ 243039 string characters out of 2899449
  591666 words of memory out of 3000000
- 28932 multiletter control sequences out of 15000+200000
+ 28976 multiletter control sequences out of 15000+200000
  542075 words of font info for 59 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  43i,15n,77p,1309b,375s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1274,9 +1358,9 @@ Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/S
 ander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b><C:/Users/Sander/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
 s/cm/cmtt12.pfb>
-Output written on Project2.pdf (38 pages, 3549209 bytes).
+Output written on Project2.pdf (42 pages, 4318456 bytes).
 PDF statistics:
- 475 PDF objects out of 1000 (max. 8388607)
- 90 named destinations out of 1000 (max. 500000)
- 196 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 514 PDF objects out of 1000 (max. 8388607)
+ 101 named destinations out of 1000 (max. 500000)
+ 231 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -620,7 +620,7 @@ P(Y = y) = \frac{e^{\textbf{X}\beta}}{\sum_{i = 1}^m e^{\textbf{X}\beta}}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy1.PNG}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/final1.PNG}
 \caption{\label{fig:AccvsLrate} Neural network accuracy in terms of learning rate and different activation functions.}
 \end{figure}
 
@@ -630,13 +630,13 @@ We now look towards finding the optimal number of neurons and layers in the neur
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy2.PNG}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/final2.PNG}
 \caption{\label{fig:AccvsLrate2} Accuracy for different configurations of hidden neurons and hidden layers.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy3.PNG}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/final3.PNG}
 \caption{\label{fig:AccvsLrate3} Accuracy for different configurations of hidden neurons and hidden layers.}
 \end{figure}
 
@@ -646,13 +646,13 @@ We now aim to apply the $L_2$ norm, that is, perform the Ridge regression equiva
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy11.PNG}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/final10.PNG}
 \caption{\label{fig:AccvsLrate4} Accuracy for Ridge regression equivalent neural network for different learning rates and penalties using the sigmoid activation function.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/classy12.PNG}
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/final11.PNG}
 \caption{\label{fig:AccvsLrate5} Accuracy for Ridge regression equivalent neural network for different learning rates and penalties using the RELU activation function.}
 \end{figure}
 
@@ -660,11 +660,61 @@ We now aim to apply the $L_2$ norm, that is, perform the Ridge regression equiva
 \\
 We can now see how the Ridge equivalent neural network behaves as function of the number of hidden neurons and hidden layers as seen in figures QQQ and QQQ.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/final6.PNG}
+\caption{\label{fig:AccvsLrate6} Accuracy for Ridge regression equivalent neural network for different hidden neuron/layer configurations using the sigmoid activation function.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/final7.PNG}
+\caption{\label{fig:AccvsLrate7} Accuracy for Ridge regression equivalent neural network for different hidden neuron/layer configurations using the RELU activation function.}
+\end{figure}
+
+\noindent SOME DISCUSSION
+
+\newpage
+
 \begin{center}
 \Large{\textbf{Exercise e): Logistic SGD}}
 \end{center}
 
 \noindent a
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/finalAcc1.PNG}
+\caption{\label{fig:finalAcc1} Accuracy for logistic SGD for both OLS and Ridge equivalent implementations using both the Scikit and my own SGD algorithm. The results from the Scikit implementation is dashed and same color lines represent models with same $L_2$ penalty.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/finalAcc2.PNG}
+\caption{\label{fig:finalAcc2} Accuracy for logistic SGD for both OLS and Ridge equivalent implementations using my own SGD algorithm.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/finalAcc3.PNG}
+\caption{\label{fig:finalAcc3} Accuracy for logistic SGD for both OLS and Ridge equivalent implementations using the Scikit SGD algorithm.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/finalAcc4.PNG}
+\caption{\label{fig:finalAcc4} Accuracy as function of both learning rate and penalty for my own implementation.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project2/Project2/Report/Figures/finalAcc5.PNG}
+\caption{\label{fig:finalAcc5} Accuracy as function of both learning rate and penalty for the Scikit implementation.}
+\end{figure}
+
+\noindent a
+
+\newpage
 
 \begin{center}
 \Large{\textbf{Exercise f): Evaluation of regression and classification algorithms}}
@@ -676,9 +726,9 @@ We can now see how the Ridge equivalent neural network behaves as function of th
 
 \noindent We first aim to compare the OLS equivalent implementations for the SGD regression from exercise 1a) to the OLS equivalent neural network implementation in exercise 1b). Figures \ref{fig:MSEvsEPOCHbatchOLS_sch} and \ref{fig:MSEvsEPOCHlaernOLS} shows that decreasing the batch size and increasing the learning rate yielded lower MSE for the SGD model. Not only that, decreasing the batch size made the SGD algorithm avoid getting "stuck" in a local minimum, which could ruin the MSE totally. However, figure \ref{fig:MSEvsEPOCHbatchOLS_sch} alos shows that decreasing the batch size to a certain point, around 10 in this case, would only yield marginally better results. Increasing the number of epoch iterations would even out some of the differences with models of different batch size and learning rate, but not all. This is evident in figure \ref{fig:MSEvsEPOCHlaernOLS} where the model using a learning rate of $0.0001$ never evens out with the other models, even at a high number of epoch iterations. The MSE of the optimal SGD regression model was about $0.2$.
 \\
-Much the same can be said for the Ridge equivalent implementation. However, this implementation had a tendency to get "stuck" in local minimum more the the OLS implementation for larger batch sizes, although the opposite is true for smaller batch sizes as seen in figure \ref{fig:MSEvsEPOCHbatchRIDGE}. Since this implementation corresponds to Ridge regression, we can also tune the associated penalty parameter $\lambda$. This parameter was shown in figure \ref{fig:MSEvsEPOCHlambRIDGE} to be of little significance as the MSE was about the same for many different values of $\lambda$. However, when a learning schedule was implemented, the penalty parameter played an essential role in reducing chance of getting stuck in a local minimum as seen in figures \ref{fig:MSEvsEPOCHbatchRIDGE_sch} \ref{fig:MSEvsEPOCHlambRIDGE_sch}. 
-
-One can observe from comparing figures \ref{fig:MSEvsEPOCHbatchOLS_sch} to figure \ref{fig:MSEvsLrateTOTAL8} that the MSE for both implementations are pretty low, meaning both algorithms are accurately able to predict the Franke function. Additionally, the MSE for both implementations could be reduced even further by 
+Much the same can be said for the Ridge equivalent implementation. However, this implementation had a tendency to get "stuck" in local minimum more the the OLS implementation for larger batch sizes, although the opposite is true for smaller batch sizes as seen in figure \ref{fig:MSEvsEPOCHbatchRIDGE}. Since this implementation corresponds to Ridge regression, we can also tune the associated penalty parameter $\lambda$. This parameter was shown in figure \ref{fig:MSEvsEPOCHlambRIDGE} to be of little significance as the MSE was about the same for many different values of $\lambda$. However, when a learning schedule was implemented, the penalty parameter played an essential role in reducing chance of getting "stuck" in a local minimum as seen in figures \ref{fig:MSEvsEPOCHbatchRIDGE_sch} \ref{fig:MSEvsEPOCHlambRIDGE_sch}. 
+\\
+A neural network regression was implemented and one can observe from figures \ref{MSEvsLrateTOTAL1} and \ref{fig:MSEvsLrateTOTAL2} that utilizing the RELU or leaky RELU implementation yielded great results in terms of MSE and $R^2$, also for the Scikit implementation of RELU. The sigmoid seem to hit some sort of cap where the MSE did not lower using these initial parameters (epoch iterations, batch size etc.). However, when the number of epoch iterations was increased, the sigmoid implementation approach the other implementations more and more as seen in figure \ref{MSEvsLrateTOTAL5} and \ref{fig:MSEvsLrateTOTAL6}. Utilizing a high number of epoch iterations were then used 
 
 \newpage
 

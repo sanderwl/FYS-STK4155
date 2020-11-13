@@ -132,8 +132,8 @@ class NeuralNetwork:
                 self.backPropagation()
 
                 dexxer += 1
-            # Update the cost
-            self.costs[i] = self.cost
+
+            #self.costs[i] = self.cost
 
     def predict_class(self, X):
         # Return category of most likelihood

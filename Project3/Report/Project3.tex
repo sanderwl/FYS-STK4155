@@ -1,0 +1,174 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{refstyle}
+\usepackage{spverbatim}
+\usepackage{listings}
+\usepackage{csvsimple}
+\usepackage{adjustbox}
+\usepackage{cancel}
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\reallywidehat[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}% 
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+\parskip 1ex
+
+\lstset{numbers=left,
+	title=\lstname,
+	numberstyle=\tiny, 
+	breaklines=true,
+	tabsize=4,
+	language=Python,
+	morekeywords={with,super,as},,
+	frame=single,
+	basicstyle=\footnotesize\tt,
+	commentstyle=\color{comment},
+	keywordstyle=\color{keyword},
+	stringstyle=\color{string},
+	backgroundcolor=\color{background},
+	showstringspaces=false,
+	numbers=left,
+	numbersep=5pt,
+	literate=
+		{æ}{{\ae}}1
+		{å}{{\aa}}1
+		{ø}{{\o}}1
+		{Æ}{{\AE}}1
+		{Å}{{\AA}}1
+		{Ø}{{\O}}1
+	}
+
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage[usenames, dvipsnames]{color}
+
+\begin{document}
+
+\begin{center}
+\LARGE{\textbf{Project 2: Classification and Regression, from linear and logistic regression to neural networks}}
+\\
+\large{\textbf{Course: FYS-STK4155}}
+\\
+\large{\textbf{Semester: Autumn 2020}}
+\\
+\large{\textbf{Name: Sander Losnedahl}}
+\end{center}
+
+\begin{center}
+\Large{\textbf{Abstract}}
+\end{center}
+
+\noindent a
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Introduction}}
+\end{center}
+
+\noindent a
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Preliminaries}}
+\end{center}
+
+\noindent a
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Exercise 1a): a}}
+\end{center}
+
+\begin{center}
+\large{\textbf{The heat equation}}
+\end{center}
+
+\noindent In this exercise we want to mathematically describe how heat can transfer within a rod of length L over a given time interval t. The rod will initially be heated at time $t = 0$ and the heat will decay after this time. How the heat changes as function of time and space is given by the heat equation as seen below.
+
+\begin{equation}\label{eq:heatEquation}
+\frac{\partial u(x,t)}{\partial t} = \frac{K_0}{c\rho} \frac{\partial^2 u(x,t)}{\partial x^2} 
+\end{equation}
+
+\noindent where $u(x,t)$ is the temperature at a specific time t and a position x. The term $\frac{K_0}{c\rho}$ is the thermal diffusivity which consists of thermal conductivity $K_0$ divided by the specific heat capacity c times the density of the material $\rho$. This quantity is a measure of the rate of heat transfer from the heated part of the rod to the cold part of the rod. 
+\\
+Equation \ref{eq:heatEquation} is a partial differential equation (PDF) which means that we need an initial condition and two boundary conditions in order to solve the equation. The initial condition
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Exercise 1b: b}}
+\end{center}
+
+\begin{center}
+\large{\textbf{a}}
+\end{center}
+
+\noindent a
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Exercise d): a}}
+\end{center}
+
+\begin{center}
+\large{\textbf{a}}
+\end{center}
+
+\noindent a
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Exercise e): a}}
+\end{center}
+
+\noindent a
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Conclusion}}
+\end{center}
+
+\noindent a
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Future work}}
+\end{center}
+
+\noindent a
+
+\newpage
+
+\begin{center}
+\Large{\textbf{References}}
+\end{center}
+
+\begin{itemize}
+  \item a
+\end{itemize}
+
+\end{document}

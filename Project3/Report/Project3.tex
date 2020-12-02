@@ -56,7 +56,7 @@
 	}
 
 \usepackage{bm}
-\usepackage{hyperref}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \usepackage[usenames, dvipsnames]{color}
 
 \begin{document}
@@ -100,7 +100,7 @@
 \end{center}
 
 \begin{center}
-\large{\textbf{The heat equation}}
+\large{\textbf{Defining the heat equation}}
 \end{center}
 
 \noindent In this exercise we want to mathematically describe how heat can transfer within a rod of length L over a given time interval t. The rod will initially be heated at time $t = 0$ and the heat will decay after this time. How the heat changes as function of time and space is given by the heat equation as seen below.
@@ -111,12 +111,132 @@
 
 \noindent where $u(x,t)$ is the temperature at a specific time t and a position x. The term $\frac{K_0}{c\rho}$ is the thermal diffusivity which consists of thermal conductivity $K_0$ divided by the specific heat capacity c times the density of the material $\rho$. This quantity is a measure of the rate of heat transfer from the heated part of the rod to the cold part of the rod. 
 \\
-Equation \ref{eq:heatEquation} is a partial differential equation (PDF) which means that we need an initial condition and two boundary conditions in order to solve the equation. The initial condition
+Equation \ref{eq:heatEquation} is a partial differential equation (PDF) which means that we need an initial condition and two boundary conditions in order to solve the equation. The initial condition can be interpreted as how much the rod is heated at $t = 0$ while the boundary conditions can be interpreted as how the heat reacts to the ends of the rod at $x = 0$ and $x = L$. The boundary conditions in this case is given by equations \ref{eq:boundary0} and \ref{eq:boundaryL}.
+
+\begin{equation}\label{eq:boundary0}
+u(0,t) = 0
+\end{equation}
+
+\begin{equation}\label{eq:boundaryL}
+u(L,t) = 0
+\end{equation}
+
+\noindent We can set the initial condition such that the rod is heated the most at the middle of the rod and least at the end of the road. Such a condition can be described by a sine function as given in equation \ref{eq:initial}.
+
+\begin{equation}\label{eq:initial}
+u(x,0) = sin(\pi x)
+\end{equation}
+
+\noindent One can observe from equation \ref{eq:initial} that a rod of length 1 is heated the most at $0.5$ and is not heated at all at the ends of the rod. 
+
+\begin{center}
+\large{\textbf{Analytical solution to the heat equation}}
+\end{center}
+
+\noindent We can now split equation \ref{eq:heatEquation} into its spatial and temporal components such that 
+
+\begin{equation}\label{eq:split}
+u(x,t) = X(x)T(t)
+\end{equation}
+
+\noindent Equation \ref{eq:split} can then be solved for x and t respectively. We start by taking the partial derivatives of equation \ref{eq:split} with respect to both t and x.
+
+\begin{equation}\label{eq:split2}
+\begin{aligned}
+u_t = X(x)T'(t)
+\\
+u_{xx} = X''(x)T(t)
+\end{aligned}
+\end{equation}
+
+\noindent Equation \ref{eq:heatEquation} then takes the form
+
+\begin{equation}\label{eq:heatSplit}
+\begin{aligned}
+u_t = u_{xx}
+\\
+X(x)T'(t) = X''(x)T(t)
+\\
+\frac{X''(x)}{X(x)} = \frac{T'(t)}{T(t)} = \lambda
+\end{aligned}
+\end{equation}
+
+\noindent where $\lambda$ is some constant. We can first solve equation \ref{eq:heatSplit} for its spatial part X such that
+
+\begin{equation}\label{eq:solveX}
+\begin{aligned}
+\frac{X''(x)}{X(x)} = \lambda
+\\
+X''(x) - \lambda X(x) = 0
+\end{aligned}
+\end{equation}
+
+\noindent Equation \ref{eq:solveX} is recognized as a Sturm-Liouville problem when $\lambda$ represents the eigenvalues of equation \ref{eq:solveX} (Hancock, 2006). This means that the solutions to equation \ref{eq:solveX} is given by equation \ref{eq:eigenSol}.
+
+\begin{equation}\label{eq:eigenSol}
+X_n(x)= b_n sin(n\pi x)
+\end{equation}
+
+\noindent where n is an eigenfunction given by $n = \sqrt{\lambda}/\pi$ where $\lambda$ are the eigenvalues of the Sturm-Liouville problem. Solutions then arise at $\lambda = \pi^2 n^2$ and from equation \ref{eq:heatSplit} the solution with respect to $T'(t)$ is found.
+
+\begin{equation}\label{eq:eigenSolT}
+\begin{aligned}
+\frac{T'(t)}{T(t)} = \lambda
+\\
+T'(t) = \lambda T(t)
+\end{aligned}
+\end{equation}
+
+\noindent which has the solution
+
+\begin{equation}\label{eq:realSolT}
+T'(t) = e^{\pi^2 n^2 t}
+\end{equation}
+
+\noindent We can then find the solution for $u(x,t)$ by combining equation \ref{eq:eigenSol} and equation \ref{eq:realSolT} such that
+
+\begin{equation}\label{eq:heatsol}
+u_n(x,t) = b_n sin(n\pi x)e^{\pi^2 n^2 t}
+\end{equation}
+
+\noindent The subscript n denotes the individual eigenfunctions that solve the heat equation, however, most of them do not satisfy the initial condition in equation \ref{eq:initial}. The sum of these functions may satisfy the initial condition and thus, equation \ref{eq:heatsol} becomes
+
+\begin{equation}\label{eq:sumN}
+u_n(x,t) = \sum_{n=1}^{\infty} b_n sin(n\pi x)e^{\pi^2 n^2 t}
+\end{equation}
+
+\noindent One can observe from equation \ref{eq:sumN} that the exponential term decreases as n increases. Therefore, a reasonable approximation may be to only utilize the first term of the sum such that equation \ref{eq:sumN} can be written as
+
+\begin{equation}\label{eq:finalSol}
+u_n(x,t) = sin(\pi x)e^{\pi^2 t}
+\end{equation}
+
+\noindent where the constant $b_n$ has been set to one. This is the final solution of the heat equation that will be implemented in the code.
 
 \newpage
 
 \begin{center}
-\Large{\textbf{Exercise 1b: b}}
+\Large{\textbf{Exercise 1b: A numerical approach to solving the heat equation}}
+\end{center}
+
+\begin{center}
+\large{\textbf{The forward Euler approach}}
+\end{center}
+
+\noindent The heat equation is a partial differential equation that can be solved numerically using the forward Euler algorithm (sometimes referred to as the explicit Euler method). This algorithm aims to incrementally approximate the gradient of spatial and temporal parts of the heat equation by utilizing the definition of the derivative as seen in equations \ref{eq:gradT} and \ref{eq:gradx}.
+
+\begin{equation}\label{eq:gradT}
+u_t \approx \frac{u(x, t+\Delta t) - u(x,t)}{\Delta t}
+\end{equation}
+
+\begin{equation}\label{eq:gradx}
+u_{xx} \approx \frac{u(x + \Delta x, t) - 2u(x,t) + u(x-\Delta x,t)}{\Delta x^2}
+\end{equation}
+
+\noindent where $\Delta$ represents the incremental step size in space or time. Since the initial conditions are known, the forward Euler algorithm can incrementally approximate the change in heat from the middle of the rod and out towards the boundary. Equations \ref{eq:gradT} and \ref{eq:gradx} will be implemented and compared with the analytical solution given in equation \ref{eq:finalSol}.
+
+\begin{center}
+\large{\textbf{Comparing the }}
 \end{center}
 
 \begin{center}
@@ -168,7 +288,7 @@ Equation \ref{eq:heatEquation} is a partial differential equation (PDF) which me
 \end{center}
 
 \begin{itemize}
-  \item a
+  \item Hancock, M. J., 2006, \emph{The 1-D Heat Equation, Linear Partial Differential Equations}, page 5, Available from \href{{https://ocw.mit.edu/courses/mathematics/18-303-linear-partial-differential-equations-fall-2006/lecture-notes/heateqni.pdf}}{\nolinkurl{https://ocw.mit.edu/courses/mathematics/18-303-linear-partial-differential-equations-fall-2006/lecture-notes/heateqni.pdf}}
 \end{itemize}
 
 \end{document}

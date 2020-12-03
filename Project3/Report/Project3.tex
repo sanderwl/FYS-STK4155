@@ -233,14 +233,32 @@ u_t \approx \frac{u(x, t+\Delta t) - u(x,t)}{\Delta t}
 u_{xx} \approx \frac{u(x + \Delta x, t) - 2u(x,t) + u(x-\Delta x,t)}{\Delta x^2}
 \end{equation}
 
-\noindent where $\Delta$ represents the incremental step size in space or time. Since the initial conditions are known, the forward Euler algorithm can incrementally approximate the change in heat from the middle of the rod and out towards the boundary. Equations \ref{eq:gradT} and \ref{eq:gradx} will be implemented and compared with the analytical solution given in equation \ref{eq:finalSol}.
+\noindent where $\Delta$ represents the incremental step size in space or time. Since the initial conditions are known, the forward Euler algorithm can incrementally approximate the change in heat from the middle of the rod and out towards the boundary. Equations \ref{eq:gradT} and \ref{eq:gradx} can be combined using the heat equation from equation \ref{eq:heatEquation} such that
+
+\begin{equation}\label{eq:forwardEuler1}
+\begin{aligned}
+u_t = u_{xx}
+\\
+\frac{u(x,t+\Delta t) - u(x,t)}{\Delta t} = \frac{u(x+\Delta x, t)-2u(x,t)+u(x-\Delta x,t)}{\Delta x^2}
+\\
+\frac{u_j^{n+1}-u_j^n}{\Delta t} = \frac{u_{j+1}^n - 2u_j^n + u_{j-1}^2}{\Delta x^2}
+\end{aligned}
+\end{equation}
+
+\noindent where the subscript j denotes the step in space and the subscript n denotes the step in time. We can solve equation \ref{eq:forwardEuler1} for $u_j^{n+1}$ such that we can calculate the heat incrementally forward in time. Thus, equation \ref{eq:forwardEuler1} becomes
+
+\begin{equation}\label{eq:forwardEuler2}
+\begin{aligned}
+u_j^{n+1} = \Delta t(\frac{u_{j+1}^n - 2u_j^n + u_{j-1}^2}{\Delta x^2})+u_j^n
+\\
+u_j^{n+1} = (1-2\frac{\Delta t}{\Delta x^2})u_j^n + \frac{\Delta t}{\Delta x^2}(u_{j+1}^n + u_{j-1}^n)
+\end{aligned}
+\end{equation}
+
+\noindent The implementation of equation \ref{eq:forwardEuler2} allows us to solve the heat equation incrementally and the results are then compared to the analytical solution in the following section.
 
 \begin{center}
-\large{\textbf{Comparing the }}
-\end{center}
-
-\begin{center}
-\large{\textbf{a}}
+\large{\textbf{Comparing the analytical and numerical solutions of the heat equation}}
 \end{center}
 
 \noindent a

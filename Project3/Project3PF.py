@@ -1,19 +1,21 @@
 import numpy as np
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from HeatEquation import analytical, forwardEuler
-from FunctionDef import inputs, inputsAB, inputsC, stabilize
-from FunctionDefPlot import heatPlot, heatPlotNN, threeD, slices
+from FunctionDef import inputs, inputsAB, inputsC, stabilize, makeTens, temp, tfInit, tfTrainEval
+from FunctionDefPlot import heatPlot, heatPlotNN, threeD
 from NeuralNetwork import deep_neural_network, solve_pde_deep_neural_network, g_analytic, g_trial
 
 # Inputs for all parts of the project
-ex, figureInp = inputs()
+ex, figureInp, own = inputs()
 
 if (ex == "a" or ex == "b" or ex == "all"):
     # Inputs for exercise a and b
-    dt, dx, L, alpha = inputsAB()
-
+    dt, dx, L, T, alpha = inputsAB(own)
+    dtt = dt
     for i in range(len(dx)):
         # Check is algorithm is stable for forward Euler and change dt
-        dt = 0.1
+        dt = dtt
         dt = stabilize(alpha, dt, dx[i])
 
         # Define spatial units
@@ -23,62 +25,53 @@ if (ex == "a" or ex == "b" or ex == "all"):
         # Define temporal units
         t1 = 0
         t2 = 0.5
-        timep = int(t2 / dt)
+        t3 = 1
+        timep1 = int(t1 / dt)
+        timep2 = int(t2 / dt)
+        timep3 = int(t3 / dt)
 
         # Analytical solution to the heat equation
-        ana = analytical(x, alpha, t2)
+        ana1 = analytical(x, alpha, t1)
+        ana2 = analytical(x, alpha, t2)
+        ana3 = analytical(x, alpha, t3)
 
         # Forward Euler solution to the heat equation
-        fe = forwardEuler(x, timep, gridp, dt, dx[i])
+        fe1 = forwardEuler(x, timep1, gridp, dt, dx[i])
+        fe2 = forwardEuler(x, timep2, gridp, dt, dx[i])
+        fe3 = forwardEuler(x, timep3, gridp, dt, dx[i])
 
         # Find difference between analytical and forward Euler solution
-        diff = ana-fe
+        diff1 = ana1 - fe1
+        diff2 = ana2 - fe2
+        diff3 = ana3 - fe3
 
         # Plot heat curve at for t2 for previously defined
-        heatPlot(x, ana, fe, diff, t2, L, dx[i], plot=figureInp)
+        ana = [ana1, ana2, ana3]
+        fe = [fe1, fe2, fe3]
+        diff = [diff1, diff2, diff3]
+        heatPlot(x, ana, fe, diff, t1, t2, t3, L, dx[i], plot=figureInp)
 
 elif (ex == "c" or ex == "all"):
 
     # Inputs for exercise c
-    dt, dx, L, alpha, own = inputsAB()
-    layers, neurons = inputsC(own)
-
-    # Stabilize
-    dt = stabilize(alpha, dt, dx)
-    t2 = 0.5
-
-    timestep = int(1 / dt)
-    spacestep = int(1 / dx)
-    t = np.linspace(0, 1, timestep)
-    x = np.linspace(0, L, spacestep)
-
-    its = 100
-    lrate = 0.1
-
+    dt, dx, L, T, alpha = inputsAB(own)
+    dx = dx[1]
+    layers, neurons, lrate, its = inputsC(own)
     structure = np.repeat(neurons, layers)
 
-    # Neural network implementation
-    P = solve_pde_deep_neural_network(x, t, structure, its, lrate)
+    # Reformat t and x to the preferred Tensorflow format
+    t, x, tnew, xnew, tTens, xTens, grid = makeTens(dt, dx, L, T)
 
-    ## Store the results
-    g_dnn_ag = np.zeros((spacestep, timestep))
-    G_analytical = np.zeros((spacestep, timestep))
+    # Initialization/setup the Tensorflow network
+    trial, minAdaOpt = tfInit(tTens, xTens, grid, structure, lrate)
 
-    for i,x_ in enumerate(x):
-        print(100*(i+1)/x, " percent complete xD.")
-        for j, t_ in enumerate(t):
-            point = np.array([x_, t_])
-            g_dnn_ag[i, j] = g_trial(point, P)
+    # Training and testing
+    evaluate, ana2, diff2 = tfTrainEval(tnew, xnew, its, minAdaOpt, trial)
 
-            G_analytical[i, j] = g_analytic(point)
+    # Plotting 3D heat over time and space as well as slices from that 3D plot
+    threeD(t, x, dt, dx, evaluate, ana2, neurons, layers, plot=figureInp)
+    heatPlotNN(t, x, dt, dx, L, evaluate, ana2, plot=figureInp)
 
-    # Find the map difference between the analytical and the computed solution
-    diff_ag = np.abs(g_dnn_ag - G_analytical)
-    print('Max absolute difference between the analytical solution and the network: %g'%np.max(diff_ag))
-
-    # plot
-    threeD(t, x, structure, g_dnn_ag, G_analytical, diff_ag, figureInp)
-    slices(t, x, timestep, g_dnn_ag, G_analytical, figureInp)
 
 
 

@@ -1,91 +1,130 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import cm
+import matplotlib.cm as cm
 from mpl_toolkits.mplot3d import axes3d
 
-def heatPlot(x, ana, fe, diff, t2, L, dx, plot):
+def heatPlot(x, ana, fe, diff, t1, t2, t3, L, dx, plot):
     if plot == True:
+        ttt = [t1, t2, t3]
         xxx = np.arange(0,L+L/10,L/10)
-        plt.plot(x, ana, label = "Analytical solution at t = " + str(t2), linewidth=4, color = 'blue')
-        plt.plot(x, fe, label="Forward Euler solution at t = " + str(t2), linewidth=4, color='red', linestyle = 'dotted')
-        plt.plot(x, diff, label="Difference in solutions at t = " + str(t2), linewidth=4, color='green', linestyle = 'dashed')
+        for i in range(len(ttt)):
+            plt.plot(x, ana[i], label = "Analytical solution at t = " + str(ttt[i]), linewidth=4, color = 'blue')
+            plt.plot(x, fe[i], label="Forward Euler solution at t = " + str(ttt[i]), linewidth=4, color='red', linestyle = 'dotted')
+            plt.plot(x, diff[i], label="Difference in solutions at t = " + str(ttt[i]), linewidth=4, color='green', linestyle = 'dashed')
+            plt.xticks(xxx)
+            plt.xticks(fontsize=16)
+            plt.yticks(fontsize=16)
+            plt.suptitle('Solution of the heat equation over rod length using dx = ' + str(dx), fontsize=25,
+                        fontweight="bold")
+            plt.ylabel('u(x,t)', fontsize=20)
+            plt.xlabel('Position on rod', fontsize=20)
+            plt.legend(loc="upper left", prop={'size': 15})
+            plt.grid()
+            plt.show()
+
+def heatPlotNN(t, x, dt, dx, L, evaluate, ana, plot):
+    if plot==True:
+        # Mesh
+        xxx = np.arange(0, L + L / 10, L / 10)
+        evaluateT = evaluate.reshape((len(t), len(x))).T
+        anaT = ana.reshape((len(t), len(x))).T
+        diffT = np.abs(evaluateT-anaT)
+
+        T, X = np.meshgrid(t, x)
+
+        # Index positions
+        idx1 = 0
+        idx2 = int(int(1/dt)/2)
+        idx3 = int(1/dt)
+        print(idx1, idx2, idx3)
+
+        # Define three different moments in time
+        time1 = t[idx1]
+        time2 = t[idx2]
+        time3 = t[idx3]
+        print(time1, time2, time3)
+
+        # Take slice of 3d data for the NN at three different times
+        nn1 = evaluateT[:, idx1]
+        nn2 = evaluateT[:, idx2]
+        nn3 = evaluateT[:, idx3]
+
+        # Take slice of 3d data for the analytical solution at three different times
+        ana1 = anaT[:, idx1]
+        ana2 = anaT[:, idx2]
+        ana3 = anaT[:, idx3]
+
+        # Slices of the threeD data at t1, t2 and t3
+        plt.figure(figsize=(20, 20))
+        plt.plot(x, ana1, label = "Analytical solution at t = " + str(time1), linewidth = 4, color = "blue")
+        plt.plot(x, nn1, label = "Neural network solution at t = " + str(time1), linewidth = 4, color = "red", linestyle = 'dotted')
         plt.xticks(xxx)
         plt.xticks(fontsize=16)
         plt.yticks(fontsize=16)
-        plt.suptitle('Solution of the heat equation over rod length using dx = ' + str(dx), fontsize=25,
+        plt.suptitle('Solution of the heat equation over rod length using the Tensorflow neural network', fontsize=25,
                      fontweight="bold")
         plt.ylabel('u(x,t)', fontsize=20)
         plt.xlabel('Position on rod', fontsize=20)
         plt.legend(loc="upper left", prop={'size': 15})
         plt.grid()
+        #plt.show()
+
+        plt.figure(figsize=(20, 20))
+        plt.plot(x, ana2, label = "Analytical solution at t = " + str(time2), linewidth = 4, color = "blue")
+        plt.plot(x, nn2, label = "Neural network solution at t = " + str(time2), linewidth = 4, color = "red", linestyle = 'dotted')
+        plt.xticks(xxx)
+        plt.xticks(fontsize=16)
+        plt.yticks(fontsize=16)
+        plt.suptitle('Solution of the heat equation over rod length using the Tensorflow neural network', fontsize=25,
+                     fontweight="bold")
+        plt.ylabel('u(x,t)', fontsize=20)
+        plt.xlabel('Position on rod', fontsize=20)
+        plt.legend(loc="upper left", prop={'size': 15})
+        plt.grid()
+        #plt.show()
+
+        plt.figure(figsize=(20, 20))
+        plt.plot(x, ana3, label = "Analytical solution at t = " + str(time3), linewidth = 4, color = "blue")
+        plt.plot(x, nn3, label = "Neural network solution at t = " + str(time3), linewidth = 4, color = "red", linestyle = 'dotted')
+        plt.xticks(xxx)
+        plt.xticks(fontsize=16)
+        plt.yticks(fontsize=16)
+        plt.suptitle('Solution of the heat equation over rod length using the Tensorflow neural network', fontsize=25,
+                     fontweight="bold")
+        plt.ylabel('u(x,t)', fontsize=20)
+        plt.xlabel('Position on rod', fontsize=20)
+        plt.legend(loc="upper left", prop={'size': 15})
+        plt.grid()
+        #plt.show()
+
         plt.show()
 
-def heatPlotNN(x, error, errorana, plot):
+def threeD(t, x, dt, dx, evaluate, ana, neurons, layers, plot):
     if plot == True:
-        print("xd")
+        evaluateT = evaluate.reshape((len(t), len(x))).T
+        anaT = ana.reshape((len(t), len(x))).T
+        diffT = np.abs(evaluateT-anaT)
 
-def threeD(t, x, structure, g_dnn_ag, G_analytical, diff_ag, plot):
-    if plot == True:
         T, X = np.meshgrid(t, x)
 
-        fig = plt.figure(figsize=(10, 10))
-        ax = fig.gca(projection='3d')
-        ax.set_title('Solution from the deep neural network w/ %d layer' % len(structure))
-        s = ax.plot_surface(T, X, g_dnn_ag, linewidth=0, antialiased=False, cmap=cm.viridis)
-        ax.set_xlabel('Time $t$')
-        ax.set_ylabel('Position $x$');
+        fig = plt.figure(figsize=(20, 20))
+        ax = fig.gca(projection="3d")
+        ax.set_title("Deep neural network solution with " + str(layers) + " layers and " + str(neurons) + " neurons")
+        f = ax.plot_surface(T, X, evaluateT, linewidth = 0, antialiased = False, cmap=cm.get_cmap("coolwarm"))
 
-        fig = plt.figure(figsize=(10, 10))
-        ax = fig.gca(projection='3d')
-        ax.set_title('Analytical solution')
-        s = ax.plot_surface(T, X, G_analytical, linewidth=0, antialiased=False, cmap=cm.viridis)
-        ax.set_xlabel('Time $t$')
-        ax.set_ylabel('Position $x$');
+        ax.set_xlabel("Time t")
+        ax.set_ylabel("Position on rod x")
 
-        fig = plt.figure(figsize=(10, 10))
-        ax = fig.gca(projection='3d')
-        ax.set_title('Difference')
-        s = ax.plot_surface(T, X, diff_ag, linewidth=0, antialiased=False, cmap=cm.viridis)
-        ax.set_xlabel('Time $t$')
-        ax.set_ylabel('Position $x$');
+        fig = plt.figure(figsize=(20, 20))
+        ax = fig.gca(projection="3d")
+        ax.set_title("Analytical solution to the heat equation")
+        f = ax.plot_surface(T, X, anaT, linewidth = 0, antialiased = False, cmap=cm.get_cmap("coolwarm"))
+        ax.set_xlabel("Time t")
+        ax.set_ylabel("Position on rod x")
 
-def slices(t, x, timestep, g_dnn_ag, G_analytical, plot):
-    if plot==True:
-        indx1 = 0
-        indx2 = int(timestep / 2)
-        indx3 = timestep - 1
-
-        t1 = t[indx1]
-        t2 = t[indx2]
-        t3 = t[indx3]
-
-        # Slice the results from the DNN
-        res1 = g_dnn_ag[:, indx1]
-        res2 = g_dnn_ag[:, indx2]
-        res3 = g_dnn_ag[:, indx3]
-
-        # Slice the analytical results
-        res_analytical1 = G_analytical[:, indx1]
-        res_analytical2 = G_analytical[:, indx2]
-        res_analytical3 = G_analytical[:, indx3]
-
-        # Plot the slices
-        plt.figure(figsize=(10, 10))
-        plt.title("Computed solutions at time = %g" % t1)
-        plt.plot(x, res1)
-        plt.plot(x, res_analytical1)
-        plt.legend(['dnn', 'analytical'])
-
-        plt.figure(figsize=(10, 10))
-        plt.title("Computed solutions at time = %g" % t2)
-        plt.plot(x, res2)
-        plt.plot(x, res_analytical2)
-        plt.legend(['dnn', 'analytical'])
-
-        plt.figure(figsize=(10, 10))
-        plt.title("Computed solutions at time = %g" % t3)
-        plt.plot(x, res3)
-        plt.plot(x, res_analytical3)
-        plt.legend(['dnn', 'analytical'])
-
-        plt.show()
+        fig = plt.figure(figsize=(20, 20))
+        ax = fig.gca(projection="3d")
+        ax.set_title("Difference between neural network and analytical solution")
+        f = ax.plot_surface(T, X, diffT, linewidth = 0, antialiased = False, cmap=cm.get_cmap("coolwarm"))
+        ax.set_xlabel("Time t")
+        ax.set_ylabel("Position on rod x")

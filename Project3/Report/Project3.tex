@@ -111,7 +111,7 @@
 
 \noindent where $u(x,t)$ is the temperature at a specific time t and a position x. The term $\frac{K_0}{c\rho}$ is the thermal diffusivity which consists of thermal conductivity $K_0$ divided by the specific heat capacity c times the density of the material $\rho$. This quantity is a measure of the rate of heat transfer from the heated part of the rod to the cold part of the rod. 
 \\
-Equation \ref{eq:heatEquation} is a partial differential equation (PDF) which means that we need an initial condition and two boundary conditions in order to solve the equation. The initial condition can be interpreted as how much the rod is heated at $t = 0$ while the boundary conditions can be interpreted as how the heat reacts to the ends of the rod at $x = 0$ and $x = L$. The boundary conditions in this case is given by equations \ref{eq:boundary0} and \ref{eq:boundaryL}.
+Equation \ref{eq:heatEquation} is a partial differential equation (PDE) which means that we need an initial condition and two boundary conditions in order to solve the equation. The initial condition can be interpreted as how much the rod is heated at $t = 0$ while the boundary conditions can be interpreted as how the heat reacts to the ends of the rod at $x = 0$ and $x = L$. The boundary conditions in this case is given by equations \ref{eq:boundary0} and \ref{eq:boundaryL}.
 
 \begin{equation}\label{eq:boundary0}
 u(0,t) = 0
@@ -255,25 +255,159 @@ u_j^{n+1} = (1-2\frac{\Delta t}{\Delta x^2})u_j^n + \frac{\Delta t}{\Delta x^2}(
 \end{aligned}
 \end{equation}
 
-\noindent The implementation of equation \ref{eq:forwardEuler2} allows us to solve the heat equation incrementally and the results are then compared to the analytical solution in the following section.
+\noindent Equation \ref{eq:forwardEuler2} is only stable for $\frac{\Delta t}{\Delta x^2} \leq 0.5$, so the implementation needs to adjust $\Delta t$ according to $\Delta x$. The implementation of equation \ref{eq:forwardEuler2} allows us to solve the heat equation incrementally and the results are then compared to the analytical solution in the following section.
 
 \begin{center}
 \large{\textbf{Comparing the analytical and numerical solutions of the heat equation}}
 \end{center}
 
-\noindent a
+\noindent We now compare how the heat translates throughout the rod at a given time for both the analytical implementation and for the forward Euler implementation. It was found that the heat decayed quickly. Therefore, good time intervals of observing the heat was found to be at $t = 0$ (initial heat), $t = 0.5$ and $t = 1$. Figures \ref{fig:rodHeatEulerT0DX01}, \ref{fig:rodHeatEulerT05DX01} and \ref{fig:rodHeatEulerT1DX01} shows the heat distribution in the rod at these given times for $\Delta t = 0.005$ and $\Delta x = 0.1$ for both the analytical and forward Euler implementations (and their difference).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/Heat_Euler_t0_dx01.PNG}
+\caption{\label{fig:rodHeatEulerT0DX01} Heat distribution within the rod for both analytical (blue) and forward Euler implementations (red). The heat is measured at $t = 0$ using step sizes of $\Delta t = 0.005$ and $\Delta x = 0.1$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/Heat_Euler_t05_dx01.PNG}
+\caption{\label{fig:rodHeatEulerT05DX01} Heat distribution within the rod for both analytical (blue) and forward Euler implementations (red). The heat is measured at $t = 0.5$ using step sizes of $\Delta t = 0.005$ and $\Delta x = 0.1$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/Heat_Euler_t1_dx01.PNG}
+\caption{\label{fig:rodHeatEulerT1DX01} Heat distribution within the rod for both analytical (blue) and forward Euler implementations (red). The heat is measured at $t = 1$ using step sizes of $\Delta t = 0.005$ and $\Delta x = 0.1$.}
+\end{figure}
+
+\noindent One first observed that the rod is heated the most at the middle $x = 0.5$, which is according to the initial condition of equation \ref{eq:initial}. One can also observe that the forward Euler lies pretty close to the analytical solution. The difference between the analytical solution and the forward Euler solution decreases as time increases (the y-axis becomes smaller, so don't get fooled). Additionally, one can observe that the heat decays fairly quickly as most of the heat is gone within 1 second. 
+\\
+We now decrease the step size in space from $\Delta x = 0.1$ to $\Delta x = 0.01$, and this means further we need to adjust the step size in time according to $\frac{\Delta t}{\Delta x^2} \leq 0.5$. Therefore, the new step size in time becomes $\Delta t = 0.5*0.01^2 = 0.00005$. Figures \ref{fig:rodHeatEulerT0DX001}, \ref{fig:rodHeatEulerT05DX001} and \ref{fig:rodHeatEulerT1DX001} shows the same as the above figures, but using the new step sizes.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/Heat_Euler_t0_dx001.PNG}
+\caption{\label{fig:rodHeatEulerT0DX001} Heat distribution within the rod for both analytical (blue) and forward Euler implementations (red). The heat is measured at $t = 0$ using step sizes of $\Delta t = 0.00005$ and $\Delta x = 0.01$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/Heat_Euler_t05_dx001.PNG}
+\caption{\label{fig:rodHeatEulerT05DX001} Heat distribution within the rod for both analytical (blue) and forward Euler implementations (red). The heat is measured at $t = 0.5$ using step sizes of $\Delta t = 0.00005$ and $\Delta x = 0.01$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/Heat_Euler_t1_dx001.PNG}
+\caption{\label{fig:rodHeatEulerT1DX001} Heat distribution within the rod for both analytical (blue) and forward Euler implementations (red). The heat is measured at $t = 1$ using step sizes of $\Delta t = 0.00005$ and $\Delta x = 0.01$.}
+\end{figure}
+
+\noindent It is now observed that the forward Euler implementation matches the analytical implementation perfectly at all times. The reason for this is because the definition of the derivative in which the forward Euler relies on is a better approximation when the step sizes are small. This means further that the forward Euler implementation can accurately represent the heat distribution within a rod at all times and places.
 
 \newpage
 
 \begin{center}
-\Large{\textbf{Exercise d): a}}
+\Large{\textbf{Exercise c): Solving PDEs with deep neural networks}}
 \end{center}
 
 \begin{center}
-\large{\textbf{a}}
+\large{\textbf{Neural network implementation}}
 \end{center}
 
-\noindent a
+\noindent The concepts and details of a neural network was discussed in Project 2 which can be found at \href{{https://github.com/sanderwl/FYS-STK4155/tree/master/Project2/Project2}}{\nolinkurl{https://github.com/sanderwl/FYS-STK4155/tree/master/Project2/Project2}}. Much of the concepts are the same, that is, we pass an input through a network of hidden layers and neurons and an output is the same. However, the implementation is slightly different. 
+\\
+The neural network still aims to minimize some cost function which is this case is the MSE given by equation \ref{eq:MSE}.
+
+\begin{equation}\label{eq:MSE}
+\textrm{MSE} = \frac{1}{n} \sum_{i = 1}^n (\textrm{prediction error})^2
+\end{equation}
+
+\noindent Since $\frac{\partial u(x,t)}{\partial t} - \frac{\partial^2 u(x,t)}{\partial x^2} = 0$ solves the heat equation, it can be utilized as the prediction error. Equation \ref{eq:MSE} then becomes
+
+\begin{equation}\label{eq:MSEHeat}
+\textrm{MSE} = \frac{1}{n} \sum_{i = 1}^n (\frac{\partial u(x,t)}{\partial t} - \frac{\partial^2 u(x,t)}{\partial x^2})^2
+\end{equation}
+
+\noindent Since we now pretend not to know any solution to the heat equation, we can implement a trial solution. A trial solution must meet the boundary conditions (with already known initial condition). This solution is not guaranteed to minimize the cost function in equation \ref{eq:MSEHeat}, in fact, it is rare that such a solution minimize the cost function. Therefore, we can tune the weights of the neural network through gradient descent and update the weights to find different trial solutions. For each update, the cost function should minimize and a more accurate solution to the heat equation is found. The trial solution g used in this project is given by equation QQQ.
+
+\begin{equation}\label{eq:trial}
+g = (1-t)*sin(\pi x) + x(1-x)t*\textrm{output}
+\end{equation}
+
+\noindent where $sin(\pi x)$ is the initial condition and output is the output from the neural network in which the gradient descent must handle. 
+\\
+The neural network is then trained by sending the two variables x and t through the network followed by a weight update through gradient descent on the cost function. This process happens many times and the final trial solution should reflect the analytical solution.
+
+\begin{center}
+\large{\textbf{My own implementation vs. Tensorflow}}
+\end{center}
+
+\noindent A neural network algorithm was implemented from scratch using what I have learned in this course. However, this algorithm proved way too slow and was thus deemed unfit for this exercise as time is limited. Instead, Tensorflow algorithms were implemented as these yielded fast, stable and good results. Additionally, Tensorflow is easy to handle and has a lot of nice features to play around with. In particular, the Tensorflow version of the Adam optimization algorithm proved to yield great results. The Adam optimization algorithm is really a combinations between stochastic gradient descent and RMSprop (Kingma and Ba, 2014). The algorithm is essentially stochastic gradient descent with momentum where a moving average of the gradient is used instead of the entirety of the gradient. Additionally, the Adam algortihm uses adaptive learning rates just like RMSprop. 
+
+\begin{center}
+\large{\textbf{Comparing the analytical and neural network solutions of the heat equation}}
+\end{center}
+
+\noindent After implementing the above discussed neural network algorithm, we can take the final trial solution and use it to solve the heat equation and compare it with the analytical and forward Euler implementations. First we have to set some parameters for the neural network to work with. These parameters are defined in table \ref{tab:NNparams} below.
+
+\begin{table}[h]
+\caption{\label{tab:NNparams} Parameters of the neural network.}
+\centering
+\begin{tabular}{|c|c|}
+\hline
+$\Delta$ t & $0.1$\\
+\hline
+$\Delta$ x & $0.1$\\
+\hline
+Number of layers & $10$\\
+\hline
+Number of neurons in each layer & $10$\\
+\hline
+Number of iterations & $100000$\\
+\hline
+Initial learning rate & $0.001$\\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent Since we are doing a stochastic gradient descent like algorithm (Adam optimizer) we have to set some initial learning rate. The number of iterations denotes how many times we do the feed forward/back propagation loop. The other parameters were found through trial and error. These parameters could have been optimized like in Project 2, but the results have shown to be good without exact optimization.
+\\
+We can first plot the entirety of the 3D heat equation solution as done in figures \ref{fig:3dHeatAna} and \ref{fig:3dHeatNN}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/3dHeat_ana.PNG}
+\caption{\label{fig:3dHeatAna} Heat distribution for the rod as function of space and time for the analytical implementation.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/3dHeat_NN.PNG}
+\caption{\label{fig:3dHeatNN} Heat distribution for the rod as function of space and time for the neural network implementation.}
+\end{figure}
+
+\noindent One can observe that the two implementations in figures \ref{fig:3dHeatAna} and \ref{fig:3dHeatNN} are pretty similar. In order to get a better comparison, we can plot the heat distribution at constant times $t = 0$ (initial heat), $t = 0.5$ and $t = 1$ just like before.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/Heat_TF_t0.PNG}
+\caption{\label{fig:rodHeatTF0} Heat distribution within the rod for both analytical (blue) and neural network implementations (red). The heat is measured at $t = 0$ using the parameters of table \ref{tab:NNparams}.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/Heat_TF_t05.PNG}
+\caption{\label{fig:rodHeatTF05} Heat distribution within the rod for both analytical (blue) and neural network implementations (red). The heat is measured at $t = 0.5$ using the parameters of table \ref{tab:NNparams}.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/Heat_TF_t1.PNG}
+\caption{\label{fig:rodHeatTF1} Heat distribution within the rod for both analytical (blue) and neural network implementations (red). The heat is measured at $t = 1$ using the parameters of table \ref{tab:NNparams}.}
+\end{figure}
+
+\noindent One can observe that the initial heat distribution in figure \ref{fig:rodHeatTF0} is equal for the analytical and neural network implementations. After $0.5$ seconds however, the two implementations starts to deviate slightly. At $t = 1$ the two implementations are essentially zero, but the neural network still maintain the shape of the previous heat distributions. This was a recurring problem with the neural network implementation regardless of input parameters. However, since the error is very small, the result is deemed acceptable. 
 
 \newpage
 
@@ -307,6 +441,7 @@ u_j^{n+1} = (1-2\frac{\Delta t}{\Delta x^2})u_j^n + \frac{\Delta t}{\Delta x^2}(
 
 \begin{itemize}
   \item Hancock, M. J., 2006, \emph{The 1-D Heat Equation, Linear Partial Differential Equations}, page 5, Available from \href{{https://ocw.mit.edu/courses/mathematics/18-303-linear-partial-differential-equations-fall-2006/lecture-notes/heateqni.pdf}}{\nolinkurl{https://ocw.mit.edu/courses/mathematics/18-303-linear-partial-differential-equations-fall-2006/lecture-notes/heateqni.pdf}}
+  \item Kingma, D. P., Ba, J. L., 2014 \emph{Adam: A Method for Stochastic Optimization}, pp 1, arXiv:1412.6980v9
 \end{itemize}
 
 \end{document}

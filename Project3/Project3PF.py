@@ -1,8 +1,7 @@
 import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-from HeatEquation import analytical, forwardEuler
-from FunctionDef import inputs, inputsAB, inputsC, stabilize, makeTens, temp, tfInit, tfTrainEval
+from FunctionDef import inputs, inputsAB, inputsC, stabilize, makeTens, temp, tfInit, tfTrainEval, analytical, forwardEuler
 from FunctionDefPlot import heatPlot, heatPlotNN, threeD
 from NeuralNetwork import deep_neural_network, solve_pde_deep_neural_network, g_analytic, g_trial
 
@@ -13,6 +12,7 @@ if (ex == "a" or ex == "b" or ex == "all"):
     # Inputs for exercise a and b
     dt, dx, L, T, alpha = inputsAB(own)
     dtt = dt
+    # Run forward Euler for both values of dx
     for i in range(len(dx)):
         # Check is algorithm is stable for forward Euler and change dt
         dt = dtt
@@ -30,22 +30,22 @@ if (ex == "a" or ex == "b" or ex == "all"):
         timep2 = int(t2 / dt)
         timep3 = int(t3 / dt)
 
-        # Analytical solution to the heat equation
+        # Analytical solutions to the heat equation
         ana1 = analytical(x, alpha, t1)
         ana2 = analytical(x, alpha, t2)
         ana3 = analytical(x, alpha, t3)
 
-        # Forward Euler solution to the heat equation
+        # Forward Euler solutions to the heat equation
         fe1 = forwardEuler(x, timep1, gridp, dt, dx[i])
         fe2 = forwardEuler(x, timep2, gridp, dt, dx[i])
         fe3 = forwardEuler(x, timep3, gridp, dt, dx[i])
 
-        # Find difference between analytical and forward Euler solution
+        # Find difference between analytical and forward Euler solutions
         diff1 = ana1 - fe1
         diff2 = ana2 - fe2
         diff3 = ana3 - fe3
 
-        # Plot heat curve at for t2 for previously defined
+        # Plot heat curve at for t=c
         ana = [ana1, ana2, ana3]
         fe = [fe1, fe2, fe3]
         diff = [diff1, diff2, diff3]
@@ -55,7 +55,7 @@ elif (ex == "c" or ex == "all"):
 
     # Inputs for exercise c
     dt, dx, L, T, alpha = inputsAB(own)
-    dx = dx[1]
+    dx = dx[0]
     layers, neurons, lrate, its = inputsC(own)
     structure = np.repeat(neurons, layers)
 

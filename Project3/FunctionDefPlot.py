@@ -4,6 +4,7 @@ import matplotlib.cm as cm
 from mpl_toolkits.mplot3d import axes3d
 
 def heatPlot(x, ana, fe, diff, t1, t2, t3, L, dx, plot):
+    # Plot the heat distribution at given times
     if plot == True:
         ttt = [t1, t2, t3]
         xxx = np.arange(0,L+L/10,L/10)
@@ -23,6 +24,7 @@ def heatPlot(x, ana, fe, diff, t1, t2, t3, L, dx, plot):
             plt.show()
 
 def heatPlotNN(t, x, dt, dx, L, evaluate, ana, plot):
+    # Plot the heat distribution at given times for neural network implementation
     if plot==True:
         # Mesh
         xxx = np.arange(0, L + L / 10, L / 10)
@@ -36,13 +38,11 @@ def heatPlotNN(t, x, dt, dx, L, evaluate, ana, plot):
         idx1 = 0
         idx2 = int(int(1/dt)/2)
         idx3 = int(1/dt)
-        print(idx1, idx2, idx3)
 
         # Define three different moments in time
         time1 = t[idx1]
         time2 = t[idx2]
         time3 = t[idx3]
-        print(time1, time2, time3)
 
         # Take slice of 3d data for the NN at three different times
         nn1 = evaluateT[:, idx1]
@@ -100,6 +100,7 @@ def heatPlotNN(t, x, dt, dx, L, evaluate, ana, plot):
         plt.show()
 
 def threeD(t, x, dt, dx, evaluate, ana, neurons, layers, plot):
+    # Plot 3D heat distribution
     if plot == True:
         evaluateT = evaluate.reshape((len(t), len(x))).T
         anaT = ana.reshape((len(t), len(x))).T

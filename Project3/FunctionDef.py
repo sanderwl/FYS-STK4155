@@ -12,7 +12,7 @@ def inputs():
     else:
         figureInp = False
     own = input("Use predefined parameters or should they be specified? (pre/self): ")
-    return "a", True, "pre" #str(ex), bool(figureInp), str(own)
+    return "d", True, "pre" #str(ex), bool(figureInp), str(own)
 
 def inputsAB(own):
     # Input parameters for exercise a, but also used in other exercises
@@ -25,7 +25,7 @@ def inputsAB(own):
     else:
         dt = 0.1
         dx = [1/10, 1/100]
-        T = 1
+        T = 5
         L = 1
         alpha = 1
     return float(dt), list(dx), float(L), float(T), int(alpha)
@@ -41,7 +41,7 @@ def inputsC(own):
         layers = 10
         neurons = 10
         lrate = 0.001
-        its = 100000
+        its = 10000
     return int(layers), int(neurons), float(lrate), int(its)
 
 def stabilize(alpha, dt, dx):
@@ -135,9 +135,86 @@ def tfTrainEval(tnew, xnew, its, minAdaOpt, trial):
 
     return evaluate, ana, diff
 
+def makeTensEigen(dt, dx, vv, L, T, n):
+    # Format t and x to the preferred Tensorflow format
+    t = np.arange(0, T+dt, dt)
+    x = np.linspace(1, n, n)
 
+    X, T = np.meshgrid(x, t)
+    V, TT = np.meshgrid(vv, t)
 
+    tnew = T.ravel().reshape(-1, 1)
+    xnew = X.ravel().reshape(-1, 1)
+    vnew = V.ravel().reshape(-1, 1)
 
+    tTens = tf.convert_to_tensor(tnew, dtype=tf.float64)
+    xTens = tf.convert_to_tensor(xnew, dtype=tf.float64)
+    vTens = tf.convert_to_tensor(vnew, dtype=tf.float64)
+
+    grid = tf.concat([xTens, tTens], 1)
+
+    return t, x, tnew, xnew, vnew, tTens, xTens, vTens, grid
+
+def tfInitEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, Mat):
+    # Set up TF neural network with different neurons and layers
+    lastLayer = grid
+    for i in range(len(structure)):
+        layer = tf.layers.dense(lastLayer, structure[i], activation=tf.nn.sigmoid)
+        lastLayer = layer
+    output = tf.layers.dense(lastLayer, 1)
+
+    # Define trial function and its gradients
+    trial = output * tTens + vTens * k
+    dtTrial = tf.gradients(trial, tTens)
+
+    trialR = tf.reshape(trial, (len(t), n))
+    dtTrialR = tf.reshape(dtTrial, (len(t), n))
+    loss = 0
+
+    for i in range(len(t)):
+        tempTrial = tf.reshape(trialR[i], (n, 1))
+        tempDtTrial = tf.reshape(dtTrialR[i], (n, 1))
+        ads = YiSol(tempTrial, Mat) - tempTrial
+        error = tf.square(-tempDtTrial + ads)
+        loss += tf.reduce_sum(error)
+
+    loss0 = tf.reduce_sum(loss / (n * len(t)))
+
+    # Define the Adam optimization algorithm
+    AdaOpt = tf.train.AdamOptimizer(lrate)
+    minAdaOpt = AdaOpt.minimize(loss)
+
+    return trial, minAdaOpt
+
+def tfTrainEvalEigen(t, tnew, xnew, its, minAdaOpt, trial, n):
+    # Gather and initialize all defined variables
+    initialize = tf.global_variables_initializer()
+
+    # Train and evaluate the neural network
+    with tf.Session() as session:
+
+        #print("The initial cost is: %g"%cost.eval())
+        initialize.run()
+        for i in range(its):
+            session.run(minAdaOpt)
+        #print("The cost after training: %g"%cost.eval())
+
+        eigenVec = tf.reshape(trial, (len(t), n)).eval()
+
+    return eigenVec
+
+def YiSol(x, Mat):
+    f1 = tf.transpose(x)*x*Mat
+    f2 = (1-tf.transpose(x)*Mat*x)*tf.eye(int(Mat.shape[0]), dtype=tf.float64)
+    f = (f1+f2)*x
+    return f
+
+def eigen(v, Mat):
+    v = v.reshape(Mat.shape[0], 1)
+    eig1 = tf.matmul(tf.matmul(tf.transpose(v), Mat), v)[0, 0]
+    eig2 = tf.matmul(tf.transpose(v), v)[0, 0]
+    eig = eig1/eig2
+    return eig
 
 
 

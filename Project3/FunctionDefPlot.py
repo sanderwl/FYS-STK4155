@@ -129,3 +129,16 @@ def threeD(t, x, dt, dx, evaluate, ana, neurons, layers, plot):
         f = ax.plot_surface(T, X, diffT, linewidth = 0, antialiased = False, cmap=cm.get_cmap("coolwarm"))
         ax.set_xlabel("Time t")
         ax.set_ylabel("Position on rod x")
+
+def eigenPlot(t, v, plot):
+    if plot == True:
+        plt.figure(figsize=(20, 20))
+        plt.plot(t, v, linewidth = 4)
+        plt.suptitle('Different eigenvalues over time...', fontsize=25,
+                    fontweight="bold")
+        plt.legend(["Eigenvector 1", "Eigenvector 2", "Eigenvector 3","Eigenvector 4",
+                    "Eigenvector 5","Eigenvector 6"], loc="upper left", prop={'size': 15})
+        plt.ylabel('Value', fontsize=20)
+        plt.xlabel('Time', fontsize=20)
+        plt.grid()
+        plt.show()

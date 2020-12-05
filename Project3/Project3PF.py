@@ -1,8 +1,9 @@
 import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-from FunctionDef import inputs, inputsAB, inputsC, stabilize, makeTens, temp, tfInit, tfTrainEval, analytical, forwardEuler
-from FunctionDefPlot import heatPlot, heatPlotNN, threeD
+from FunctionDef import inputs, inputsAB, inputsC, stabilize, makeTens, temp, tfInit, tfTrainEval, analytical, \
+    forwardEuler, tfInitEigen, tfTrainEvalEigen, makeTensEigen, eigen
+from FunctionDefPlot import heatPlot, heatPlotNN, threeD, eigenPlot
 from NeuralNetwork import deep_neural_network, solve_pde_deep_neural_network, g_analytic, g_trial
 
 # Inputs for all parts of the project
@@ -72,6 +73,30 @@ elif (ex == "c" or ex == "all"):
     threeD(t, x, dt, dx, evaluate, ana2, neurons, layers, plot=figureInp)
     heatPlotNN(t, x, dt, dx, L, evaluate, ana2, plot=figureInp)
 
+elif (ex == "d" or ex == "all"):
+    # Inputs for exercise d
+    dt, dx, L, T, alpha = inputsAB(own)
+    dx = dx[0]
+    layers, neurons, lrate, its = inputsC(own)
+    structure = np.repeat(neurons, layers)
+
+    k = -1
+    n = 6
+    vv = np.random.rand(n)
+    RandMat = np.random.rand(n,n)
+    Mat = tf.convert_to_tensor(k*(tf.transpose(RandMat)*RandMat)/2, dtype=tf.float64)
+
+    t, x, tnew, xnew, vnew, tTens, xTens, vTens, grid = makeTensEigen(dt, dx, vv, L, T, n)
+
+    trial, minAdaOpt = tfInitEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, Mat)
+
+    eigenVec = tfTrainEvalEigen(t, tnew, xnew, its, minAdaOpt, trial, n)
+
+    eigens = eigen(eigenVec[-1], Mat)
+    tf.print(eigens)
+
+    # Plot
+    eigenPlot(t, eigenVec, plot=figureInp)
 
 
 

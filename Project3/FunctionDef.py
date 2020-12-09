@@ -12,7 +12,7 @@ def inputs():
     else:
         figureInp = False
     own = input("Use predefined parameters or should they be specified? (pre/self): ")
-    return "d", True, "pre" #str(ex), bool(figureInp), str(own)
+    return "c", True, "pre" #str(ex), bool(figureInp), str(own)
 
 def inputsAB(own):
     # Input parameters for exercise a, but also used in other exercises
@@ -25,7 +25,7 @@ def inputsAB(own):
     else:
         dt = 0.1
         dx = [1/10, 1/100]
-        T = 5
+        T = 1
         L = 1
         alpha = 1
     return float(dt), list(dx), float(L), float(T), int(alpha)
@@ -38,11 +38,24 @@ def inputsC(own):
         lrate = input("What is the learning rate? (float, typically between zero and one): ")
         its = input("Number of iterations/epochs to run? (integer, typically very large): ")
     else:
-        layers = 10
+        layers = 3
         neurons = 10
         lrate = 0.001
-        its = 10000
+        its = 1000000
     return int(layers), int(neurons), float(lrate), int(its)
+
+def inputsD(own):
+    # Inputs for exercise c, but also used in other exercises
+    if own == "self":
+        precision = input("Precision of the eigenvector/value solver? (float, typically 0.0001): ")
+        k = input("Find the largest or smallest eigenvector of the matrix? (integer, -1 (smallest) or 1 (largest)): ")
+        n = input("Size of the matrix? (integer): ")
+    else:
+
+        precision = 0.00001
+        k = -1
+        n = 6
+    return float(precision), int(k), int(n)
 
 def stabilize(alpha, dt, dx):
     # Check if Euler is stable or not and change dt if unstable
@@ -135,79 +148,97 @@ def tfTrainEval(tnew, xnew, its, minAdaOpt, trial):
 
     return evaluate, ana, diff
 
-def makeTensEigen(dt, dx, vv, L, T, n):
+def makeTensEigen(dt, dx, vv, L, TT, n):
     # Format t and x to the preferred Tensorflow format
-    t = np.arange(0, T+dt, dt)
+    time_points = int(TT / dt)
+    t = np.linspace(0, (time_points - 1) * dt, time_points)
     x = np.linspace(1, n, n)
 
     X, T = np.meshgrid(x, t)
-    V, TT = np.meshgrid(vv, t)
+    V, Tf = np.meshgrid(vv, t)
 
-    tnew = T.ravel().reshape(-1, 1)
-    xnew = X.ravel().reshape(-1, 1)
-    vnew = V.ravel().reshape(-1, 1)
+    xnew = (X.ravel()).reshape(-1, 1)
+    tnew = (T.ravel()).reshape(-1, 1)
+    vnew = (V.ravel()).reshape(-1, 1)
 
-    tTens = tf.convert_to_tensor(tnew, dtype=tf.float64)
     xTens = tf.convert_to_tensor(xnew, dtype=tf.float64)
+    tTens = tf.convert_to_tensor(tnew, dtype=tf.float64)
     vTens = tf.convert_to_tensor(vnew, dtype=tf.float64)
 
     grid = tf.concat([xTens, tTens], 1)
 
-    return t, x, tnew, xnew, vnew, tTens, xTens, vTens, grid
+    return t, x, tnew, xnew, vnew, tTens, xTens, vTens, grid, time_points
 
-def tfInitEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, Mat):
+def tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, A, timepoints, its, precision):
     # Set up TF neural network with different neurons and layers
-    lastLayer = grid
-    for i in range(len(structure)):
-        layer = tf.layers.dense(lastLayer, structure[i], activation=tf.nn.sigmoid)
-        lastLayer = layer
-    output = tf.layers.dense(lastLayer, 1)
+    with tf.name_scope('dnn'):
+        previous_layer = grid
 
-    # Define trial function and its gradients
-    trial = output * tTens + vTens * k
-    dtTrial = tf.gradients(trial, tTens)
+        for l in range(len(structure)):
+            current_layer = tf.layers.dense(previous_layer, structure[l], activation=tf.nn.sigmoid)
+            previous_layer = current_layer
 
-    trialR = tf.reshape(trial, (len(t), n))
-    dtTrialR = tf.reshape(dtTrial, (len(t), n))
-    loss = 0
+        dnn_output = tf.layers.dense(previous_layer, 1)
 
-    for i in range(len(t)):
-        tempTrial = tf.reshape(trialR[i], (n, 1))
-        tempDtTrial = tf.reshape(dtTrialR[i], (n, 1))
-        ads = YiSol(tempTrial, Mat) - tempTrial
-        error = tf.square(-tempDtTrial + ads)
-        loss += tf.reduce_sum(error)
+    with tf.name_scope('loss'):
+        trial_func = dnn_output * tTens + vTens * k
 
-    loss0 = tf.reduce_sum(loss / (n * len(t)))
+        trial_dt = tf.gradients(trial_func, tTens)
 
-    # Define the Adam optimization algorithm
-    AdaOpt = tf.train.AdamOptimizer(lrate)
-    minAdaOpt = AdaOpt.minimize(loss)
+        trial_rs = tf.reshape(trial_func, (timepoints, n))
+        trial_rs_dt = tf.reshape(trial_dt, (timepoints, n))
+        loss_tmp = 0
 
-    return trial, minAdaOpt
+        for i in range(timepoints):
+            trial_temp = tf.reshape(trial_rs[i], (n, 1))
+            trial_dt_temp = tf.reshape(trial_rs_dt[i], (n, 1))
+            rhs = YiSol(trial_temp, A) - trial_temp
+            err = tf.square(-trial_dt_temp + rhs)
+            loss_tmp += tf.reduce_sum(err)
 
-def tfTrainEvalEigen(t, tnew, xnew, its, minAdaOpt, trial, n):
-    # Gather and initialize all defined variables
-    initialize = tf.global_variables_initializer()
+        loss = tf.reduce_sum(loss_tmp / (n * timepoints), name='loss')
 
-    # Train and evaluate the neural network
-    with tf.Session() as session:
+    # Define how the neural network should be trained
+    with tf.name_scope('train'):
+        optimizer = tf.train.AdamOptimizer(lrate)
+        traning_op = optimizer.minimize(loss)
 
-        #print("The initial cost is: %g"%cost.eval())
-        initialize.run()
+    # Define a node that initializes all the nodes within the computational graph
+    # for TensorFlow to evaluate
+    init = tf.global_variables_initializer()
+
+    with tf.Session() as sess:
+        # Initialize the computational graph
+        init.run()
+
+        print('Initial loss: %g' % loss.eval())
+
         for i in range(its):
-            session.run(minAdaOpt)
-        #print("The cost after training: %g"%cost.eval())
+            # print(loss.eval())
+            if (i % 1000 == 0):
+                print(f"step {i} --- loss: {loss.eval()}")
+            sess.run(traning_op)
 
-        eigenVec = tf.reshape(trial, (len(t), n)).eval()
+            if loss.eval() < precision:
+                print(f"Last iteration: {i}")
+                break
 
-    return eigenVec
+        print('Final loss: %g' % loss.eval())
+
+        eigenvectors = tf.reshape(trial_func, (timepoints, n)).eval()
+        # eigenvalues = dnn_output.eval()
+
+    return eigenvectors, t
+
 
 def YiSol(x, Mat):
-    f1 = tf.transpose(x)*x*Mat
-    f2 = (1-tf.transpose(x)*Mat*x)*tf.eye(int(Mat.shape[0]), dtype=tf.float64)
-    f = (f1+f2)*x
-    return f
+    I = tf.eye(int(Mat.shape[0]), dtype=tf.float64)
+
+    xT = tf.transpose(x)
+    value1 = tf.matmul(xT, x) * Mat
+    value2 = (1 - tf.matmul(tf.matmul(xT, Mat), x)) * I
+    value = tf.matmul((value1 + value2), x)
+    return value
 
 def eigen(v, Mat):
     v = v.reshape(Mat.shape[0], 1)

@@ -1,8 +1,9 @@
 import numpy as np
+from numpy import linalg
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 from FunctionDef import inputs, inputsAB, inputsC, stabilize, makeTens, temp, tfInit, tfTrainEval, analytical, \
-    forwardEuler, tfInitEigen, tfTrainEvalEigen, makeTensEigen, eigen
+    forwardEuler, tfEigen, makeTensEigen, eigen, inputsD
 from FunctionDefPlot import heatPlot, heatPlotNN, threeD, eigenPlot
 from NeuralNetwork import deep_neural_network, solve_pde_deep_neural_network, g_analytic, g_trial
 
@@ -74,31 +75,52 @@ elif (ex == "c" or ex == "all"):
     heatPlotNN(t, x, dt, dx, L, evaluate, ana2, plot=figureInp)
 
 elif (ex == "d" or ex == "all"):
+    np.random.seed(7)
+    tf.set_random_seed(7)
     # Inputs for exercise d
-    dt, dx, L, T, alpha = inputsAB(own)
+    dt, dx, L, TT, alpha = inputsAB(own)
     dx = dx[0]
     layers, neurons, lrate, its = inputsC(own)
-    structure = np.repeat(neurons, layers)
+    precision, k, n = inputsD(own)
 
-    k = -1
-    n = 6
+    Q = np.random.rand(n, n)
+    A = (Q.T + Q) / 2
+    A_temp = k * A
+    A_tf = tf.convert_to_tensor(A_temp, dtype=tf.float64)
+
     vv = np.random.rand(n)
-    RandMat = np.random.rand(n,n)
-    Mat = tf.convert_to_tensor(k*(tf.transpose(RandMat)*RandMat)/2, dtype=tf.float64)
+    structure = np.repeat(neurons, layers)
+    print(A)
 
-    t, x, tnew, xnew, vnew, tTens, xTens, vTens, grid = makeTensEigen(dt, dx, vv, L, T, n)
+    # Numpy eigenvector/values
+    if k == -1:
+        npEigenVal, npEigenVec = linalg.eig(A)
+        eigenValEX = np.max(npEigenVal)
+        idx = np.argmax(npEigenVal)
+        eigenVecEX = npEigenVec[idx]
+    elif k == 1:
+        npEigenVal, npEigenVec = linalg.eig(A)
+        eigenValEX = np.min(npEigenVal)
+        idx = np.argmin(npEigenVal)
+        eigenVecEX = npEigenVec[idx]
 
-    trial, minAdaOpt = tfInitEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, Mat)
+    t, x, tnew, xnew, vnew, tTens, xTens, vTens, grid, timepoints = makeTensEigen(dt, dx, vv, L, TT, n)
 
-    eigenVec = tfTrainEvalEigen(t, tnew, xnew, its, minAdaOpt, trial, n)
+    eigenVec, t = tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, A, timepoints, its, precision)
 
-    eigens = eigen(eigenVec[-1], Mat)
-    tf.print(eigens)
+    eigenvalues = eigen(eigenVec[-1], A).eval(session=tf.Session())
+
+    print("Smallest numpy eigenvector: ", eigenVecEX)
+    print("Smallest NN eigenvector: ", eigenVec[-1])
+    print("Smallest NN eigenvector (normalized): ", eigenVec[-1] / linalg.norm(eigenVec[-1]))
+    print("Smallest numpy eigenvalue: ", eigenValEX)
+    print("Smallest NN eigenvalue: ", eigenvalues)
+
+    print("x", npEigenVal)
+    print("y", npEigenVec)
 
     # Plot
     eigenPlot(t, eigenVec, plot=figureInp)
-
-
 
 
 

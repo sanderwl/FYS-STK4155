@@ -134,11 +134,11 @@ def eigenPlot(t, v, plot):
     if plot == True:
         plt.figure(figsize=(20, 20))
         plt.plot(t, v, linewidth = 4)
-        plt.suptitle('Different eigenvalues over time...', fontsize=25,
+        plt.suptitle('Values of different eigenvector components', fontsize=25,
                     fontweight="bold")
         plt.legend(["Eigenvector 1", "Eigenvector 2", "Eigenvector 3","Eigenvector 4",
                     "Eigenvector 5","Eigenvector 6"], loc="upper left", prop={'size': 15})
-        plt.ylabel('Value', fontsize=20)
-        plt.xlabel('Time', fontsize=20)
+        plt.ylabel('Eigenvector value', fontsize=20)
+        plt.xlabel('Number of iterations', fontsize=20)
         plt.grid()
         plt.show()

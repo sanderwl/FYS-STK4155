@@ -360,11 +360,11 @@ $\Delta$ t & $0.1$\\
 \hline
 $\Delta$ x & $0.1$\\
 \hline
-Number of layers & $10$\\
+Number of layers & $3$\\
 \hline
 Number of neurons in each layer & $10$\\
 \hline
-Number of iterations & $100000$\\
+Number of iterations & $1000000$\\
 \hline
 Initial learning rate & $0.001$\\
 \hline
@@ -407,15 +407,113 @@ We can first plot the entirety of the 3D heat equation solution as done in figur
 \caption{\label{fig:rodHeatTF1} Heat distribution within the rod for both analytical (blue) and neural network implementations (red). The heat is measured at $t = 1$ using the parameters of table \ref{tab:NNparams}.}
 \end{figure}
 
-\noindent One can observe that the initial heat distribution in figure \ref{fig:rodHeatTF0} is equal for the analytical and neural network implementations. After $0.5$ seconds however, the two implementations starts to deviate slightly. At $t = 1$ the two implementations are essentially zero, but the neural network still maintain the shape of the previous heat distributions. This was a recurring problem with the neural network implementation regardless of input parameters. However, since the error is very small, the result is deemed acceptable. 
+\noindent One can observe that the initial heat distribution in figure \ref{fig:rodHeatTF0} is equal for the analytical and neural network implementations. After $0.5$ seconds, the two implementations are still equivalent. At $t = 1$ however, the two implementations are essentially zero, but the neural network has now deviated from the analytical solution. This was a recurring problem with the neural network implementation regardless of input parameters. When the temperature started to approach zero, the neural network increasingly deviated from the analytical solution. However, since the deviation is very small, the result is deemed acceptable. 
 
 \newpage
 
 \begin{center}
-\Large{\textbf{Exercise e): a}}
+\Large{\textbf{Exercise d): Eigenvectors and eigenvalues using neural networks}}
 \end{center}
 
-\noindent a
+\begin{center}
+\large{\textbf{Neural network implementation of eigenvector/value solver}}
+\end{center}
+
+\noindent In this exercise we aim to find the eigenvector of a matrix that corresponds to lowest or highest eigenvalue with a method proposed by Yi and Fu in the paper \emph{Neural Networks Based Approach Computing Eigenvectors and Eigenvalues of Symmetric Matrix} (Yi and Fu, 2004). The method utilizes a neural network set up similar to what is implemented in the previous exercise, but with a cost function given by equation \ref{eq:yiCost}.
+
+\begin{equation}\label{eq:yiCost}
+\frac{d x(t)}{dt} = -x(t) + f(x(t))
+\end{equation}
+
+\noindent where $x(t)$ is the state of the network (where and when the input is propagated through the network) and $f(x(t))$ is given by 
+
+\begin{equation}\label{eq:fxt}
+f(x(t)) = [x^TxA + (1-x^TAx)I]x
+\end{equation}
+
+\noindent Here, A is a real symmetric matrix, I is the identity matrix T marks the transpose. A is in this case defined by $k(Q^T + Q)/2$ which ensures symmetry, where Q is a real, randomly generated matrix. k is in this case either $-1$ or $1$ where $k = -1$ yields the smallest eigenvector of the matrix and $k = 1$ yields the lowest eigenvector of the matrix. 
+\\
+We can reuse most of the neural network code utilized in the previous exercise, but change the cost function to be equation \ref{eq:yiCost}. Additionally, we utilize the input parameters of table \ref{tab:NNparams}, but with $1000000$ instead of $100000$ iterations. However, the algorithms stops iterating if a the cost function is less that some threshold set to $0.00001$ in this case. The threshold is very low because the neural network results showed to be very sensitive to errors larger than this threshold.
+\\
+The matrix A was randomly generated and was in this run set to
+
+\[
+A=
+  \begin{bmatrix}
+    0.07630829 & 0.64051963 & 0.40967518 & 0.8273356 & 0.94355894 & 0.37167248 \\
+    0.64051963 & 0.07205113 & 0.16718766 & 0.26239086 & 0.40619972 & 0.64725246 \\
+    0.40967518 & 0.16718766 & 0.2881456 & 0.75507122 & 0.36839897 & 0.41225433 \\
+    0.8273356 & 0.26239086 & 0.75507122 & 0.9501295 & 0.49035637 & 0.51294554 \\
+    0.94355894 & 0.40619972 & 0.36839897 & 0.49035637 & 0.66901324 & 0.41682162 \\
+    0.37167248 & 0.64725246 & 0.41225433 & 0.51294554 & 0.41682162 & 0.83791799 
+  \end{bmatrix}
+\]
+
+\noindent which is a real and symmetric, square matrix. Running the neural network with $k = -1$ then yields an eigenvector $\nu$ corresponding to the lowest eigenvalue $\lambda_{min}$ of 
+
+\begin{equation}\label{eq:minEigenVec}
+\nu_{min}=[-0.51370594, -0.35445244, -0.39575076, -0.60860367, -0.51998609, -0.48656764]
+\end{equation}
+
+\noindent and a normalized eigenvector of
+
+\begin{equation}\label{eq:minEigenVecNorm}
+\nu_{min, norm}=[-0.43053478, -0.29706509, -0.33167704, -0.51006817, -0.43579814, -0.40779028]
+\end{equation}
+
+\noindent with a corresponding eigenvalue of 
+
+\begin{equation}\label{eq:minEigenVal}
+\lambda_{min} = 3.1220778592498455
+\end{equation}
+
+\noindent The neural network gets closer and closer to the correct eigenvector/eigenvalue for each iteration and figure \ref{fig:eigen1} shows exactly this convergence.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 1\linewidth]{C:/Users/Sander/Documents/GitHub/FYS-STK4155/Project3/Report/Figures/eigen1.PNG}
+\caption{\label{fig:eigen1} Convergence of the components of the eigenvector corresponding to the smallest eigenvalue. The Adam optimizer is stopped once the error of the cost function is below $0.00001$.}
+\end{figure}
+
+\noindent One can observe from figure \ref{fig:eigen1} that the components of $\nu_{min}$ quickly converges towards its correct values. However, the eigenvector components are very sensitive, so many iterations were needed to obtain the minimum eigenvalue ($720244$ to be exact). The error of the cost function after these iterations were found to be $9.9941 *10^{-6}$.
+\\
+We can compare the smallest eigenvector and eigenvalue to the one found by numpy with the function numpy.linalg.eig as seen in below.
+
+\begin{equation}\label{eq:numpyEigenVec}
+\nu_{min,norm,numpy} = [-0.43040961, -0.78866792, 0.177719, -0.23351243, 0.31853479, -0.07193036]
+\end{equation}
+
+\begin{equation}\label{eq:numpyEigenVal}
+\lambda_{min,numpy} = 3.1220782539801926
+\end{equation}
+
+\noindent It is first observed that the minimum eigenvalue produced from my neural network is close to the minimal eigenvalue produced by the numpy algorithm. However, the eigenvectors are different from one another. This is caused by the minimal eigenvalue having a multiplicity of at least 2 such that the two eigenvectors in equations \ref{eq:minEigenVecNorm} and \ref{eq:numpyEigenVec} are linearly independent (Axler, 2015). 
+
+\newpage
+
+\begin{center}
+\Large{\textbf{Exercise e): Discussion}}
+\end{center}
+
+\begin{center}
+\large{\textbf{Comparing the analytical, forward Euler and neural network solutions to the heat equation}}
+\end{center}
+
+\noindent We first compare the results from the analytical, forward Euler and neural network solutions to the heat equation. The following comparison then assumes the analytical solution is the correct solution to the heat equation. This statement is not entirely correct there exists some assumptions in the derivation of the solution of the heat equation (see equation QQQ). Even still, the analytical solution is deemed the correct solution. 
+\\
+One observed from comparing figures \ref{fig:rodHeatEulerT0DX01}, \ref{fig:rodHeatEulerT05DX01} and \ref{fig:rodHeatEulerT1DX01} to figures \ref{fig:rodHeatEulerT0DX001}, \ref{fig:rodHeatEulerT05DX001} and \ref{fig:rodHeatEulerT1DX001} that the forward Euler approaches the analytical solution more and more as the step size in space (and therefore also step size in time due to $\frac{\Delta t}{\Delta x^2} < 0.5$) approaches zero. This is due to the forward Euler approach being rooted in the definition of the derivative, meaning that smaller step sizes leads to a better approximation of the true derivative. Furthermore, the forward Euler using a step size in space of $0.001$ is equivalent to the analytical solution at all times.
+\\
+The neural network implementation is also equivalent to the analytical solution for $t = 0$ (initial heat distribution) and $t = 0.5$ for the neural network inputs given in table \ref{tab:NNparams}. However, the neural network implementation deviates from the analytical solution at $t = 1$. This was a recurring problem with the neural network implementation for later times, as the trained model was unable to reduce the cost function below a certain threshold. Because of this and the fact that the temperature is very low at later times, means that deviations from the analytical solution occurs at later times.
+\\
+It was shown here that both the forward Euler and neural network implementations can solve the one dimensional heat equation. It is difficult to extrapolate this to further dimensions. However, Koryagin et.al. showed that it is possible to solve the two dimensional heat equation using a similar dense layer neural network as done here (Koryagin et.al., 2019). We also know that the two dimensional heat equation has an analytical solution and can be solved using forward Euler. However, when the system gets too complicated than this, the neural network should still be able to yield an approximate solution where the forward Euler cannot. Such a neural network may be the deep Euler method (Xing and Cheng, 2020). However, this method have mostly been tested on ordinary differential equations (the heat equation is a partial differential equation), but there may be possibility of utilizing this method on PDEs as well. 
+
+\begin{center}
+\large{\textbf{The lowest eigenvector/value of a real, symmetric and randomly generated square matrix}}
+\end{center}
+
+\noindent The neural network code, with a few adjustments, were also able to find the eigenvector corresponding to the lowest (also highest could be achieved) eigenvalue of a real, symmetric and randomly generated square matrix. One can observe that the eigenvalues  from my own neural network in equation \ref{eq:minEigenVal} is almost identical to the one that numpy achieves in equation \ref{eq:numpyEigenVal}. However, the eigenvectors are different as can be observed from equation \ref{eq:minEigenVecNorm} and \ref{eq:numpyEigenVec}. This is due to the multiplicity of the eigenvalue where multiple different eigenvectors can produce an eigenvalue (Axler, 2015). This means that the results from the paper by Yi and Fu (Yi and Fu, 2004) are reproducible. 
+\\
+The paper do not cover how to obtain the eigenvalues that are not the minimum/maximum eigenvalues, but there are other methods to obtain these. However, has been proven, both in the paper by Yi and Fu and in this report, that a neural network implementation can find the minimum and maximum values of a real, symmetric and square matrix.
 
 \newpage
 
@@ -440,8 +538,12 @@ We can first plot the entirety of the 3D heat equation solution as done in figur
 \end{center}
 
 \begin{itemize}
+	\item Axler, S., 2015, \emph{Linear Algebra Done Right}, Third Edition, Springer International Publishing, page 136, Available from: \href{{https://zhangyk8.github.io/teaching/file_spring2018/linear_algebra_done_right.pdf}}{\nolinkurl{https://zhangyk8.github.io/teaching/file_spring2018/linear_algebra_done_right.pdf}}, DOI 10.1007/978-3-319-11080-6
   \item Hancock, M. J., 2006, \emph{The 1-D Heat Equation, Linear Partial Differential Equations}, page 5, Available from \href{{https://ocw.mit.edu/courses/mathematics/18-303-linear-partial-differential-equations-fall-2006/lecture-notes/heateqni.pdf}}{\nolinkurl{https://ocw.mit.edu/courses/mathematics/18-303-linear-partial-differential-equations-fall-2006/lecture-notes/heateqni.pdf}}
   \item Kingma, D. P., Ba, J. L., 2014 \emph{Adam: A Method for Stochastic Optimization}, pp 1, arXiv:1412.6980v9
+  \item Koryagin, A., Khudorozkov, R., Tsimfer., S., 2019, \emph{PYDENS: A PYTHON-FRAMEWORK FOR SOLVING DIFFERENTIAL EQUATIONS WITH NEURAL NETWORKS}, Available from: \href{{https://arxiv.org/pdf/1909.11544.pdf}}{\nolinkurl{https://arxiv.org/pdf/1909.11544.pdf}}
+  \item Xing, S., Cheng, X., 2020, \emph{Deep Euler method: solving ODEs by approximating the local truncation error of the Euler method}, Available from: \href{{https://www.researchgate.net/publication/340180255_Deep_Euler_method_solving_ODEs_by_approximating_the_local_truncation_error_of_the_Euler_method}}{\nolinkurl{https://www.researchgate.net/publication/340180255_Deep_Euler_method_solving_ODEs_by_approximating_the_local_truncation_error_of_the_Euler_method}}
+  \item Yi, Z., Fu, Y., 2004, \emph{Neural Networks Based Approach Computing Eigenvectors and Eigenvalues of Symmetric Matrix}, Available from: \href{{https://www.sciencedirect.com/science/article/pii/S0898122104901101}}{\nolinkurl{https://www.sciencedirect.com/science/article/pii/S0898122104901101}}
 \end{itemize}
 
 \end{document}

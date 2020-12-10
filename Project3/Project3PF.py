@@ -2,10 +2,9 @@ import numpy as np
 from numpy import linalg
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-from FunctionDef import inputs, inputsAB, inputsC, stabilize, makeTens, temp, tfInit, tfTrainEval, analytical, \
+from FunctionDef import inputs, inputsAB, inputsC, stabilize, makeTens, tfInit, tfTrainEval, analytical, \
     forwardEuler, tfEigen, makeTensEigen, eigen, inputsD
 from FunctionDefPlot import heatPlot, heatPlotNN, threeD, eigenPlot
-from NeuralNetwork import deep_neural_network, solve_pde_deep_neural_network, g_analytic, g_trial
 
 # Inputs for all parts of the project
 ex, figureInp, own = inputs()
@@ -75,22 +74,25 @@ elif (ex == "c" or ex == "all"):
     heatPlotNN(t, x, dt, dx, L, evaluate, ana2, plot=figureInp)
 
 elif (ex == "d" or ex == "all"):
+    # Setting randomness seed
     np.random.seed(7)
     tf.set_random_seed(7)
     # Inputs for exercise d
-    dt, dx, L, TT, alpha = inputsAB(own)
+    dt, dx, L, nun, alpha = inputsAB(own)
     dx = dx[0]
     layers, neurons, lrate, its = inputsC(own)
-    precision, k, n = inputsD(own)
+    precision, k, n, TT = inputsD(own)
 
+    # Randomly generate real, symmetric and square matrix
     Q = np.random.rand(n, n)
     A = (Q.T + Q) / 2
-    A_temp = k * A
-    A_tf = tf.convert_to_tensor(A_temp, dtype=tf.float64)
+    AA = k * A
+    ATens = tf.convert_to_tensor(AA, dtype=tf.float64)
+    print(A)
 
+    # Define the structure of the neural network
     vv = np.random.rand(n)
     structure = np.repeat(neurons, layers)
-    print(A)
 
     # Numpy eigenvector/values
     if k == -1:
@@ -104,12 +106,16 @@ elif (ex == "d" or ex == "all"):
         idx = np.argmin(npEigenVal)
         eigenVecEX = npEigenVec[idx]
 
-    t, x, tnew, xnew, vnew, tTens, xTens, vTens, grid, timepoints = makeTensEigen(dt, dx, vv, L, TT, n)
+    # Define the variables in the Tensorflow format
+    t, x, tnew, xnew, vnew, tTens, xTens, vTens, grid, times = makeTensEigen(dt, dx, vv, L, TT, n)
 
-    eigenVec, t = tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, A, timepoints, its, precision)
+    # Run neural network to find the eigenvector
+    eigenVec, t = tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, A, times, its, precision)
 
+    # Use eigenvector to find the eigenvalue
     eigenvalues = eigen(eigenVec[-1], A).eval(session=tf.Session())
 
+    # Print out important information
     print("Smallest numpy eigenvector: ", eigenVecEX)
     print("Smallest NN eigenvector: ", eigenVec[-1])
     print("Smallest NN eigenvector (normalized): ", eigenVec[-1] / linalg.norm(eigenVec[-1]))
@@ -119,7 +125,7 @@ elif (ex == "d" or ex == "all"):
     print("x", npEigenVal)
     print("y", npEigenVec)
 
-    # Plot
+    # Plot the components of the eigenvector as function of neural network iterations
     eigenPlot(t, eigenVec, plot=figureInp)
 
 

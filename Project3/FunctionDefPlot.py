@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from mpl_toolkits.mplot3d import axes3d
 
 def heatPlot(x, ana, fe, diff, t1, t2, t3, L, dx, plot):
     # Plot the heat distribution at given times

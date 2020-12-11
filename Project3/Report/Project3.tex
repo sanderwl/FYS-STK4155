@@ -63,7 +63,7 @@
 \begin{document}
 
 \begin{center}
-\LARGE{\textbf{Project 2: Classification and Regression, from linear and logistic regression to neural networks}}
+\LARGE{\textbf{Project 3: Solving partial differential equations with neural networks}}
 \\
 \large{\textbf{Course: FYS-STK4155}}
 \\
@@ -76,7 +76,13 @@
 \Large{\textbf{Abstract}}
 \end{center}
 
-\noindent a
+\noindent This project considers first three different way to solve the one dimensional heat equation. An analytical solution is first proposed followed by numerical implementation in the form of the forward Euler scheme. It is shown that the forward Euler scheme can become arbitrarily close to the analytical solution for all time and space when the step sizes in space and time is decreased. 
+\\
+Then, a neural network algorithm is introduced in order to find a solution to the one dimensional heat equation. It is shown that the algorithm can approximate the analytical solution when the number of feed forward/back propagation iterations become sufficiently many. The approximation is great for earlier times, but the approximation starts to deviate for later times (lower temperatures), as the cost function was not sufficiently reduced for such small values.
+\\
+Lastly, this project utilizes the above mentioned neural network code in order to find the smallest/largest eigenvalue of a real, symmetric and square matrix. The cost function used was proposed by Yi and Fu in the paper \emph{Neural Networks Based Approach Computing Eigenvectors and Eigenvalues of Symmetric Matrix} and the results from the paper was shown to be reproducible (Yi and Fu, 2004). The results obtained from this method is then shown to be comparable with the one obtained from a generic linear algebra solver (Python package numpy in this case).
+\\
+The results found in this project is then discussed further together with other literature together. Then, a conclusion is drawn and possible improvements to the methods utilized in this project is proposed.
 
 \newpage
 
@@ -371,7 +377,7 @@ The neural network is then trained by sending the two variables x and t through 
  \caption{Neural network algorithm}
 \end{algorithm}
 
-\noindent The above algorithm needs some input parameters which are defined in table \ref{tab:NNparams}.
+\noindent In order to train the neural network described above, some input parameters are needed. Through experimentation it was found that many different configurations (set of input parameters) yielded great results. In the end however, the parameters of table\ref{tab:NNparams} were chosen.
 
 \begin{table}[h]
 \caption{\label{tab:NNparams} Parameters of the neural network.}
@@ -531,7 +537,9 @@ One observed from comparing figures \ref{fig:rodHeatEulerT0DX01}, \ref{fig:rodHe
 \\
 The neural network solution is also equivalent to the analytical solution for $t = 0$ (initial heat distribution) and $t = 0.5$. However, the neural network implementation deviates from the analytical solution at $t = 1$. This was a recurring problem with the neural network implementation for later times, as the trained model was unable to reduce the cost function below a certain threshold. Because of this and the fact that the temperature is very low at later times, means that deviations from the analytical solution occurs at later times.
 \\
-It was shown here that both the forward Euler and neural network implementations can solve the one dimensional heat equation. It is difficult to extrapolate this to further dimensions. However, Koryagin et.al. showed that it is possible to solve the two dimensional heat equation using a similar dense layer neural network as done here (Koryagin et.al., 2019). We also know that the two dimensional heat equation has an analytical solution and can be solved using forward Euler. However, when the system gets more complicated than this, the neural network should still be able to yield an approximate solution where the forward Euler cannot. Such a neural network may be the deep Euler method (Xing and Cheng, 2020). However, this method have mostly been tested on ordinary differential equations (the heat equation is a partial differential equation), but there may be possibility of utilizing this method on PDEs as well. 
+It was shown here that both the forward Euler and neural network implementations can solve the one dimensional heat equation. It is difficult to extrapolate this to further dimensions. However, Koryagin et.al. showed that it is possible to solve the two dimensional heat equation using a similar dense layer neural network as done here (Koryagin et.al., 2019). We also know that the two dimensional heat equation has an analytical solution and can be solved using forward Euler. However, when the system gets more complicated than this, the neural network should still be able to yield an approximate solution where the forward Euler cannot. Such a neural network may be the deep Euler method (DEM) (Xing and Cheng, 2020). It was shown that the DEM was comparable to exact analytical solution and also the solution produced by the forward Euler scheme. Additionally, the DEM was shown to not have any step size restrictions as the forward Euler scheme. In fact, the DEM was still comparable to the analytical solution for large step sizes. The DEM even showed robustness when noise was added to the data, strengthening the overall utility of the DEM (Xing and Cheng, 2020). However, this method have mostly been tested on ordinary differential equations (the heat equation is a partial differential equation), but there may be possibility of utilizing this method on PDEs as well. 
+\\
+Another method proposed by Flament et. al. is able to produce a bundle of solutions for an ODE, meaning that the neural network can solve the ODE with varying initial and boundary conditions. This method could have been useful in this project if multiple rods with multiple initial conditions, lengths and boundary conditions were considered. This is a very strong tool as ODEs can be solved on the fly by passing them through the network that is already trained. However, Flament et. al. mentions that the results produced from the algorithm should be double checked against other numerical solutions, as the broadness of the method might not be entirely accurate (Flament et. al., 2020). 
 
 \begin{center}
 \large{\textbf{The lowest eigenvector/value of a real, symmetric and randomly generated square matrix}}
@@ -540,6 +548,8 @@ It was shown here that both the forward Euler and neural network implementations
 \noindent The neural network code, with a few adjustments, were also able to find the smallest (also highest could be achieved) eigenvalue of a real, symmetric and randomly generated square matrix. One can observe that the eigenvalues from my own neural network in equation \ref{eq:minEigenVal} is almost identical to the one that numpy achieves in equation \ref{eq:numpyEigenVal}. However, the eigenvectors are different as can be observed from equation \ref{eq:minEigenVecNorm} and \ref{eq:numpyEigenVec}. This is due to the multiplicity of the eigenvalue where multiple different eigenvectors can produce an eigenvalue (Axler, 2015). This means that the results from the paper by Yi and Fu (Yi and Fu, 2004) are reproducible. 
 \\
 The paper do not cover how to obtain the eigenvalues that are not the minimum/maximum eigenvalues, but there are other methods to obtain these. However, it has been proven, both in the paper by Yi and Fu and in this project, that a neural network implementation can find the minimum and maximum values of a real, symmetric and square matrix.
+\\
+An extension to the approach used in this project was proposed by Tang and Li where the matrix in question does not have to be symmetric, but skew-symmetric ($A^T = -A$) (Tang and Li, 2009). Additionally, the matrix can be of order 2n instead of n as in this exercise. 
 
 \newpage
 
@@ -547,7 +557,13 @@ The paper do not cover how to obtain the eigenvalues that are not the minimum/ma
 \Large{\textbf{Conclusion}}
 \end{center}
 
-\noindent a
+\noindent It has been shown in this project that both a forward Euler scheme and a neural network implementation can accurately approximate the analytical solution to the one dimensional heat equation. Additionally, this project has shown that the method proposed by Yi and Fu can accurately calculate the smallest/largest eigenvalue of a real, symmetric and square matrix (Yi and Fu, 2004).
+\\
+In particular, it was shown that the forward Euler yields a progressively better approximation to the analytical solution to the heat equation when the step sizes in both time and space decreases. When the step size was sufficiently small, the approximation came arbitrarily close to the analytical solution for all time and space.
+\\
+The neural network implementation also succeeded to approximate the analytical solution to the heat equation when the number of iterations was large. However, the approximation became slightly off for later times and lower temperatures. This was a recurring problem regardless of the input parameters.
+\\
+The method results from the method proposed by Yi and Fu was accurately reproduced in order to find the smallest/largest eigenvalue of a real, symmetric and square matrix. The method was applied to a $6x6$ matrix and the solution could become very close to the solution by generic eigenvalue solver (Python package numpy in this case). The method proved to be relatively fast and stable.
 
 \newpage
 
@@ -555,7 +571,7 @@ The paper do not cover how to obtain the eigenvalues that are not the minimum/ma
 \Large{\textbf{Future work}}
 \end{center}
 
-\noindent a
+\noindent This project has shown that a simple neural network implementation can yield an approximation to the heat equation and find the smallest/largest eigenvalue of a matrix. However, I do believe that further improvements can be applied in order to reach these solutions faster. Some of these improvements are discussed in project 2 (\href{{https://github.com/sanderwl/FYS-STK4155/tree/master/Project2/Project2}}{\nolinkurl{https://github.com/sanderwl/FYS-STK4155/tree/master/Project2/Project2}}) and include exact optimization of input parameters and activation functions within the hidden layers. However, the results obtained in this exercise was deemed good without the optimizations.
 
 \newpage
 
@@ -565,9 +581,11 @@ The paper do not cover how to obtain the eigenvalues that are not the minimum/ma
 
 \begin{itemize}
 	\item Axler, S., 2015, \emph{Linear Algebra Done Right}, Third Edition, Springer International Publishing, page 136, Available from: \href{{https://zhangyk8.github.io/teaching/file_spring2018/linear_algebra_done_right.pdf}}{\nolinkurl{https://zhangyk8.github.io/teaching/file_spring2018/linear_algebra_done_right.pdf}}, DOI 10.1007/978-3-319-11080-6
+	\item Flament, C., Protopapas, P., Sondak, D., 2020, \emph{Solving Differential Equations Using Neural Network Solution Bundles}, Available from \href{{https://arxiv.org/abs/2006.14372}}{\nolinkurl{https://arxiv.org/abs/2006.14372}}, arXiv:2006.14372v1
   \item Hancock, M. J., 2006, \emph{The 1-D Heat Equation, Linear Partial Differential Equations}, page 5, Available from \href{{https://ocw.mit.edu/courses/mathematics/18-303-linear-partial-differential-equations-fall-2006/lecture-notes/heateqni.pdf}}{\nolinkurl{https://ocw.mit.edu/courses/mathematics/18-303-linear-partial-differential-equations-fall-2006/lecture-notes/heateqni.pdf}}
   \item Kingma, D. P., Ba, J. L., 2014 \emph{Adam: A Method for Stochastic Optimization}, pp 1, arXiv:1412.6980v9
   \item Koryagin, A., Khudorozkov, R., Tsimfer., S., 2019, \emph{PYDENS: A PYTHON-FRAMEWORK FOR SOLVING DIFFERENTIAL EQUATIONS WITH NEURAL NETWORKS}, Available from: \href{{https://arxiv.org/pdf/1909.11544.pdf}}{\nolinkurl{https://arxiv.org/pdf/1909.11544.pdf}}
+  \item Tang, Y., Li, J., 2009, \emph{Another neural network based approach for computing eigenvalues and eigenvectors of real skew-symmetric matrices}, Available from: \href{{https://core.ac.uk/download/pdf/82245574.pdf}}{\nolinkurl{https://core.ac.uk/download/pdf/82245574.pdf}}
   \item Xing, S., Cheng, X., 2020, \emph{Deep Euler method: solving ODEs by approximating the local truncation error of the Euler method}, Available from: \href{{https://www.researchgate.net/publication/340180255_Deep_Euler_method_solving_ODEs_by_approximating_the_local_truncation_error_of_the_Euler_method}}{\nolinkurl{https://www.researchgate.net/publication/340180255_Deep_Euler_method_solving_ODEs_by_approximating_the_local_truncation_error_of_the_Euler_method}}
   \item Yi, Z., Fu, Y., 2004, \emph{Neural Networks Based Approach Computing Eigenvectors and Eigenvalues of Symmetric Matrix}, Available from: \href{{https://www.sciencedirect.com/science/article/pii/S0898122104901101}}{\nolinkurl{https://www.sciencedirect.com/science/article/pii/S0898122104901101}}
 \end{itemize}

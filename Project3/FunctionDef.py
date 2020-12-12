@@ -176,20 +176,18 @@ def makeTensEigen(dt, dx, vv, L, TT, n):
 def tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, A, times, its, precision):
     # Declare the dense structure of the neural network using TF
     lastLayer = grid
-
     for i in range(len(structure)):
         layer = tf.layers.dense(lastLayer, structure[i], activation=tf.nn.sigmoid)
         lastLayer = layer
-
     output = tf.layers.dense(lastLayer, 1)
 
-    # Declare the trial function and its gradient for the gradient descent in Adam
+    # Declare the trial function and its gradient according to Yi et.al.
     trial = output * tTens + vTens * k
     dtTrial = tf.gradients(trial, tTens)
     trialR = tf.reshape(trial, (times, n))
     dtTrialR = tf.reshape(dtTrial, (times, n))
 
-    # Implement Yi and Fu cost function
+    # Implement Yi et.al. cost function
     loss0 = 0
     for i in range(times):
         trialF = tf.reshape(trialR[i], (n, 1))
@@ -204,12 +202,12 @@ def tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, A, times, its,
     AdaOpt = tf.train.AdamOptimizer(lrate)
     minAdaOpt = AdaOpt.minimize(loss)
 
-    # Gather and initialize all defined variables
+    # Gather and initialize all variables
     initialize = tf.global_variables_initializer()
 
     # Run TF session for the Adam optimizer
     with tf.Session() as sess:
-        # Initialize the computational graph
+        # Initialize the variables
         initialize.run()
 
         print("Initial loss at ", loss.eval())
@@ -220,6 +218,7 @@ def tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, A, times, its,
 
             sess.run(minAdaOpt)
 
+            # Stop the session if the loss is small enough
             if loss.eval() < precision:
                 break
 
@@ -231,7 +230,7 @@ def tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, A, times, its,
 
 
 def YiSol(x, Mat):
-    # This is the Yi and Fu f(x(t)) function
+    # This is the Yi et.al. f(x(t)) function
     identity = tf.eye(int(Mat.shape[0]), dtype=tf.float64)
     xTrans = tf.transpose(x)
     value1 = tf.matmul(xTrans, x) * Mat

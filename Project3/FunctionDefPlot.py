@@ -130,6 +130,7 @@ def threeD(t, x, dt, dx, evaluate, ana, neurons, layers, plot):
         ax.set_ylabel("Position on rod x")
 
 def eigenPlot(t, v, plot):
+    # Plot the convergence of the components of the max/min eigenvector
     if plot == True:
         plt.figure(figsize=(20, 20))
         plt.plot(t, v, linewidth = 4)

@@ -77,6 +77,7 @@ elif (ex == "d" or ex == "all"):
     # Setting randomness seed
     np.random.seed(7)
     tf.set_random_seed(7)
+
     # Inputs for exercise d
     dt, dx, L, nun, alpha = inputsAB(own)
     dx = dx[0]
@@ -94,7 +95,7 @@ elif (ex == "d" or ex == "all"):
     vv = np.random.rand(n)
     structure = np.repeat(neurons, layers)
 
-    # Numpy eigenvector/values
+    # Numpy eigenvectors and eigenvalues
     if k == 1:
         npEigenVal, npEigenVec = linalg.eig(A)
         eigenValEX = np.max(npEigenVal)

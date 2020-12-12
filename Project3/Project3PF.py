@@ -88,19 +88,19 @@ elif (ex == "d" or ex == "all"):
     A = (Q.T + Q) / 2
     AA = k * A
     ATens = tf.convert_to_tensor(AA, dtype=tf.float64)
-    print(A)
+    print(AA)
 
     # Define the structure of the neural network
     vv = np.random.rand(n)
     structure = np.repeat(neurons, layers)
 
     # Numpy eigenvector/values
-    if k == -1:
+    if k == 1:
         npEigenVal, npEigenVec = linalg.eig(A)
         eigenValEX = np.max(npEigenVal)
         idx = np.argmax(npEigenVal)
         eigenVecEX = npEigenVec[idx]
-    elif k == 1:
+    elif k == -1:
         npEigenVal, npEigenVec = linalg.eig(A)
         eigenValEX = np.min(npEigenVal)
         idx = np.argmin(npEigenVal)
@@ -110,7 +110,7 @@ elif (ex == "d" or ex == "all"):
     t, x, tnew, xnew, vnew, tTens, xTens, vTens, grid, times = makeTensEigen(dt, dx, vv, L, TT, n)
 
     # Run neural network to find the eigenvector
-    eigenVec, t = tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, A, times, its, precision)
+    eigenVec, t = tfEigen(t, tTens, xTens, vTens, grid, structure, lrate, k, n, ATens, times, its, precision)
 
     # Use eigenvector to find the eigenvalue
     eigenvalues = eigen(eigenVec[-1], A).eval(session=tf.Session())
